@@ -25,7 +25,6 @@ pol
 pol.cfg.example
 poltool
 uoconvert
-uoconvert.cfg
 uoconvert.txt
 uotool
 scripts/ecompile

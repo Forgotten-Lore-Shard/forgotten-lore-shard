@@ -34,7 +34,7 @@ function cookon(who, item)
   endif
 
   if(!Accessible(who, trg))
-    SendSysMessage(who, "Voce nao alcança isto.");
+    SendSysMessage(who, "Voce nao alcanÃ§a isto.");
     return 0;
   endif
 
@@ -85,26 +85,43 @@ function cookit(who,item);
   if (!points)
 	points := skill_needed*2;
   endif
-  var elem      := FindConfigElem(cfg, item.objtype);  
+  var elem      := FindConfigElem(cfg, item.objtype);
   var products  := GetConfigStringArray(elem,"product");
   var product   := Cint(products[RandomInt(len(products))+1]);
   var ingredients := GetConfigStringArray(elem, "ingredient");
   var theIngredients := {};
   var newitem;
-  if (ingredients)
-    theIngredients := GetIngredients(who, ingredients);
-    if (theIngredients == error)
-      SendSysMessage(who, "Voce nao tem os igredientes necessarios.");
+  var ingredientsno;
+	if (ingredients)
+		theIngredients := GetIngredients(who, ingredients);
+		ingredientsno := theIngredients.size;
+		print ("Numero de ingredientes: " + ingredientsno);
+			if (theIngredients == error)
+			SendSysMessage(who, "Voce nao tem os igredientes necessarios.");
       return;
     endif
-  endif
+	endif
   if(skill_needed)
-    if(SkillCheck( who, WOMENSWORK, skill_needed, 0) > 0);
+    if(SkillCheck( who, DomesticWork, skill_needed, 0) > 0);
       var amt := item.amount;
       if(DestroyItem(item))
         newitem := CreateItemInBackpack(who, product, amt);
-        if(newitem)
+		   if(newitem)
 	      SendSysMessage(who, "Voce guardou o item na sua mochila");
+		  case ( ingredientsno )
+		  2:
+		  SetObjProperty(newitem, "capmod", 1);
+		  3:
+		  SetObjProperty(newitem, "capmod", 2);
+		  4:
+		  SetObjProperty(newitem, "capmod", 3);
+		  5:
+		  SetObjProperty(newitem, "capmod", 4);
+		  6:
+		  SetObjProperty(newitem, "capmod", 5);
+		  7:
+		  SetObjProperty(newitem, "capmod", 6);
+		  endcase
 	    else
 	      SendSysMessage(who, "You dont have any room in your backpack.");
 	    endif

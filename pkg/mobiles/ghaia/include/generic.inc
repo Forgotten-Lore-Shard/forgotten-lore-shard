@@ -123,7 +123,8 @@ function Fight(opponent, alerted := 0)
 	if (RandomInt(100)  < 30) //sempre 30% de chance de falar
 		Say(speech[RandomInt(speech.size()+1)]);
 	endif
-   endif*/
+   endif
+*/
 
   var dist;
   while( me )
@@ -173,13 +174,15 @@ function Fight(opponent, alerted := 0)
 				SendSysMessageEx(x, opponent.name+" BERSERKER PEIDAO!", SSM_REQUEST);
 			endif
 		endforeach
-	endif*/
+	endif
+*/
       break;
     endif
 
 /*  if (hasSpecial(me))
     DoSpecial(me); // ANTIGO SISTEMA
-  endif*/
+  endif
+*/
 
   
   //se eh boss e tem eventos
@@ -374,7 +377,18 @@ function sleepmode()
   EnableEvents(SYSEVENT_DAMAGED);
   var ev;
   while (1)
+    //gambiarra para os NPCs darem awareness a cada 30 segundos (talvez se tirar o comentario do look_around na linha 360 funcione tb)
+    if (CInt( AP_GetSkill(me, AWARENESS) ) > 0)
+        procura_em_volta(me);
+    endif
+
     ev := os::wait_for_event(30);
+
+    //gambiarra para os NPCs darem awareness a cada 30 segundos
+    if (CInt( AP_GetSkill(me, AWARENESS) ) > 0)
+        procura_em_volta(me);
+    endif
+
     repeat
     //npcs criam ovos ou outras coisas
     if ( (GetCooldown(me, "dropitem" ) == 0) && (CInt(npccfgfile[mytemplate].DropDelay) > 0) )
@@ -389,7 +403,7 @@ function sleepmode()
     endif
     PlayIdleSound();
     case (ev.type)
-      SYSEVENT_ENGAGED:    
+      SYSEVENT_ENGAGED:
                              if (me.hidden)
                                me.hidden := 0;
                              endif
@@ -403,7 +417,7 @@ function sleepmode()
                              EnableMainEvents();
                              return ev;
 
-      SYSEVENT_ENTEREDAREA: 
+      SYSEVENT_ENTEREDAREA:
                           if (CanFight(me, ev.source, align))
                              if(me.hidden)
                                me.hidden := 0;
@@ -418,13 +432,33 @@ function sleepmode()
 	EVID_ALERT_ALLIES:	EnableMainEvents();
                              return ev;
 	EVID_HERDING:
-				EnableMainEvents(); 
+				EnableMainEvents();
 				return  ev;
 	EVID_FLEE:
-			EnableMainEvents(); 
+			EnableMainEvents();
 			return ev;
 
     endcase
     until(!(ev := os::wait_for_event(30)));
   endwhile
+endfunction
+
+//Gambiarra para NPC dar awareness
+function procura_em_volta(me)
+    var range := CInt( AP_GetSkill(me, AWARENESS) / 10 ) + 1;
+    foreach mobile in ListMobilesNearLocationEX(me.x, me.y, me.z, range, LISTEX_FLAG_HIDDEN)
+        if ( mobile == me ); // Do Nothing
+        elseif ( CInt(GetObjProperty(me, "IgnoreHidden")) ); // Do Nothing
+        else
+            if ( CheckLineOfSight(me, mobile) )
+                var difficulty := CalculateDHDiff(me, mobile);
+                if ( SkillCheck(me, AWARENESS, difficulty) > 0 )
+                    mobile.hidden := 0;
+                    PrintText(mobile, "*aparece*");
+                    SendSysMessageEx(mobile, me.name+" te encontrou!", SSM_FAIL);
+                endif
+            endif
+        endif
+        sleepms(2);
+    endforeach
 endfunction

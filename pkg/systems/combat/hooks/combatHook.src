@@ -1,12 +1,12 @@
 /////////////////////////////////////////////
-// 
+//
 // combathook.src
 //
 // Combat System Hooks
 //
 // Created: 2/26/2004 1:13AM
 // Updated: 06/03/2007 1:13AM
-//  
+//
 // Responsavel por:
 // Fazer os testes pra checar se eh possivel atacar
 // Calcular chance de acerto
@@ -38,7 +38,7 @@ include ":tn:combat";
 include ":timedscripts:timedScripts";
 include ":fls_core:packets";
 
-var item_cfg	:= ReadConfigFile(":*:itemdesc");
+var item_cfg	:= ReadConfigFile(":combat:itemdesc");
 var strat_cfg	:= ReadConfigFile("combatlevel");
 var npc_cfg	:= ReadConfigFile("::npcdesc");
 
@@ -54,14 +54,14 @@ endprogram
 
 exported function Attack(attacker, defender)
 
-	
+
 	if ( attacker == defender )
 		ApplyRawDamage(attacker, 5000);
 		return 1;
 	elseif ( !CheckLineOfSight(attacker, defender) )
 		return 1;
 	endif
-	
+
 	if (attacker.acctname)
 		if (!attacker.warmode)
 			if(GetObjProperty(attacker, "attackmsg") <= polcore().systime)
@@ -71,13 +71,17 @@ exported function Attack(attacker, defender)
 			return 1;
 		endif
 	endif
-	
+
+//Weapon Anims
+
 	wpn_a := attacker.weapon;
 	wpn_d := defender.weapon;
-	
+
 	wpn_a_elem := GetWpnCfgInfo(attacker, wpn_a);
 	wpn_d_elem := GetWpnCfgInfo(defender, wpn_d);
-	
+
+	var anim := wpn_a_elem.Anim;
+
 	if ( (attacker.paralyzed) || (attacker.frozen) )
 		SendSysMessage(attacker, "Voce nao consegue atacar.");
 		return 1;
@@ -114,9 +118,6 @@ exported function Attack(attacker, defender)
 		hit_chance := 100;
 	endif
 
-	
-
-
 	if (cint(GetObjProperty(attacker, "#finalizar")) == 2)
 		hit_chance := hit_chance + 100;
 		EraseObjProperty(attacker, "#finalizar");
@@ -131,7 +132,7 @@ exported function Attack(attacker, defender)
 				printtext(attacker, "*ataque inesperado*");
 			endif
 		endif
-		EraseObjPRoperty(attacker, "#ataqueinesperado"); 
+		EraseObjPRoperty(attacker, "#ataqueinesperado");
 	endif
 
 	if ( cint(GetObjProperty(attacker, "#bomcomeco")) == 1)
@@ -164,7 +165,8 @@ exported function Attack(attacker, defender)
 
 	var random := RandomInt(100)+1;
 
-	PlayAttackAnimation(attacker);
+	//PlayAttackAnimation(attacker);
+    PerformAction(attacker, anim); //substituida a função que tem no include. corrigir lá depois
 
 	EraseObjProperty(attacker, "insistencia");
 
@@ -199,7 +201,24 @@ exported function Attack(attacker, defender)
       			PrintText(defender, "*esquiva-se*");
       			EraseObjProperty(defender, "evasao");
       			if (TemHabilidade(defender, "Esquiva Oportunista"))
-        			oportunidade := 1;
+        			if (GetObjProperty(defender, "#atacandooportunidade") == error)
+						SetObjProperty(defender, "#atacandooportunidade", 1);
+						printtext(defender, "*ataque de oportunidade*");
+						//defender.attack_once(attacker);
+						var new_hit_chance := CalculateHitChance(defender, attacker);
+						var new_random := RandomInt(100)+1;
+						PlayAttackAnimation(defender);
+						if ( new_random < new_hit_chance )
+							var armor :=  CS_GetEquipmentInArmorZone(attacker, CS_GetRandomArmorZone());
+							armor := armor[ RandomInt( len( armor ) ) + 1];
+							PlayHitSounds(defender, attacker);
+							var time := ReadGameClock();
+							var dmg := CalculateRawDamage(defender, defender.weapon);
+							var result := Run_Script_To_Completion(":combat:mainHitScript", array{defender, attacker, defender.weapon, armor, dmg, dmg});
+						endif
+
+					EraseObjProperty(defender, "#atacandooportunidade");
+					endif
       			endif
       			return 1;
     		endif
@@ -265,7 +284,7 @@ exported function Attack(attacker, defender)
 					armor := armor[ RandomInt( len( armor ) ) + 1];
 					PlayHitSounds(defender, attacker);
 					var time := ReadGameClock();
-					var dmg := CalculateRawDamage(defender, defender.weapon);		
+					var dmg := CalculateRawDamage(defender, defender.weapon);
 					var result := Run_Script_To_Completion(":combat:mainHitScript", array{defender, attacker, defender.weapon, armor, dmg, dmg});
 				endif
 				EraseObjProperty(defender, "#contraatacando");
@@ -278,13 +297,13 @@ exported function Attack(attacker, defender)
 		PlayHitSounds(attacker, defender);
 		var dmg := CalculateRawDamage(attacker, attacker.weapon);
 		var result := Run_Script_To_Completion(":combat:mainHitScript", array{attacker, defender, wpn_a, armor, dmg, dmg});
-		
+
 	else //ERROU O ATAQUE
 
 		if (GetObjProperty(defender, "#contraataquepoderoso"))
 			SetObjProperty(defender, "#contraataquepoderoso", (GetObjProperty(defender, "#contraataquepoderoso")+1) );
 		endif
-		
+
 
 		EraseObjProperty(attacker, "#SequenciaDevastadoraAcumulada");
 		if (TemHabilidade(attacker, "Insistencia"))
@@ -298,9 +317,9 @@ exported function Attack(attacker, defender)
 			EraseObjPRoperty(defender, "maolivre");
 			oportunidade := 1;
 		endif
-	
-	
-		if ( (GetCooldown(defender, "ataqueoportunidade") > 0) || oportunidade)
+
+
+		if ( (GetCooldown(defender, "ataqueoportunidade") > 0) || oportunidade == 1)
 			if (Distance(attacker,defender)<=1 && defender.weapon.attributte != "RangedCombat")
 				if (GetObjProperty(defender, "#atacandooportunidade") == error)
 					SetObjProperty(defender, "#atacandooportunidade", 1);
@@ -314,13 +333,14 @@ exported function Attack(attacker, defender)
 						armor := armor[ RandomInt( len( armor ) ) + 1];
 						PlayHitSounds(defender, attacker);
 						var time := ReadGameClock();
-						var dmg := CalculateRawDamage(defender, defender.weapon);		
+						var dmg := CalculateRawDamage(defender, defender.weapon);
 						var result := Run_Script_To_Completion(":combat:mainHitScript", array{defender, attacker, defender.weapon, armor, dmg, dmg});
+						oportunidade := 0;
 					endif
 
 					EraseObjProperty(defender, "#atacandooportunidade");
 				endif
-		
+
 			elseif(Distance(attacker,defender)>1 && defender.weapon.attributte == "RangedCombat")
 				if (GetObjProperty(defender, "#atacandooportunidade") == error)
 					SetObjProperty(defender, "#atacandooportunidade", 1);
@@ -334,7 +354,7 @@ exported function Attack(attacker, defender)
 						armor := armor[ RandomInt( len( armor ) ) + 1];
 						PlayHitSounds(defender, attacker);
 						var time := ReadGameClock();
-						var dmg := CalculateRawDamage(defender, defender.weapon);		
+						var dmg := CalculateRawDamage(defender, defender.weapon);
 						var result := Run_Script_To_Completion(":combat:mainHitScript", array{defender, attacker, defender.weapon, armor, dmg, dmg});
 					endif
 
@@ -369,7 +389,7 @@ exported function Attack(attacker, defender)
 	endif
 
 	return 1;
-	
+
 endfunction
 
 function CalculateHitChance(attacker, defender)
@@ -409,7 +429,7 @@ function CalculateHitChance(attacker, defender)
 				skill_d := AP_GetSkill(defender, MELEECOMBAT1H);
 			else
 				skill_d := AP_GetSkill(defender, MELEECOMBAT2H);
-			endif		
+			endif
 		endif
 	else
 		skill_d := CDbl(AP_GetSkill(defender, WRESTLING));
@@ -422,7 +442,7 @@ function CalculateHitChance(attacker, defender)
 	var hit_chance := 50.0 + ((skill_a - skill_d) / 1.5);
 
 	hit_chance := hit_chance + CDbl( GetObjProperty(attacker, "hitbonus") ) + attacker.hitchance_mod - defender.evasionchance_mod;
-	hit_chance := hit_chance + cint( GetObjProperty(attacker, "#attackbonus" ));	
+	hit_chance := hit_chance + cint( GetObjProperty(attacker, "#attackbonus" ));
 
 
 	if (getcooldown(defender, "evasion_chance"))
@@ -443,6 +463,9 @@ function CalculateHitChance(attacker, defender)
 	endif
 
 
+	if (GetCooldown(attacker, "posturadecombate") > 0)
+		hit_chance := hit_chance + 10;
+	endif
 
 	if (TemHabilidade(attacker, "Poder da Alianca"))
 		hit_chance := hit_chance + attacker.party.members.size() * 2;
@@ -485,7 +508,7 @@ function CalculateHitChance(attacker, defender)
 		hit_chance := hit_chance - (GetObjProperty(defender, "#semdorbonus"));
 	endif
 
-	
+
 	if (GetCooldown(defender, "resistenciaheroica") )
 		var hostiles := ListHostiles(defender, 3);
 		if ( hostiles.size() > 1)
@@ -538,15 +561,21 @@ function AmmoCheck(attacker, defender)
 	if ( !wpn_a_elem.ProjectileType )
 		return 1;
 	endif
-	
+
 	if(attacker.npctemplate)
 		ArqueiroNPC(attacker, defender);
 		return 1;
 	endif
 
 	var has_ammo := 0;
-
+	var aljavas := array{0x791c, 0x2fb7};
 	var aljava := GetEquipmentByLayer(attacker, LAYER_CAPE);
+
+		if (aljava.objtype in aljavas)
+			var aljava := GetEquipmentByLayer(attacker, LAYER_CAPE);
+		else
+			aljava := GetEquipmentByLayer(attacker, LAYER_WAIST);
+		endif
 	var ammo := GetObjProperty(attacker.weapon, "ammo");
 	if (!ammo)
 		SendSysMessage(attacker, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
@@ -561,7 +590,7 @@ function AmmoCheck(attacker, defender)
 	else
 		return 0;
 	endif
-	
+
 endfunction
 
 function ArqueiroNPC(attacker, defender)
@@ -570,18 +599,18 @@ function ArqueiroNPC(attacker, defender)
 
 	var aljava_itens := EnumerateItemsInContainer( aljava );
 	var ammo;
-	
+
 	foreach coisa in aljava_itens
 		if(coisa.objtype == wpn_a_elem.ProjectileType)
 			ammo := coisa;
 			break;
 		endif
 	endforeach
-	
+
 	if(!ammo)
 		ammo := CreateItemInBackpack( attacker, wpn_a_elem.ProjectileType, 100 );
-	endif 
-	
+	endif
+
 	var ammo_color := ammo.color;
 	var ammo_damage := GetObjProperty(ammo, "DamageTypes");
 	if(ammo_damage)
@@ -596,7 +625,7 @@ function ArqueiroNPC(attacker, defender)
 	PlayMovingEffectXYZHued(attacker, defender, wpn_a_elem.ProjectileAnim, 10, 10, 0, 0); //ammo_color);
 
 	return 1;
-	
+
 endfunction
 
 
@@ -627,7 +656,7 @@ function ArrowRecovery(attacker, defender, weapon)
 			4: y := RandomInt(3); x := RandomInt(3);
 		endcase
 		CreateItemAtLocation(defender.x + x, defender.y + y, defender.z, ammo, 1, defender.realm);
-	endif	
+	endif
 endfunction
 
 function FacingChecks(attacker, defender)
@@ -642,7 +671,7 @@ function FacingChecks(attacker, defender)
 			endif
 		endif
 	elseif ( !IsFacing(defender, attacker.x, attacker.y) )
-		if ( defender.npctemplate )			
+		if ( defender.npctemplate )
 			TurnObjectToward(defender, attacker.x, attacker.y);
 		endif
 	endif

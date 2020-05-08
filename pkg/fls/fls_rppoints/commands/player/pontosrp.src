@@ -25,6 +25,10 @@ program CheckRPPoints(who, params)
 			SendSysMessageEx(who, "Selecione o Jogador", SSM_INFO);
 			conta := target(who);
 			conta := conta.acctname;
+			if ((conta != who.acctname) && (who.cmdlevel == 0 ))
+			SendSysMessageEx(who, "Voce nao pode ver a ficha de outros", SSM_INFO);
+				return;
+			endif
 			if (!conta)
 				return;
 			endif
@@ -43,29 +47,29 @@ function SendCheckRP(who, conta)
 	GFResizePic(gump, 15, 40, 0x13BE, 195, 145);
 	GFTextLine(gump, 20, 55, 1153, "Pontos RP Atuais:");
 	GFTextLine(gump, 165, 55, SSM_INFO, "" + getGrade(conta));
-	
+
 //	GFResizePic(gump, 15, 75, 0x13BE, 195, 30);
 	GFTextLine(gump, 20, 90, 1153, "Recorde de Pontos RP:");
 	GFTextLine(gump, 165, 90, SSM_INFO, "" + getMaxGrade(conta));
-	
+
 	if (findAccount(conta).GetProp("nota") == 2)
 		GFTextLine(gump, 75, 125, 66, "+20 SKILLS!!!");
 	endif
-	
-	
+
+
 	GFAddButton(gump, 89, 158, 2128, 2129, GF_CLOSE_BTN, 0);
-	
+
 	GFResizePic(gump, 215, 40, 0x13BE, 300, 145);
 	GFResizePic(gump, 215, 40, GFCfgConst("Backgrounds", "GOLDTRIM"), 300, 145);
 
-	
+
 	var dialog := getGradeText(conta, "rplog");
 	GFHTMLArea(gump, 226, 51, 282, 123, dialog, 0, 1);
-	
+
 	GFResizePic(gump, 15, 190, 0x13BE, 500, 220);
 //	GFGumpPic(gump, 240, 180, 0x756D);
 //	GFGumpPic(gump, 240, 392, 0x757D);
-	
+
 	if (conta != who.acctname)
 		dialog := getGradeText(conta, "rpgasto");
 		//GFResizePic(gump, 20, 195, GFCfgConst("Backgrounds", "GOLDTRIM"), 492, 210);
@@ -74,49 +78,49 @@ function SendCheckRP(who, conta)
 		var x := 200;
 		GFTextLine(gump, 35, x, 1153, "[15] Aumentar 0.4 de uma Pericia Abaixo de 40.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 1);
-		
+
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[25] Aumentar 0.4 de uma Pericia entre 40 e 70.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 2);
-		
+
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[35] Aumentar 0.4 de uma Pericia Acima de 70.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 3);
-		
+
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[10] Mudar Cabelo, Barba e suas Cores. Corresponde ao seu povo.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 4);
-		
+
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[20] Adicionar Nome e Descricao a um Objeto.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 5);
-		
+
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[10*Nivel] Adquirir um Pergaminho de Habilidade do Nivel Desejado.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 6);
-		
-		x := x +20;
-		GFTextLine(gump, 35, x, 1153, "[100] Adquirir um slot extra de personagem por 30 dias.");
-		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 7);
-		
+
+		#x := x +20;
+		#GFTextLine(gump, 35, x, 1153, "[100] Adquirir um slot extra de personagem por 30 dias.");
+		#GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 7);
+
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[200] Barganhar por um Objeto Especial de Roleplay.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 8);
-		
-		x := x +20;
-		GFTextLine(gump, 35, x, 1153, "[200] Obter +20 nas skills do proximo personagem criado na conta.");
-		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 9);
-				
+
+		#x := x +20;
+		#GFTextLine(gump, 35, x, 1153, "[200] Obter +20 nas skills do proximo personagem criado na conta.");
+		#GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 9);
+
 	endif
 
 	var input := GFSendGump(who, gump);
-	
+
 	if (input[0] >= 1 && input[0] <= 15)
 		if ( !YesNo(who, "Deseja Mesmo Gastar Seus Pontos? Voce nao podera voltar atras.") )
 			return;
 		endif
 	endif
-	
+
 	if (input[0] == 1)
 		if (CheckPoints(15, conta, who))
 			var chardata := GetObjProperty(who, "chardata");
@@ -136,12 +140,12 @@ function SendCheckRP(who, conta)
 			endif
 			var true_skill := AP_GetTrueSkill(who, skill);
 			var temp := true_skill+0.1;
-			while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(who, skill)) )
-				// Kludge for an old core precision bug.
-				// Makes sure it always goes up atleast 0.1.
-				temp := temp+0.1;
-				sleepms(10);
-			endwhile
+			#while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(who, skill)) )
+			#	// Kludge for an old core precision bug.
+			#	// Makes sure it always goes up atleast 0.1.
+			#	temp := temp+0.1;
+			#	sleepms(10);
+			#endwhile
 			AP_SetTrueSkill(who, skill, temp);
 			decGrade(who, 15);
 			MakeLog(conta, 15, "Aumentar Pericia", "Aumentou a Pericia " + skill);
@@ -217,7 +221,7 @@ function SendCheckRP(who, conta)
 			disfarce.+cabelo := "";
 			disfarce.+corcabelo := 1109;
 			disfarce.+corbarba := 1109;
-			
+
 			escolherCabelo(who, disfarce, chardata.povo);
 			escolheCorCabelo(who, disfarce, 0, chardata.povo, 1);
 			if (chardata.raca != "Elfo")
@@ -225,13 +229,13 @@ function SendCheckRP(who, conta)
 			endif
 			var newbarba := CreateItemAtLocation(who.x, who.y, who.z, disfarce.barba, 1, who.realm);
 			newbarba.color := disfarce.corcabelo;
-			
+
 			var newhair := CreateItemAtLocation(who.x, who.y, who.z, disfarce.cabelo, 1, who.realm);
 			newhair.color := disfarce.corcabelo;
-			
+
 			EquipItem(who, newbarba);
 			EquipItem(who, newhair);
-			
+
 			decGrade(who, 10);
 			MakeLog(conta, 10, "Trocar Barba/Cabelo", "");
 			SendSysMessageEx(who, "Voce trocou sua barba e cabelo.",SSM_INFO);
@@ -247,20 +251,20 @@ function SendCheckRP(who, conta)
 					break;
 				endif
 			endwhile
-			
+
 			var name := RequestGump(who, "Escreva o novo nome do item:");
 			AddItemDescription(who, item);
 			SetName(item, item.desc);
-		
+
 			decGrade(who, 20);
 			MakeLog(conta, 20, "Adicionar Nome/Descricao", "Nome "+name);
 			SendSysMessageEx(who, "Voce trocou nome e descricao do objeto.",SSM_INFO);
 		endif
 	elseif (input[0] == 6)
-		var diff := cint(RadioGump(who, 260, 200, "Escolha o Nivel do Pergaminho que deseja receber", array{"2","4","6","8"}));
-		diff := diff * 10;
+		var diff := cint(RadioGump(who, 260, 200, "Escolha o Nivel do Pergaminho que deseja receber", array{"2","4","6"}));
+		diff := diff * 30;
 		if (CheckPoints(diff, conta, who))
-			diff := diff / 10;
+			diff := diff / 30;
 			var pergaminho;
 			if (diff == 2)
 				pergaminho := 0x6157;
@@ -268,8 +272,8 @@ function SendCheckRP(who, conta)
 				pergaminho := 0x6158;
 			elseif (diff == 6)
 				pergaminho := 0x6159;
-			elseif (diff == 8)
-				pergaminho := 0x6160;
+			#elseif (diff == 8)
+			#	pergaminho := 0x6160;
 			endif
 			pergaminho := CreateItemInBackpack( who, pergaminho, 1);
 			if (!pergaminho)
@@ -277,18 +281,18 @@ function SendCheckRP(who, conta)
 			else
 				SetObjProperty(pergaminho, "PontosRP", (diff *10));
 				SendSysMessageEx(who, "O Pergaminho foi colocado na sua bolsa. Qualquer problema com ele, agora, e de sua responsabilidade.",SSM_INFO);
-				diff := diff * 10;
+				diff := diff * 30;
 				decGrade(who, diff);
-				MakeLog(conta, diff, "Comprou Pergaminho ", "Nivel "+(diff/10));
+				MakeLog(conta, diff, "Comprou Pergaminho ", "Nivel "+(diff/30));
 			endif
 		endif
 	elseif (input[0] == 7)
 		if (CheckPoints(100, conta, who))
-		
+
 		endif
 	elseif (input[0] == 8)
 		if (CheckPoints(200, conta, who))
-		
+
 		endif
 	elseif (input[0] == 9)
 		if (CheckPoints(200, conta, who))
@@ -302,7 +306,7 @@ function SendCheckRP(who, conta)
 			endif
 		endif
 	endif
-	
+
 	if (input[0] >= 1 && input[0] <= 15)
 		SendCheckRP(who, conta);
 	endif
@@ -332,20 +336,20 @@ function MakeLog(accname, pts, type, complement)
 	endif
 
 endfunction
-	
+
 function getGradeText(acctname, area)
 	var text_lines := FindAccount(acctname).getprop(area);
 	var dialog := "";
-	
+
 	foreach line in text_lines
 		dialog := dialog+line+"\n\n";
 		sleepms(5);
 	endforeach
-	
+
 	if (!dialog)
 		dialog := "Voce nunca recebeu Pontos de RP";
 	endif
-	
+
 	return dialog;
 endfunction
 
@@ -367,7 +371,7 @@ function setGrade(acctname, nota)
 	findAccount(acctname).setProp("RPpoints", nota);
 
 endfunction
-	
+
 function decGrade(who, incnota)
 
 	var nota := getGrade(who.acctname);
@@ -378,5 +382,5 @@ function decGrade(who, incnota)
 	endif
 
 	setGrade(who.acctname, nota);
-	
+
 endfunction

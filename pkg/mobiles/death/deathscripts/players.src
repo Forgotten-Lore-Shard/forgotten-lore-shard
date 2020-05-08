@@ -12,6 +12,7 @@ include ":attributes:attributes";
 include "include/say";
 include ":tn:cooldown";
 include ":charactercreation:habilidades";
+include ":attributes:advanceCheck";
 
 program death(params)
 
@@ -23,7 +24,7 @@ program death(params)
 	if (GetObjProperty(ghost, "forjoumorte") == 1)
 		return 1;
 	endif
-	
+
 	var lastHit := GetObjProperty(ghost, "lastHit");
 	var killer := SystemFindObjectBySerial(lastHit.attacker);
 	var dmg := lastHit.amount;
@@ -77,9 +78,9 @@ program death(params)
 		KataWakeUp(ghost, corpse);
 	endif
 
-	if (protecao) // Proteção Contra Morte
+	if (protecao) // ProteÃ§Ã£o Contra Morte
 		EraseObjProperty(ghost, "protecaomorte");
-	elseif (!killer.acctname || ghost.cmdlevel) // Foi morto por NPC ou é GM
+	elseif (!killer.acctname || ghost.cmdlevel) // Foi morto por NPC ou Ã© GM
 		if (!protecao)
 			//if (getCoolDown(ghost, "deathtime") == 0 )
 			if (killer.npctemplate && killer.script  == ":ghaia:tamed")  //se for tamed nao tira dp
@@ -94,6 +95,15 @@ program death(params)
 				SetObjProperty(corpse, "morto", 1);
 				SetObjProperty(ghost, "morto", 1);
 				SetObjProperty(corpse, "deathtimer", polcore().systime);
+				var dias := GetObjProperty(ghost, "createdate");
+				dias := (polcore().systime - dias)/2;
+				var logs := FindAccount(ghost).getprop("mortelog");
+				if (logs == error || logs < dias)
+					logs := dias;
+				endif
+				FindAccount(ghost.acctname).setprop("mortelog", logs);
+				SendSysMessage(ghost, "Seu proximo char tera " + dias + "adicionados ao seu createdate");
+
 				sleep(5);
 				return 1;
 			endif
@@ -137,7 +147,7 @@ program death(params)
 			sleep(5);
 			break;
 		elseif ( GetObjProperty(corpse, "prolongardesmaio") )
-			SendSysMessage(ghost, "Seus batimentos cardiacos se reduzem, e você tem mais dificuldade em recobrar a consciencia.",3 , 0);
+			SendSysMessage(ghost, "Seus batimentos cardiacos se reduzem, e vocÃª tem mais dificuldade em recobrar a consciencia.",3 , 0);
 			EraseObjProperty(corpse, "prolongardesmaio");
 			SetObjProperty(corpse, "japrolongou", 1);
 			tempo := tempo * 2;
@@ -146,6 +156,14 @@ program death(params)
 			SetObjProperty(corpse, "morto", 1);
 			SetObjProperty(ghost, "morto", 1);
 			SetObjProperty(corpse, "deathtimer", polcore().systime);
+			var dias := GetObjProperty(ghost, "createdate");
+			dias := (polcore().systime - dias) / 2;
+			var logs := FindAccount(ghost).getprop("mortelog");
+				if (logs == error || logs < dias)
+				logs := dias;
+				endif
+			FindAccount(ghost.acctname).setprop("mortelog", logs);
+			SendSysMessage(ghost, "Seu proximo char tera " + dias + "adicionados ao seu createdate");
 			return 1;
 		endif
 		tempo := tempo - 1;
@@ -154,7 +172,7 @@ program death(params)
 
 //	RessPlayer(ghost, corpse);
 	KataWakeUp(ghost, corpse);
-	
+
 	return 1;
 endprogram
 
@@ -164,6 +182,7 @@ endprogram
  * Destroi o corpo
  * Seta os vitals
 */
+
 function RessPlayer(who, corpse)
 
 

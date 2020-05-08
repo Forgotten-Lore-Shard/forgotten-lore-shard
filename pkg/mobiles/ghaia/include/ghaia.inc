@@ -1,4 +1,3 @@
-
 use uo;
 
 include ":loot:include/lootParser";
@@ -27,8 +26,8 @@ enum STATES
  FLEEING := 6
 endenum
 
-//alinhamento pra determinar se o player È inimigo ou nao pra IA.
-//outros inimigos pra IA È definido com a tag enemy
+//alinhamento pra determinar se o player √© inimigo ou nao pra IA.
+//outros inimigos pra IA √© definido com a tag enemy
 const ALIGN_EVIL := "evil";
 const ALIGN_GOOD := "good";
 const ALIGN_NEUTRAL := "neutral";
@@ -42,7 +41,7 @@ function CanFight(me, mobile, align)
 
   if (mobile.hidden )
 	var dif := CalculateDhDiff(me, mobile);
-	if ( SkillCheck(me, AWARENESS, dif) > 0 )
+	if ( CheckLineOfSight(mobile, me) && (SkillCheck(me, AWARENESS, dif) > 0) )
 		mobile.hidden := 0;
 		PrintText(mobile, "*aparece*");
 		SendSysMessage(me, "Voce encontrou "+mobile.name+".");
@@ -68,55 +67,69 @@ function CanFight(me, mobile, align)
 	//printtextabove(me, "nao vou atacar" + mobile.name);
 	return 0;
   endif
-  
+
   var mycategory := lower(getnpccategory( mytemplate ));
-  
+  		var chardata := GetObjProperty(mobile, "chardata");
+		var povo := chardata.povo;
+
   if (!mobile.npctemplate) //se for player olha a tendencia do npc
     if (align == ALIGN_EVIL) //npcs malignos atacam todos os players
-	  if (GetObjProperty(me, "AtacarNoite") && (GetGlobalProperty( "dia") != "noite")) //checa se sÛ È hostil de noite
-		if(Distance(me, mobile) > 3) //se for de dia e o alvo n„o estiver a 3 tiles de distancia, eles n„o atacam
+	  if (GetObjProperty(me, "AtacarNoite") && (GetGlobalProperty( "dia") != "noite")) //checa se s√≥ √© hostil de noite
+		if(Distance(me, mobile) > 3) //se for de dia e o alvo n√£o estiver a 3 tiles de distancia, eles n√£o atacam
 			return 0;
 		endif
 	  endif
-      
-      //printtextabove(me, "mytemplate " + mytemplate + " " + cint(GetObjProperty(mobile, "empatiacomanimais"))); 
+
+	  	if (povo == "Numajene")
+		        if ( (mytemplate == "spiritbear") || (mytemplate == "spiritpanther") || (mytemplate == "spiritserpent") || (mytemplate == "spiritwolf") || (mytemplate == "spiritualbear") || (mytemplate == "phasespider") || (mytemplate == "eruva") || (mytemplate == "criafuria")  || (mytemplate == "luine") || (mytemplate == "centaur"))
+				return 0;
+				endif
+		endif
+
+      //printtextabove(me, "mytemplate " + mytemplate + " " + cint(GetObjProperty(mobile, "empatiacomanimais")));
       if ( (GetObjProperty(mobile, "kit") == "criado por lobos") || (cint(GetObjProperty(mobile, "empatiacomanimais")) == 1) || TemHabilidade(mobile, "Senso da Natureza" )) //verifica se tem empatia por animais
-        if ( (mytemplate == "giantbat") || (mytemplate == "giantrat") || (mytemplate == "gianttoad") 
+        if ( (mytemplate == "giantbat") || (mytemplate == "giantrat") || (mytemplate == "gianttoad")
         || (mytemplate == "giantserpent") || (mytemplate == "snake") || (mytemplate == "mongbat") || (mytemplate == "naja")
-        || (mytemplate == "warg") || (mytemplate == "polarbear") || (mytemplate == "lynx") ||  (mytemplate == "cougar") 
-        ||  (mytemplate == "alligator")  || (mytemplate == "panther") || (mytemplate == "grizzlybear") || (mytemplate == "wolf") || (mytemplate == "sapop"))
-			if (isBoss(mobile)) //verifica se È boss
+        || (mytemplate == "warg") || (mytemplate == "polarbear") || (mytemplate == "lynx") ||  (mytemplate == "cougar")
+        || (mytemplate == "alligator") || (mytemplate == "panther") || (mytemplate == "grizzlybear") || (mytemplate == "wolf") || (mytemplate == "sapop") || (mytemplate == "jackal")
+	|| (mytemplate == "giantscorpion") || (mytemplate == "carangueijo") || (mytemplate == "wolfleather") || (mytemplate == "najassur") || (mytemplate == "pytnas") || (mytemplate == "carniceiro") || (mytemplate == "dragonete") )
+			if (isBoss(mobile)) //verifica se √© boss
 				return 1;
 			else
 				return 0;
 			endif
         endif
-      elseif ( (mycategory == "undead") && (GetObjProperty(mobile, "aparenciacadaverica") == 1) )
+      endif
+
+      if ( (mycategory == "undead") && (GetObjProperty(mobile, "aparenciacadaverica") == 1) )
           return 0;
+      endif
 
-	  elseif (GetObjProperty(mobile, "unattack"))
+      if (GetObjProperty(mobile, "unattack"))
 		  return 0;
+      endif
 
-      elseif ( GetObjProperty(mobile, "kit") == "Bandido")
+      if ( GetObjProperty(mobile, "kit") == "Bandido")
           if ( (mytemplate == "MercenarioRecruta") || (mytemplate == "MercenarioBesteiro") || (mytemplate == "Mercenario") || (mytemplate == "MercenarioLider") || (mytemplate == "MercenarioExperiente") )
             return 0;
           endif
-		  
-      elseif ( propallies != error )
+      endif
+
+      if ( propallies != error )
       	foreach key in (propallies.keys())
           if ( GetObjProperty(mobile, key) == propallies[key] ) //eh meu chapa, entao nao ataco.
             return 0;
           endif
         endforeach
       endif
-      
+
       return 1;
     else //npcs bons ou neutrals nao atacam
       return 0;
     endif
   else //se for um npc verifica se eh inimigo
     if (align == ALIGN_EVIL)
-      if (mobile.master) //se for bicho tamado, È atacado!
+      if (mobile.master) //se for bicho tamado, √© atacado!
 	if ( (mytemplate == "giantbat") || (mytemplate == "giantrat") || (mytemplate == "gianttoad") 
         	|| (mytemplate == "giantserpent") || (mytemplate == "snake") || (mytemplate == "mongbat") || (mytemplate == "naja")
 	        || (mytemplate == "warg") || (mytemplate == "wolf") || (mytemplate == "polarbear") || (mytemplate == "lynx") ||  (mytemplate == "cougar") 

@@ -52,13 +52,8 @@ program backstab(who)
 		if ( !CanBackStab(who, weapon) )
 			return;
 		else
-			if ( GetObjProperty(who, "ataquefurtivoaprimorado") == 1 )
-				EraseObjProperty(who, "ataquefurtivoaprimorado");
-			else
-				who.hidden := 0;
-			endif
 			sleepms(100);
-			
+
 			if ( weaponBow)
 				if (!AmmoCheck(who, targ))
 					return 1;
@@ -66,7 +61,7 @@ program backstab(who)
 			else
 				PerformAction(who, 0x000a );
 			endif
-			
+
 
 			SetObjProperty(who, "backstab", 1);
 			var rawdamage := CalculateRawDamage(who, weapon);
@@ -89,6 +84,12 @@ program backstab(who)
 			endif
 			EraseObjProperty(who, "backstab");
 			SendSysMessage(who, "Voce acertou seu alvo!");
+			if ( GetObjProperty(who, "ataquefurtivoaprimorado") == 1 )
+				EraseObjProperty(who, "ataquefurtivoaprimorado");
+				who.hidden := 1;
+			else
+				who.hidden := 0;
+			endif
 		endif
 	else
 		SendSysMessage(who, "Voce deve ficar atras de " + targ.name);
@@ -96,17 +97,17 @@ program backstab(who)
 endprogram
 
 function CanBackStab(who, weapon)
-	
+
 	var can_back_stab := 0;
 	if ((weapon.attribute) == "MeleeCombat1H")
 		can_back_stab := 1;
 	endif
-	
+
 	if ((weapon.attribute) == "RangedCombat")
 		can_back_stab := 1;
 	endif
 
-	
+
 	if ( !can_back_stab )
 		SendSysMessage(who, "Esta arma nao e apropriada para um ataque furtivo.");
 		return 0;
@@ -114,7 +115,7 @@ function CanBackStab(who, weapon)
 		SendSysMessage(who, "Voce precisa estar escondido para realizar esse ataque.");
 		return 0;
 	endif
-	
+
 	return 1;
 endfunction
 
@@ -127,7 +128,14 @@ function AmmoCheck(attacker, defender)
 
 	var has_ammo := 0;
 
+	var aljavas := array{0x791c, 0x2fb7};
 	var aljava := GetEquipmentByLayer(attacker, 0x14);
+
+		if (aljava.objtype in aljavas)
+			aljava := GetEquipmentByLayer(attacker, 0x14);
+		else
+			aljava := GetEquipmentByLayer(attacker, 0xc);
+		endif
 	var ammo := GetObjProperty(attacker.weapon, "ammo");
 	if (!ammo)
 		SendSysMessage(attacker, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");

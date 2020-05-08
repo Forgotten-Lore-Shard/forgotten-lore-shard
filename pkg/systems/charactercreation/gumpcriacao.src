@@ -70,26 +70,26 @@ var gfdata := array{
 		"Escolha o povo do seu personagem:", //1
 		"Zharkiano", //2
 		"Asanita",  //3
-		"Thurião",  //4
-		"Vanírio", //5 
+		"ThuriÃ£o",  //4
+		"VanÃ­rio", //5
 		"Numajene",//6
 		"Aquilrano", //7
 		"Humano", //8
 		"Elfo", //9
-		"Próximo"
+		"PrÃ³ximo"
 		};
 
-	
+
 
 	var ret := SendDialogGump( who, gflayout, gfdata );
 	if (1 in ret.keys)
 		chardata.+raca := "Humano";
 		chardata.+povo := "Asanita";
 	elseif (2 in ret.keys)
-		if (who.graphic != 400)
-			SendSysMessageEx(who, "Apenas personagens homens podem ser thurioes.", SSM_FAIL);
-			return;
-		endif
+		//if (who.graphic != 400)
+		//	SendSysMessageEx(who, "Apenas personagens homens podem ser thurioes.", SSM_FAIL);
+		//	return;
+		//endif
 		chardata.+raca := "Humano";
 		chardata.+povo := "Thuriao";
 	elseif (3 in ret.keys)
@@ -106,7 +106,7 @@ var gfdata := array{
 		chardata.+povo := "Vanirio";
 	endif
 
-	
+
 
 endfunction
 
@@ -114,10 +114,10 @@ endfunction
 function VantagemRacial(who, byref chardata)
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -155,38 +155,38 @@ var gflayout := array{
 
 var gfdata := array{
 		"Forgotten Lore Shard", //0
-		"Próximo", //1
+		"PrÃ³ximo", //1
 		"Escolha uma vantagem racial:" //2
 		};
 
 
 	if (chardata.raca == "Humano")
 		gfdata.append("Versatilidade");
-		gfdata.append("Homens são movidos pela curiosidade, o que faz com que explorem várias áreas de conhecimento. Começa com +2 pontos de skills.");
+		gfdata.append("Homens sÃ£o movidos pela curiosidade, o que faz com que explorem vÃ¡rias Ã¡reas de conhecimento. ComeÃ§a com +2 pontos de skills.");
 		gfdata.append("Resistentes");
-		gfdata.append("Humanos se adaptam bem a condições adversas por piores que sejam. Ganha +10 em todos os testes de resistências.");
-		gfdata.append("Aprendiz Rápido");
-		gfdata.append("É mais fácil para os homens, do que para as outras raças, aprenderem coisas novas. Regeneração mais rápida de cap.");
+		gfdata.append("Humanos se adaptam bem a condiÃ§Ãµes adversas por piores que sejam. Ganha +10 em todos os testes de resistÃªncias.");
+		gfdata.append("Aprendiz RÃ¡pido");
+		gfdata.append("Ã‰ mais fÃ¡cil para os homens, do que para as outras raÃ§as, aprenderem coisas novas. RegeneraÃ§Ã£o mais rÃ¡pida de cap.");
 		if (chardata.povo  == "Zharkiano")
-			gflayout.append("text 180 490 2105 9");			
+			gflayout.append("text 180 490 2105 9");
 			gflayout.append("Radio 150 487 9726 9729 0 4");
 			gflayout.append("HtmlGump 150 520 330 60 10 3000 0");
 			gfdata.append("Conhecedor do Kitah");
-			gfdata.append("Apenas alguns Zharkianos sabem como utilizar o Kitah da mesma forma que os elfos. Não sofre penalidades usando o Kitah.");
+			gfdata.append("Apenas alguns Zharkianos sabem como utilizar o Kitah da mesma forma que os elfos. NÃ£o sofre penalidades usando o Kitah.");
 		endif
 	elseif ( chardata.raca == "Elfo")
 		gfdata.append("Vontade de Ferro");
-		gfdata.append("Elfos possuem uma grande força de vontade e autocontrole. Ganham +20 nos testes de Vontade.");
+		gfdata.append("Elfos possuem uma grande forÃ§a de vontade e autocontrole. Ganham +20 nos testes de Vontade.");
 		gfdata.append("Sabedoria dos Antigos");
-		gfdata.append("Elfos são mais antigos que os outros povos e aprenderam a dar mais valor ao conhecimento. Habilidades terciárias podem ir até 50%");
+		gfdata.append("Elfos sÃ£o mais antigos que os outros povos e aprenderam a dar mais valor ao conhecimento. Habilidades terciÃ¡rias podem ir atÃ© 50%");
 		gfdata.append("Aliado da Natureza");
-		gfdata.append("O povo élfico possui uma ligação maior com a natureza que os humanos. Animais selvagens não o atacam.");
+		gfdata.append("O povo Ã©lfico possui uma ligaÃ§Ã£o maior com a natureza que os humanos. Animais selvagens nÃ£o o atacam.");
 		if (chardata.povo != "Vanirio")
-			gflayout.append("text 180 490 2105 9");			
+			gflayout.append("text 180 490 2105 9");
 			gflayout.append("Radio 150 487 9726 9729 0 4");
 			gflayout.append("HtmlGump 150 520 330 60 10 3000 0");
 			gfdata.append("Conhecedor da Mesum");
-			gfdata.append("A Mesum foi ensinada aos humanos por Asan, mas alguns elfos a dominam muito bem. Não sofre penalidades usando Mesum.");
+			gfdata.append("A Mesum foi ensinada aos humanos por Asan, mas alguns elfos a dominam muito bem. NÃ£o sofre penalidades usando Mesum.");
 
 		endif
 	endif
@@ -220,10 +220,10 @@ endfunction
 function Classe(who, byref  chardata)
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -258,14 +258,14 @@ var gflayout := array{
 
 var gfdata := array{
 		"Forgotten Lore Shard", //0
-		"Próximo", //1
+		"PrÃ³ximo", //1
 		"Escolha o Caminho do seu personagem:", //2
 		"Caminho das Armas",
-		"Caminho do Subterfúgio",
+		"Caminho do SubterfÃºgio",
 		"Caminho da Sabedoria"
 		};
 
-	
+
 
 	var ret := SendDialogGump( who, gflayout, gfdata );
 	if (1 in ret.keys)
@@ -276,7 +276,7 @@ var gfdata := array{
 		chardata.+classe := "Sabio";
 	endif
 
-	
+
 
 endfunction
 
@@ -299,7 +299,7 @@ function buyskillsgump(who, byref chardata)
 	if (chardata.kit == "Sabe-Tudo")
 		chardata.Primarias := 1;
 	endif
-	
+
 	while ( (repeatGump != 1) )
 		if (!who.connected)
 			break;
@@ -330,12 +330,12 @@ function GetSkillValueDesc(skill)
 	if (!skill || skill == error)
 		return "";
 	elseif (skill == 1)
-		return "Terciária";
+		return "TerciÃ¡ria";
 	elseif (skill == 2)
-		return "Secundária";
+		return "SecundÃ¡ria";
 	elseif (skill == 3)
-		return "Primária";
-	endif	
+		return "PrimÃ¡ria";
+	endif
 
 endfunction
 
@@ -353,15 +353,15 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 	var terciarias   := GetConfigStringArray(elem, "T");
 	var quaternarias := GetConfigStringArray(elem, "Q");
 
-	if (chardata.kit == "Artifice")		
+	if (chardata.kit == "Artifice")
 
 		var novasquaternarias := array;
 		var novasterciarias := array;
 		var novassecundarias := array;
 
 		foreach skill in quaternarias
-			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy") 
-			&& (skill != "WomensWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
+			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy")
+			&& (skill != "DomesticWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
 			&& (skill != "Gathering") )
 				novasquaternarias.append(skill);
 			endif
@@ -369,8 +369,8 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 		endforeach
 
 		foreach skill in terciarias
-			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy") 
-			&& (skill != "WomensWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
+			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy")
+			&& (skill != "DomesticWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
 			&& (skill != "Gathering") )
 				novasquaternarias.append(skill);
 			endif
@@ -378,8 +378,8 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 		endforeach
 
 		foreach skill in secundarias
-			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy") 
-			&& (skill != "WomensWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
+			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy")
+			&& (skill != "DomesticWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
 			&& (skill != "Gathering") )
 				novasterciarias.append(skill);
 			endif
@@ -387,8 +387,8 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 		endforeach
 
 		foreach skill in primarias
-			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy") 
-			&& (skill != "WomensWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
+			if ( (skill != "Survival") && (skill != "HandleAnimal") && (skill != "Alchemy")
+			&& (skill != "DomesticWork") && (skill != "MetalWorking") && (skill != "WoodWorking")
 			&& (skill != "Gathering") )
 				novasterciarias.append(skill);
 			endif
@@ -402,7 +402,7 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 		secundarias.append("Survival");
 		secundarias.append("HandleAnimal");
 		secundarias.append("Alchemy");
-		primarias.append("WomensWork");
+		primarias.append("DomesticWork");
 		primarias.append("MetalWorking");
 		primarias.append("WoodWorking");
 		primarias.append("Gathering");
@@ -410,8 +410,8 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 		var i := 1;
 		foreach skill in quaternarias //limpa as que vao ser primarias e sec
 			sendsysmessage(who, "skill " + skill);
-			if ( (skill == "Survival") || (skill == "HandleAnimal") || (skill == "Alchemy") 
-			|| (skill == "WomensWork") || (skill == "MetalWorking") || (skill == "WoodWorking")
+			if ( (skill == "Survival") || (skill == "HandleAnimal") || (skill == "Alchemy")
+			|| (skill == "DomesticWork") || (skill == "MetalWorking") || (skill == "WoodWorking")
 			|| (skill == "Gathering") )
 
 				sendsysmessage(who, "deletando skill " + skill);
@@ -426,8 +426,8 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 		i := 1;
 		foreach skill in terciarias //limpa as que vao ser primarias e sec
 			sendsysmessage(who, "skill " + skill);
-			if ( (skill == "Survival") || (skill == "HandleAnimal") || (skill == "Alchemy") 
-			|| (skill == "WomensWork") || (skill == "MetalWorking") || (skill == "WoodWorking")
+			if ( (skill == "Survival") || (skill == "HandleAnimal") || (skill == "Alchemy")
+			|| (skill == "DomesticWork") || (skill == "MetalWorking") || (skill == "WoodWorking")
 			|| (skill == "Gathering") )
 
 				sendsysmessage(who, "deletando skill " + skill);
@@ -442,7 +442,7 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 	endif
 
 
-	if (chardata.kit == "Ranger")		
+	if (chardata.kit == "Ranger")
 
 		var i := 1;
 		foreach skill in primarias //reduz as primarias
@@ -497,10 +497,10 @@ function GumpSkills(who, byref chardata, byref skillspoints)
 //	sendsysmessage(who,  " " + primarias + " " + secundarias);
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -526,8 +526,8 @@ var gflayout := array{
 
 var gfdata := array{
 		"Forgotten Lore Shard", //0
-		"Próximo", //1
-		"Defina suas skills iniciais, você tem " + skillspoints + " pontos. "//2
+		"PrÃ³ximo", //1
+		"Defina suas skills iniciais, vocÃª tem " + skillspoints + " pontos. "//2
 		};
 
 /*	var cfgatt := AP_GetAttributesCfgFile();
@@ -553,7 +553,7 @@ var gfdata := array{
 
 		if (chardata.Skills[skill] >= 1)
 			gflayout.append("Button " + (x-20) + " " + (y+3) + " 2437 2438 1 2 " + (200+GetSkillIdFromName(skill)) );
-		endif	
+		endif
 
 		skillCount := skillCount + 1;
 		y := y + 20;
@@ -574,8 +574,8 @@ var gfdata := array{
 
 		if (chardata.Skills[skill] >= 1)
 			gflayout.append("Button " + (x-20) + " " + (y+3) + " 2437 2438 1 2 " + (200+GetSkillIdFromName(skill)) );
-		endif	
-	
+		endif
+
 		skillCount := skillCount + 1;
 		y := y + 20;
 	endforeach
@@ -593,8 +593,8 @@ var gfdata := array{
 
 		if (chardata.Skills[skill] >= 1)
 			gflayout.append("Button " + (x-20) + " " + (y+3) + " 2437 2438 1 2 " + (200+GetSkillIdFromName(skill)) );
-		endif	
-	
+		endif
+
 		skillCount := skillCount + 1;
 		y := y + 20;
 	endforeach
@@ -612,8 +612,8 @@ var gfdata := array{
 
 		if (chardata.Skills[skill] >= 1)
 			gflayout.append("Button " + (x-20) + " " + (y+3) + " 2437 2438 1 2 " + (200+GetSkillIdFromName(skill)) );
-		endif	
-	
+		endif
+
 		skillCount := skillCount + 1;
 		y := y + 20;
 	endforeach
@@ -671,7 +671,7 @@ var gfdata := array{
 		return 1;
 	endif
 
-	
+
 
 endfunction
 
@@ -735,10 +735,10 @@ endfunction
 function kitgump(who, byref chardata, byref selectedkit, byref  kits)
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -756,7 +756,7 @@ var gflayout := array{
 		"Text  420 580 2103 1",
 		"Button 470 580 9903 9905 1 2 99",
 
-		
+
 
 		"page 1",
 		"text 150 160 2103 2"
@@ -766,8 +766,8 @@ var gflayout := array{
 
 var gfdata := array{
 		"Forgotten Lore Shard", //0
-		"Próximo", //1
-		"Você pode escolher um  dos kits abaixo:" //2
+		"PrÃ³ximo", //1
+		"VocÃª pode escolher um  dos kits abaixo:" //2
 		};
 
 	var i := 1;
@@ -776,9 +776,9 @@ var gfdata := array{
 	for ( i := 1; i <= kits.size(); i := i + 1)
 		gfdata.append(kits[i].nome);
 		if ( i == selectedkit)
-			gflayout.append("Text " + x + " " + y + " 2105 " + (i+2)); 
+			gflayout.append("Text " + x + " " + y + " 2105 " + (i+2));
 		else
-			gflayout.append("Text " + x + " " + y + " 2103 " + (i+2)); 
+			gflayout.append("Text " + x + " " + y + " 2103 " + (i+2));
 		endif
 		var selected := 0;
 		if (i == selectedkit)
@@ -820,17 +820,17 @@ var gfdata := array{
 	else
 		kitgump(who, chardata, ret.keys[2], kits);
 	endif
-	
+
 
 endfunction
 
 function ItemPicker(who, byref chardata)
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -868,7 +868,7 @@ var gflayout := array{
 
 var gfdata := array{
 		"Forgotten Lore Shard", //0
-		"Próximo", //1
+		"PrÃ³ximo", //1
 		"Compre seu equipamento inicial: " + chardata.credits + " creditos.", //2
 		"Armas",
 		"Armaduras",
@@ -915,7 +915,7 @@ var gfdata := array{
 
 				itemcount := itemcount + 1;
 				i := i + 1;
-			endforeach			
+			endforeach
 
 			pagecount := pagecount + 1;
 		endforeach
@@ -964,10 +964,10 @@ endfunction
 function atributos(who, byref chardata, byref points)
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -1009,11 +1009,11 @@ var gflayout := array{
 
 var gfdata := array{
 		"Forgotten Lore Shard", //0
-		"Próximo", //1
+		"PrÃ³ximo", //1
 		"Defina seus atributos: " + points + " restantes. ", //2
-		"Força: " ,
-		"Destreza: ", 
-		"Inteligência: ", 
+		"ForÃ§a: " ,
+		"Destreza: ",
+		"InteligÃªncia: ",
 		" " + chardata.str,
 		" " + chardata.dex,
 		" " + chardata.int
@@ -1099,7 +1099,7 @@ var gfdata := array{
 				SendSysMessageEx(who, "Voce ainda possui pontos para gastar.", SSM_FAIL);
 				atributos(who, chardata,points);
 				return 1;
-			endif				
+			endif
 		endif
 
 endfunction
@@ -1140,7 +1140,7 @@ program createchar(who)
 			DestroyItem(item);
 		endforeach
 		equiped := 0;
-	endif	
+	endif
 
 	//zeras as skills
 	foreach attrib in AP_ListAttributesByType()
@@ -1165,13 +1165,13 @@ program createchar(who)
 	Atributos(who, chardata, 80);
 	BuyKits(who, chardata);
 	BuySkillsgump(who, chardata);
-	ItemPicker(who,  chardata);	
+	ItemPicker(who,  chardata);
 
 	//SETA as coisas
 	if (chardata.vantagemracial == "Aliado da Natureza")
 		SetObjProperty(who, "empatiacomanimais", 1);
 	endif
-	
+
 	SetObjProperty(who, "chardata", chardata);
 	SetObjProperty(who, "raca", chardata.raca);
 	SetObjProperty(who, "classe", chardata.classe);
@@ -1182,7 +1182,7 @@ program createchar(who)
 	CreateItemInBackpack(who, 0xba63, 100); //dinheiro
 	who.race := RACE_HUMAN;
 	RecalcVitals(who);
-	
+
 	var primarias := GetPrimarias(who);
 	var privalue := 40.0;
 	var secvalue := 20.0;
@@ -1212,7 +1212,7 @@ program createchar(who)
 	//SETA O KIT
 	//printtextabove(who, "ALCHEMY1");
 	//PrintTextAbove(who, " ALCHEMY"+ chardata.Skills + " " + chardata.Skills["Alchemy"] );
-	
+
 	// Edmond - 15/02/2012
 	if (chardata.Skills["Alchemy"] == 2)
 		var book := createiteminbackpack(who, "alchemybook");
@@ -1237,14 +1237,14 @@ program createchar(who)
 		capa.color := 2117;
 		SetObjProperty(capa, "description", "Faixa de Defensor de Zharkia de " + who.name + "<BR>");
 		SetObjProperty(capa, "cannotdye", 1);
-		SetObjProperty(capa, "descmod", "Defensor Zharkês");
+		SetObjProperty(capa, "descmod", "Defensor ZharkÃªs");
 		SetName(capa, "Faixa");
 	elseif (chardata.kit == "Shimoriano")
 		var ordem := CreateItemInBackpack(who, 8792, 1);
-		SetName(ordem, "Aurotização de Shimoria para " + who.name);
+		SetName(ordem, "AurotizaÃ§Ã£o de Shimoria para " + who.name);
 		var df := DFOpenDataFile(":tn:shimoria");
 		var elem := df.CreateElement(who.serial);
-		
+
 		var ring := CreateItemInBackpack(who, "ring", 1);
 		ring.color  := 1150;
 		SetObjProperty(ring, "descmod", "Shimoriano");
@@ -1266,13 +1266,13 @@ program createchar(who)
 		p1 := createiteminbackpack(who, "pergaminhomagico1");
 		spellinfo.id := 28;
 		SetObjProperty(p1, "spellinfo", spellinfo);
-		
+
 		ganheispell := 1;
 	elseif  (chardata.kit == "Acolito do Panteao Zhark")
 		var robe := CreateItemInBackpack(who, 0x9945, 1); //bodysash
 		SetObjProperty(robe, "description", "Robe com bordado do simbolo do clero de Zharkia");
 		SetObjProperty(robe, "cannotdye", 1);
-		SetObjProperty(robe, "descmod", "Acólito de Zhark");
+		SetObjProperty(robe, "descmod", "AcÃ³lito de Zhark");
 		createiteminbackpack(who, "runaarmasagrada");
 		createiteminbackpack(who, "runacuraleve");
 		createiteminbackpack(who, "runadescanso");
@@ -1284,34 +1284,34 @@ program createchar(who)
 			who.title_prefix := "Lady";
 		endif
 		var ring := CreateItemInBackpack(who, 0x108a, 1); //ring
-		var NomeDaFamilia := cstr(RequestGump(who, "Escreva o Nome da sua Família"));
+		var NomeDaFamilia := cstr(RequestGump(who, "Escreva o Nome da sua FamÃ­lia"));
 		var FamiliaVassala := cstr(RadioGump(who, 270, 200, "Para quem ira prestar Vassalagem?", array{"Rothenien","Khumardigann","Hivyttain","Zanshirdd"}));
 		if (FamiliaVassala != "Nenhuma")
-			SetObjProperty(ring, "description", "Anel Da Família: " + NomeDaFamilia + "<br> Vassala Dos: " + FamiliaVassala);
+			SetObjProperty(ring, "description", "Anel Da FamÃ­lia: " + NomeDaFamilia + "<br> Vassala Dos: " + FamiliaVassala);
 		else
-			SetObjProperty(ring, "description", "Anel Da Família: " + NomeDaFamilia);
+			SetObjProperty(ring, "description", "Anel Da FamÃ­lia: " + NomeDaFamilia);
 		endif
 		SetObjProperty(ring, "familia", NomeDaFamilia);
-		SetObjProperty(ring, "description", "Anel Da Família: " + NomeDaFamilia + "<br> Vassala Dos: " + FamiliaVassala);
-		SetName(ring, "Anel com Símbolo de Familia");
+		SetObjProperty(ring, "description", "Anel Da FamÃ­lia: " + NomeDaFamilia + "<br> Vassala Dos: " + FamiliaVassala);
+		SetName(ring, "Anel com SÃ­mbolo de Familia");
 	elseif (chardata.kit == "Corpulento")
-		AP_SetTrueStat(who, STRENGTH, chardata.str+10);		
+		AP_SetTrueStat(who, STRENGTH, chardata.str+10);
 		AP_SetTrueStat(who, DEXTERITY, chardata.dex-10);
 	elseif (chardata.kit == "Genio")
-		AP_SetTrueStat(who, STRENGTH, chardata.str-10);		
+		AP_SetTrueStat(who, STRENGTH, chardata.str-10);
 		AP_SetTrueStat(who, INTELLIGENCE, chardata.int+10);
 	elseif (chardata.kit == "Agil")
-		AP_SetTrueStat(who, STRENGTH, chardata.str-10);		
+		AP_SetTrueStat(who, STRENGTH, chardata.str-10);
 		AP_SetTrueStat(who, DEXTERITY, chardata.dex+10);
 	elseif (chardata.kit == "Escravo Vanirio")
 		setObjProperty(who, "description", "Marca de escravo no rosto");
-		setObjProperty(who, "hitsmod", 10);
+		setObjProperty(who, "hitsmod", 20);
 	elseif (chardata.kit == "Velho")
-		AP_SetTrueStat(who, STRENGTH, chardata.str-10);		
+		AP_SetTrueStat(who, STRENGTH, chardata.str-10);
 		AP_SetTrueStat(who, INTELLIGENCE, chardata.int+20);
 		AP_SetTrueStat(who, DEXTERITY, chardata.dex-10);
 	elseif (chardata.kit == "Duro de Matar")
-		AP_SetTrueStat(who, STRENGTH, chardata.str-10);		
+		AP_SetTrueStat(who, STRENGTH, chardata.str-10);
 		AP_SetTrueStat(who, INTELLIGENCE, chardata.int-10);
 		AP_SetTrueStat(who, DEXTERITY, chardata.dex-10);
 		SetObjProperty(who, "dpmod", 20);
@@ -1320,7 +1320,7 @@ program createchar(who)
 	elseif (chardata.kit == "Totemista")
 		var totem := CreateItemInBackpack(who, "totem", 1);
 		var s1 := CreateItemInBackpack(who, "invocarespiritolobo", 1);
-		var s2 := CreateItemInBackpack(who, "metamorfoselobo", 1); 
+		var s2 := CreateItemInBackpack(who, "metamorfoselobo", 1);
 		CreateItemInBackpack(who, "Deadwood", 10);
 		CreateItemInBackpack(who, "FertileDirt", 10);
 		ganheispell:=1;
@@ -1358,7 +1358,7 @@ program createchar(who)
 		if (!ganheispell)
 			var gump2 := GFCreateGump();
 				GFDisposable(gump2, 0);
-				GFResizePic(gump2, 0, 25, 3600, 170, 200);	
+				GFResizePic(gump2, 0, 25, 3600, 170, 200);
 				GFResizePic(gump2, 15, 40, 0x13BE, 140, 170);
 				GFTextLine(gump2, 45, 50, 1153, "Escolha sua magia");
 
@@ -1370,7 +1370,7 @@ program createchar(who)
 
 				var input2 := GFSendGump(who, gump2);
 				input2 := input2[0];
-				
+
 				if (input2 == 10)
 				    chardata.+magia := "Mesum";
 					var grimorio:=createiteminbackpack(who, "grimorio", 1);
@@ -1391,12 +1391,12 @@ program createchar(who)
 					p1 := createiteminbackpack(who, "pergaminhomagico1");
 					spellinfo.id := 28;
 					SetObjProperty(p1, "spellinfo", spellinfo);
-				
+
 				else
 				    chardata.+magia := "Kitah";
 					var gump3 := GFCreateGump();
 					GFDisposable(gump3, 0);
-					GFResizePic(gump3, 0, 25, 3600, 170, 200);	
+					GFResizePic(gump3, 0, 25, 3600, 170, 200);
 					GFResizePic(gump3, 15, 40, 0x13BE, 140, 170);
 					GFTextLine(gump3, 45, 50, 1153, "Escolha o elemento");
 
@@ -1410,7 +1410,7 @@ program createchar(who)
 
 					var input3 := GFSendGump(who, gump3);
 					input3 := input3[0];
-					
+
 					if (input3 == 10)
 						createiteminbackpack(who, "pedralaminaflamejante");
 						createiteminbackpack(who, "pedraataqueelementalfogo");
@@ -1476,10 +1476,9 @@ function ExibeGumpAparencia(who, chardata)
     var result2 := DestroyItem(myhair);
     result := EquipItem(who, newhair);
 
-	if (YesNo(who, "Deseja manter esta aparência?" , "Sim.", "Não."))
+	if (YesNo(who, "Deseja manter esta aparÃªncia?" , "Sim.", "NÃ£o."))
 		return 1;
 	else
 		ExibeGumpAparencia(who, chardata);
 	endif
 endfunction
-

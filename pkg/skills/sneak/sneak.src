@@ -30,14 +30,14 @@ program skill_Hide(who)
 	SendSysMessageEx(who, "Voce comecou a tentar se esconder...", SSM_INFO);
 	while ( 1 )
 		sleep(2);
-		
+
 		if ( !CanHide(who, orig_x, orig_y) )
 			break;
 		endif
 		var check := SkillCheck(who, SNEAK, -1);
 		var diff;
 		case ( temHabilidade(who, "Misturar-se na Selva") )
-			1:	
+			1:
 				var region := GetRegionName(who);
 				if(region != "aghaja" && region != "zharkia")
 					diff := diff - 50;
@@ -48,8 +48,8 @@ program skill_Hide(who)
 			0:
 				diff := 0;
 		endcase
-		
-		
+
+
 		if( check > diff )
 			SendSysMessageEx(who, "Voce se escondeu.", SSM_INFO);
 			who.hidden := 1;
@@ -63,11 +63,11 @@ program skill_Hide(who)
 		elseif (check >= -25)
 			SendSysMessageEx(who, "Voce falhou ao tentar se esconder.", SSM_FAIL);
 			who.hidden := 0;
-		else // Falha Crítica
+		else // Falha CrÃ­tica
 			PrintText(who, "*tentando se esconder*");
 		endif
 	endwhile
-	
+
 	SetObjProperty(who, "#hidewait", readgameclock()+5);
 endprogram
 
@@ -127,12 +127,13 @@ function CanHide(who, orig_x, orig_y, override_hiding := 0)
 		range := 1;
 	endif
 
+
 	var hostiles := ListHostiles(who, range);
-	if ( hostiles[1] )
+	if ( hostiles[1] && !temHabilidade(who, "Fuga Desesperada"))
 		SendSysMessageEx(who, "Voce nao pode se esconder enquanto " + hostiles[1].name + " esta atacando voce.", SSM_FAIL);
 		return 0;
 	endif
-	
+
 	/*
 	Caso queira colocar novamente aquele esquema de nao se esconder com pessoas OLHANDO
 	var num_watching := GetWatchingPeople(who);
@@ -140,29 +141,29 @@ function CanHide(who, orig_x, orig_y, override_hiding := 0)
 
 	if (skill < 1)
 		skill := 0;
-	endif	
+	endif
 
 	if ( num_watching > skill )
 		SendSysMessageEx(who, "Existem muitas pessoas olhando voce se esconder aqui.", SSM_FAIL);
 		return 0;
 	endif
 	*/
-	
+
 	return 1;
 endfunction
-	
+
 function GetWatchingPeople(who)
 	var counter := 0;
-	
+
 	var range := GetHidingRange(AP_GetSkill(who, SNEAK));
 	foreach person in ListMobilesInLineOfSight(who, range)
 		if ( IsFacing(person, who.x, who.y) )
 			counter := counter+1;
 		endif
-		
+
 		sleepms(4);
 	endforeach
-	
+
 	return counter;
 endfunction
 

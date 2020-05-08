@@ -37,7 +37,7 @@ function CarveFish(who, blade, use_on)
 	peso := cint(nomepeixe[4]);
 	num_steaks := Cint((peso / 2));	
 
-	//Verificacao do tipo de peixe para o tipo certo de filé, Alem do peso stack, que concerta o peso.
+	//Verificacao do tipo de peixe para o tipo certo de filÃ©, Alem do peso stack, que concerta o peso.
 	if (use_on.objtype == 0x9987) pesostack := (2 + RandomInt(1)); steak := "0x9972";
  	elseif (use_on.objtype == 0xdd8)  pesostack := (60 + RandomInt(30)); steak :=  "0x9973";
  	elseif (use_on.objtype == 0x9cf) pesostack := (40 + RandomInt(20)) ; steak :=  "0x9978";
@@ -47,13 +47,13 @@ function CarveFish(who, blade, use_on)
 	elseif (use_on.objtype == 0x9cc) pesostack := (15 + RandomInt(1)); steak :=  "0x9970";
  	elseif (use_on.graphic == 0xdd9) pesostack := (30 + RandomInt(15)); steak :=  "0x9977";
 	elseif (use_on.graphic == 0xdd6) pesostack := (2 + RandomInt(1)); steak :=  "0x9976";
-	endif	
+	endif
 
 	//IF para nao dar erro se stackarem os peixes (perdem o peso no nome)
 	if (use_on.amount > 1)
 		num_steaks := Cint(((pesostack / 2) * use_on.amount));
 	endif
-	
+
 	steak := cint(steak);
 	var peixe:= use_on;
 	if( DestroyItem(use_on) )
@@ -215,7 +215,7 @@ endfunction
 function GetSOSTreasure(who, targetsquare, sosmsg)
 
 	targetsquare := targetsquare;
-	if( SkillCheck(who, WOMENSWORK, 80, 200) > 0 )
+	if( SkillCheck(who, DomesticWork, 80, 200) > 0 )
 		var itemcfg := ReadConfigFile(":*:itemdesc");
 		var it, oldname;
 		if( RandomInt(100) < 75 )
@@ -292,6 +292,3 @@ function FindPeixeId(who, isca)
 	elseif (isca.graphic == 0x1CEF) return "0xdd6"; 
 	endif
 endfunction
-
-
-

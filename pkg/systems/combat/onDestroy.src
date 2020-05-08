@@ -2,7 +2,7 @@
  * $Id: onDestroy.src 891 2005-11-04 06:29:43Z muaddiblsd $
  *
  */
- 
+
 use uo;
 
 include ":tn:equipment";
@@ -12,14 +12,16 @@ program OnDestroy(item)
 	if ( !equipped )
 		return 1;
 	endif
-	
+
 	var mobile := SystemFindObjectBySerial(equipped);
 
 	RemoveEquipmentMods(mobile, item);
 
 	if (coverFace(item))
 		mobile.name := GetObjProperty(mobile, "realname");
+		mobile.title_race := GetObjProperty(mobile, "realrace");
 		EraseObjProperty(mobile, "realname");
+		EraseObjProperty(mobile, "realrace");
 	endif
 
 	return 1;

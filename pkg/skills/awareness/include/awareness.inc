@@ -27,7 +27,7 @@ function examinarAlvo(who)
 			if (last_name)
 				name := name+" "+last_name;
 			endif
-			SendSysMessageEx(who, "Você descobriu que "+targ.name+" é, na verdade, "+name+".", SSM_INFO);
+			SendSysMessageEx(who, "VocÃª descobriu que "+targ.name+" Ã©, na verdade, "+name+".", SSM_INFO);
 			SendSysMessageEx(who, "ATENCAO: Se voce nao conhece esse personagem, ignore o fato de saber o nome dele.", SSM_INFO);
 		endif
 	elseif ( GetObjProperty(targ, "TrapList") )
@@ -44,11 +44,11 @@ function examinarAlvo(who)
 			4: diff := 86;
 			5: diff := 90;
 			6: diff := 110;
-			default: diff := 40; 
+			default: diff := 40;
 		endcase
 			if ( SkillCheck(who, AWARENESS, diff) > 0 )
 				found :=1;
-				var revelar := YesNo(who, "Você descobriu uma armadilha, deseja revelá-la?", "Sim.", "Não, deixarei a armadilha escondida.");
+				var revelar := YesNo(who, "VocÃª descobriu uma armadilha, deseja revelÃ¡-la?", "Sim.", "NÃ£o, deixarei a armadilha escondida.");
 				if (revelar)
 					PrintText(targ, "*armadilha revelada por "+who.name+"*");
 					TrapFound(targ, who);
@@ -72,24 +72,20 @@ function CalculateDHDiff(who, mobile)
 	var difficulty;
 
 	if (TemHabilidade(mobile, "Comunhao com as Sombras"))
-		if ( dist >= 5 )
-			difficulty := mobile_skill * 1.2;
-		else
-			difficulty := mobile_skill;
-		endif
+		difficulty := CInt(mobile_skill);
 	else
 		if (dist >=8)
-			difficulty := mobile_skill;
+			difficulty := CInt(mobile_skill);
 		elseif (dist >= 7)
-			difficulty := mobile_skill*0.95;
+			difficulty := CInt(mobile_skill*0.95);
 		elseif (dist >= 6)
-			difficulty := mobile_skill*0.9;
+			difficulty := CInt(mobile_skill*0.9);
 		elseif ( dist >= 5 )
-			difficulty := mobile_skill*0.85;
+			difficulty := CInt(mobile_skill*0.85);
 		elseif ( dist >= 4 )
 			difficulty := CInt(mobile_skill * 0.8);
 		elseif ( dist >= 3 )
-				difficulty := CInt(mobile_skill * 0.7);
+			difficulty := CInt(mobile_skill * 0.7);
 		elseif ( dist >= 2 )
 			difficulty := CInt(mobile_skill * 0.6);
 		elseif ( dist >= 1 )
@@ -99,7 +95,7 @@ function CalculateDHDiff(who, mobile)
 		endif
 	endif
 
-	return CInt(difficulty);
+	return difficulty;
 
 endfunction
 
@@ -107,7 +103,7 @@ function examinarArea(who)
 	var range := CInt( AP_GetSkill(who, AWARENESS) / 10 ) + 1;
 
 	var vantagem := (GetObjProperty(who, "chardata")).vantagemracial;
-	if ( vantagem == "Sentidos Aguçados" )
+	if ( vantagem == "Sentidos AguÃ§ados" )
 		range := range + 5;
 	endif
 
@@ -123,8 +119,8 @@ function examinarArea(who)
 		if ( mobile == who ); // Do Nothing
 		elseif ( !mobile.npctemplate && CInt(GetObjProperty(who, "IgnoreHidden")) ); // Do Nothing
 		else
-			if ( CheckLineOfSight(who, mobile) )
-			
+			if ( CheckLineOfSight(who, mobile) && abs(mobile.z - who.z ) < 19  )
+
 				var difficulty := CalculateDHDiff(who, mobile);
 
 				if ( SkillCheck(who, AWARENESS, difficulty) > 0 )
@@ -141,7 +137,7 @@ function examinarArea(who)
 
 	foreach item in ListItemsNearLocation(who.x, who.y, who.z, range)
 		if ( item.invisible )
-			if ( item.isTrap() )
+			if ( item.isTrap())
 				if ( SkillCheck(who, AWARENESS, -1) > 0 )
 					found := found+1;
 					item.invisible := 0;

@@ -28,11 +28,13 @@ program UnequipTest(mobile, item)
 		EraseObjProperty(item, "#EquippedOn");
 		if (coverFace(item))
 			mobile.name := GetObjProperty(mobile, "realname");
+			mobile.title_race := GetObjProperty(mobile, "realrace");
 			if (GetObjProperty(mobile, "olddescription"))
 				SetObjProperty(mobile, "description", GetObjProperty(mobile, "olddescription"));
 				EraseObjProperty(mobile, "olddescription");
 			endif
 			EraseObjProperty(mobile, "realname");
+			EraseObjProperty(mobile, "realrace");
 		endif
 	endif
 

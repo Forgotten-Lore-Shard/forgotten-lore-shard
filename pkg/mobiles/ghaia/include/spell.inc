@@ -157,8 +157,10 @@ function SpellFight(opponent, spell_list ,alerted := 0)
     endif
   endif
 
-	  if (hasCombat(me))
-    DoCombatSpecial(me); ////////////// SPECIALL
+	  if (hasCombat(me))
+
+    DoCombatSpecial(me); ////////////// SPECIALL
+
   endif
 	
 	checkFlee(opponent);
@@ -716,18 +718,24 @@ endfunction
     
 function CastSummon(me, spell)
   if (spell == "summonundead")
-    CreateNpcFromTemplate(":brainai:skeleton3", me.x, me.y, me.z, 0, me.realm);
-    CreateNpcFromTemplate(":brainai:skeleton3", me.x, me.y, me.z, 0, me.realm);
-    CreateNpcFromTemplate(":brainai:skeleton3", me.x, me.y, me.z, 0, me.realm);
-  elseif ( spell == "summonfire" )
-    CreateNpcFromTemplate(":brainai:fireelemental", me.x, me.y, me.z, 0, me.realm);
-  elseif ( spell == "summonair")
-    CreateNpcFromTemplate(":brainai:airelemental", me.x, me.y, me.z, 0, me.realm);
-  elseif ( spell ==  "summonearth")
-    CreateNpcFromTemplate(":brainai:earthelemental", me.x, me.y, me.z, 0, me.realm);
-  elseif ( spell ==  "summonice")
-	CreateNpcFromTemplate(":brainai:snowelemental", me.x, me.y, me.z, 0, me.realm);
-  endif
+	for x := 0 to 3
+		var npc := CreateNpcFromTemplate(":brainai:skeleton3", me.x, me.y, me.z, 0, me.realm);
+		SetObjProperty(npc, "summoned", 1);
+	endfor
+	elseif ( spell == "summonfire" )
+		var npc := CreateNpcFromTemplate(":brainai:fireelemental", me.x, me.y, me.z, 0, me.realm);
+		SetObjProperty(npc, "summoned", 1);
+	elseif ( spell == "summonair")
+		var npc := CreateNpcFromTemplate(":brainai:airelemental", me.x, me.y, me.z, 0, me.realm);
+		SetObjProperty(npc, "summoned", 1);
+	elseif ( spell ==  "summonearth")
+		var npc := CreateNpcFromTemplate(":brainai:earthelemental", me.x, me.y, me.z, 0, me.realm);
+		SetObjProperty(npc, "summoned", 1);
+	elseif ( spell ==  "summonice")
+		var npc := CreateNpcFromTemplate(":brainai:snowelemental", me.x, me.y, me.z, 0, me.realm);
+		SetObjProperty(npc, "summoned", 1);
+	endif
+
 endfunction
 
 function CastHeal(me, cast_on)

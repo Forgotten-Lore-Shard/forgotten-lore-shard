@@ -11,8 +11,8 @@ program manobra(attacker)
 
 	SendSysMessageEx(attacker, "Sem dor.", SSM_INFO);
 
-	SetCooldown(attacker, "semdor", cint(AP_GetSkill(attacker, TACTICS)/10));
-	SetObjProperty(attacker, "#semdorbonus", cint(50*(AP_GetVital(attacker, HITS) / AP_GetVitalMaximumValue(attacker, HITS) )) );
+	SetCooldown(attacker, "semdor", cint(AP_GetSkill(attacker, TACTICS)/5));
+	SetObjProperty(attacker, "#semdorbonus", cint(20*( AP_GetVitalMaximumValue(attacker, HITS) / AP_GetVital(attacker, HITS) )) );
 
 endprogram 
 

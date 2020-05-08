@@ -259,27 +259,29 @@ function makefood(who, input)
 			return;
 		endif
 		
+		var ingredientesno := 0;
 		var consumelist := {};
 		var details := struct;
 		details .+ vector;
 		details .+ amount;
-		
+
 		foreach line in getconfigstringarray(recipeinfo, "ingredient")
+			ingredientesno := ingredientesno +1;
 			line := splitwords(line);
 			var amount := cint(line[2]);
-			
+
 			line := line[1];
-			
+
 			while (line["||"])
 				line["||"] := " ";
 			endwhile
-			
-			line := splitwords(line);	
-			var yield := 0;	
+
+			line := splitwords(line);
+			var yield := 0;
 			foreach item in line
 				yield := yield + searchpack(who, getobjtypebyname(item));
 			endforeach
-			
+
 			if (yield < amount)
 				SendSysMessageEx(who, "Voce nao possui ingredientes suficientes.", SSM_FAIL);
 				SendSysMessageEx(who, "Faltando " + amount + " " + line[1], SSM_FAIL);
@@ -291,23 +293,38 @@ function makefood(who, input)
 				endforeach
 				details.vector := temp;
 				details.amount := amount;
-				
+
 				consumelist.append(details);
 			endif
 		endforeach
-		
-		//Ok we know we got all the ingridients. Lets use them!		
+
+		//Ok we know we got all the ingridients. Lets use them!
 		foreach element in consumelist
 			allocateresources(who, element.vector, element.amount);
 		endforeach
-			
-		if (SkillCheck(who, WOMENSWORK, recipeinfo.skill, recipeinfo.skill*2) > 0)
-			createiteminbackpack(who, getobjtypebyname(recipeinfo.objtype), 1);
+
+
+		if (SkillCheck(who, DomesticWork, recipeinfo.skill, recipeinfo.skill*2) > 0)
+			var newitem := createiteminbackpack(who, getobjtypebyname(recipeinfo.objtype), 1);
 			SendSysMessageEx(who, "Voce guardou a comida na sua mochila.", SSM_INFO);
+			case ( ingredientesno )
+		  2:
+		  SetObjProperty(newitem, "capmod", 1);
+		  3:
+		  SetObjProperty(newitem, "capmod", 2);
+		  4:
+		  SetObjProperty(newitem, "capmod", 3);
+		  5:
+		  SetObjProperty(newitem, "capmod", 4);
+		  6:
+		  SetObjProperty(newitem, "capmod", 5);
+		  7:
+		  SetObjProperty(newitem, "capmod", 6);
+		  endcase
 		else
 			SendSysMessageEx(who, "Voce falhou e arruinou a comida!", SSM_FAIL);
 		endif
-			
+
 		foreach line in getconfigstringarray(recipeinfo, "leftovers")
 			line := splitwords(line);
 			var item := line[1];
@@ -318,7 +335,7 @@ function makefood(who, input)
 				endfor
 			endif
 		endforeach
-		
+
 		sleepms(900);
 	endfor
 endfunction
@@ -329,7 +346,7 @@ function loopgump(mobile, foodname)
 		"page 0",
 		"noclose",
 		"resizepic 10 140 3600 320 200",
-	
+
 		"text 35 170 500 0",
 		"text 35 185 500 1",
 		"gumppic 35 215 1141",
@@ -352,7 +369,7 @@ function copyrecipe(who, recipe)
 	var num := cint(recipe);
 	recipe := recipecfg(recipe);
 	if (ConsumeSubstance(who.backpack, OBJ_BLANK_SCROLL, 1))
-		if ((SkillCheck(who, WOMENSWORK, cint(recipe.scribe), cint(recipe.scribe+10)) > 0))
+		if ((SkillCheck(who, DomesticWork, cint(recipe.scribe), cint(recipe.scribe+10)) > 0))
 			var item := createiteminbackpack(who, OBJ_RECIPE_SLIP, 1);
 			if (item == error)
 				sendsysmessage(who, "  " + item);

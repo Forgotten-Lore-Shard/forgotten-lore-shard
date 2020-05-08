@@ -59,7 +59,7 @@ program skill_LumberJack(who,tool)
 			break;
 		endif
 		ChopTree(who, tool, targ, orig_x, orig_y);
-		AP_ConsumeVital(who, "Stamina", 5);
+		AP_ConsumeVital(who, "Stamina", 3);
 		CheckToolWear(who, tool, GATHERING );
 		sleep(1);
 		if (LJ_GetWoodAmount(who.realm, targ.x, targ.y)== 0 )
@@ -78,7 +78,7 @@ function ChopTree(who, tool, targ, orig_x, orig_y)
 			return 0;
 		endif
 
-		PerformAction(who, ANIM_ATTACK_2HAND_WIDE);
+		PerformAction(who, ANIM_ATTACK_2HAND_DOWN);
 		PlaySoundEffect(who, FLS_SFX_SKILL_LUMBERJACK);
 		sleepms(1200);
 	endfor
@@ -88,12 +88,19 @@ function ChopTree(who, tool, targ, orig_x, orig_y)
 
 	var max_wood := CInt(LJ_GetSettingsCfgElem("Settings").MaxWood);
 	// The less wood there is, the more difficult it becomes.
-	
+
 //	var difficulty := CInt(105 - (100 * wood_amount / max_wood));
 	var difficulty := CInt(0 + (max_wood - wood_amount)*3);
 
 	if (difficulty > 30)
 		difficulty := 30;
+	endif
+
+	if (tool.objtype == 0x0f43)
+		difficulty := difficulty - 10;
+			if (difficulty < 0)
+				difficulty := 0;
+			endif
 	endif
 
 	//if ( who.cmdlevel )

@@ -6,14 +6,14 @@ program createWand(wand)
 
 
 	var spellinfo := struct;
-	var cfg := ReadConfigFile(":tn:config/tnspells");
+	var cfg := ReadConfigFile(":spells:config/tnspells");
 	var keys := GetConfigIntKeys(cfg);
 
 	spellinfo.+id := RandomInt(keys.size())+1;
 	SetObjProperty(wand, "spellinfo", spellinfo);
 
 	SetObjProperty(wand, "magic", 1);
-	SetObjProperty(wand, "cargas", 30);
+	SetObjProperty(wand, "cargas", RandomIntMinMax(3,10));
 	SetObjProperty(wand, "cancast", 1);
 
 endprogram

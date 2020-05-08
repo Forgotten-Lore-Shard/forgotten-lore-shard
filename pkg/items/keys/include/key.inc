@@ -6,6 +6,7 @@
 use uo;
 
 include ":itemutils:itemdesc";
+include "include/say";
 
 function AllocLockId()
   var lockid := GetGlobalProperty( "nextlockid" );
@@ -32,19 +33,21 @@ endfunction
  */
 function KP_ToggleLock(object, mobile:=0)
 	if ( object.locked )
-		PrintTextAbovePrivate(object, "*destrancado*", mobile);
+		// PrintTextAbovePrivate(object, "*destrancado*", mobile);
+		PrintText(mobile, "*Destrancou "+object.desc+"*");
 		object.locked := 0;
 	else
-		PrintTextAbovePrivate(object, "*trancado*", mobile);
+		PrintText(mobile, "*Trancou "+object.desc+"*");
+		// PrintTextAbovePrivate(object, "*trancado*", mobile);
 		object.locked := 1;
 	endif
-	
+
 	return 1;
 endfunction
 
 /*
  * KP_IsLockable(object)
- * 
+ *
  * Purpose
  * Determines if an item is lockable or not.
  *
@@ -60,7 +63,7 @@ function KP_IsLockable(object)
 	if ( object.IsA(POLCLASS_ITEM) )
 		object := object.objtype;
 	endif
-	
+
 	return GetItemDescInfo(object).Lockable;
 endfunction
 
@@ -86,7 +89,7 @@ function KP_HasKeyForLock(container, lock_id)
 	if ( lock_id.IsA(POLCLASS_ITEM) )
 		lock_id := GetObjProperty(lock_id, "LockId");
 	endif
-	
+
 	foreach item in ( EnumerateItemsInContainer(container) )
 		if ( item.IsKey() )
 			if ( item.KeyMatchesLock(lock_id) )
@@ -95,6 +98,6 @@ function KP_HasKeyForLock(container, lock_id)
 		endif
 		sleepms(2);
 	endforeach
-	
+
 	return 0;
 endfunction

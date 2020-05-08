@@ -148,12 +148,18 @@ function CalculateDamage(defender, type, dmg)
 		endcase
 	endif
 
+			if (isBloodied(defender) && TemHabilidade(defender, "Pele de Rocha"))
+			if (resist < 0.5)
+				resist := 0.5;
+			endif
+		endif
+
 	if (type == DMG_PHYSICAL)
 		if (TemHabilidade(defender, "Exoesqueleto"))
 			resist := resist * 1.2;
 		endif
 		if (TemHabilidade(defender, "Especialista em Escudos") && (defender.shield).IsA(POLCLASS_ARMOR) ) // Se tiver a hab e usar escudo
-			resist := resist + (AP_GetTrueSkill(defender,PARRY)/1000); // Ganha até +10% de bonus
+			resist := resist + (AP_GetTrueSkill(defender,PARRY)/1000); // Ganha atÃ© +10% de bonus
 		endif
 		if (isBloodied(defender) && TemHabilidade(defender, "Pele de Rocha"))
 			if (resist < 0.5)
@@ -161,7 +167,7 @@ function CalculateDamage(defender, type, dmg)
 			endif
 		endif
 	endif
-		
+
 
 //	printtextabove(defender, "dano " + type + " resist " + resist + " total dmg  " + dmg + " resistido " + (dmg*resist) + " final " + (dmg - (dmg*resist)) );
 
@@ -170,7 +176,7 @@ function CalculateDamage(defender, type, dmg)
 			resist := 0.8;
 		endif
 	endif
-	
+
 
 //	if ( (resistSpells+resistMod) > resist)
 //		return (dmg - (dmg*(resistSpells+resistMod)));
@@ -185,7 +191,7 @@ function ApplyDamageEX(defender, dmg, type, source := 0)
 	var totaldmg := cint(CalculateDamage(defender, type, dmg ));
 
 //	printtextabove(defender, "raw dmg " + dmg + " type " + type + " final " + totaldmg);
-	
+
 	ApplyRawDamage( defender, totaldmg );
 
 	if (source)
@@ -198,16 +204,16 @@ function ApplyDamageEX(defender, dmg, type, source := 0)
 endfunction
 
 
-/* 
+/*
  * SetLastDamageInfo(mobile, amount, type, source)
  *
  * Purpose
  *
  * Parameters
- * mobile:	
- * amount:	
- * type:	
- * source:	
+ * mobile:
+ * amount:
+ * type:
+ * source:
  *
  * Return value
  *
@@ -218,7 +224,7 @@ function SetLastDamageInfo(mobile, amount, type, source)
 	last_damage.+time	:= polcore().systime;
 	last_damage.+amount	:= amount;
 	last_damage.+type	:= type;
-	
+
 	if ( last_damage.acctname )
 		last_damage.+acctname := source.acctname;
 	endif
@@ -227,19 +233,19 @@ function SetLastDamageInfo(mobile, amount, type, source)
 	else
 		last_damage.+name := source.desc;
 	endif
-	
+
 	SetObjProperty(mobile, "LastDamage", last_damage);
-	
+
 	return last_damage;
 endfunction
 
-/* 
+/*
  * GetLastDamageInfo(mobile)
  *
  * Purpose
  *
  * Parameters
- * mobile:	
+ * mobile:
  *
  * Return value
  *
@@ -248,7 +254,7 @@ function GetLastDamageInfo(mobile)
 	return GetObjProperty(mobile, "LastDamage");
 endfunction
 
-    
+
 function CalculateTotalDamageBonus(dmg, who, defender)
 
 	//Bonus Tacitcs
@@ -261,13 +267,9 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	tatics := tatics/100.0 + taticsBonus;
 
 	if (GetObjProperty(who, "kit") == "Mago de Combate")
-		
-		if (GetObjProperty(who.weapon, "#elementalweapon") != error)
-			
+
 			tatics := (cdbl(AP_GetSkill(who, MAGICLORE))*1.25)/100.0;
-		
-		endif
-	
+
 	endif
 
 
@@ -276,10 +278,10 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 
 	endif
 
-	//Bonus Anatomy    
+	//Bonus Anatomy
 	//var anatomy := cdbl(AP_GetSkill(who, ANATOMY)/2.0) + 5.0;
 	//anatomy := anatomy/100.0;
-    
+
 	//Bonus STR
 	var stat := STRENGTH;
 	if (temHabilidade(who, "Ataques Precisos"))
@@ -296,14 +298,14 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 
 //	printtextabove(who, " str dmg " + str/100 + " bonus str " + strBonus);
 	str := str/100.0 + strBonus;
-	
+
 	//arco curto, longo, besta, besta pesada e besta de repeticao
 	if ( (who.weapon.objtype == 0x13B2) || (who.weapon.objtype == 0x26CC) || (who.weapon.objtype == 0x0f4f) || (who.weapon.objtype == 0x13fd) || (who.weapon.objtype == 0x26CD) )
 		str := 0;
-	endif 
+	endif
 
 
-	//Bonus de prop da arma    
+	//Bonus de prop da arma
 	var weapon := Cdbl(GetObjProperty(who.weapon, "dmgbonus")) + cdbl(GetObjProperty(who.weapon, "#dmgbonus"));
 
 	//Bonus de prop do mobile
@@ -311,7 +313,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 
 	//Bonus de Spells
 	other := other - cdbl(GetObjProperty(who, "dmgreduction"));
-  
+
   if (GetCooldown(who.weapon, "blessweapon"))
     if (defender.npctemplate)
       var elem := NPC_GetNPCConfig(defender.npctemplate);
@@ -335,7 +337,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			bonus := 0.2;
 		endif
 		other := other + bonus;
-	endif 
+	endif
 
 	//Bonus de Habilidades especiais
 
@@ -350,7 +352,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + 1.0;
 		endif
 	endif
-	
+
 	if (TemHabilidade(who, "Inimigo Predileto"))
 		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
 		var cfg := ReadConfigFile(":brainai:npcdesc");
@@ -367,14 +369,14 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + 2.0;
 		endif
 	endif
-	
-	
+
+
 	if (TemHabilidade(who, "Estilo Mao Livre"))
 		if (who.weapon.attribute == "MeeleCombat1H" && !who.shield)
 			other := other + 0.2;
 		endif
 	endif
-	
+
 	if (isBloodied(defender))
 		if (temHabilidade(who, "Golpe de Misericordia"))
 			other:= other + 1.5;
@@ -394,10 +396,11 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		endif
 		if (GetCooldown(who, "FuriaPrimordial"))
 			var inimigos := ListHostiles(who, 3, LH_FLAG_LOS);
+			inimigos := inimigos.size();
 			other := other + 0.8*inimigos;
 		endif
 		if (GetCooldown(who, "FuriaMortal"))
-			var bonus := AP_GetVital(who, HITS) / AP_GetVitalMaximumValue(who, HITS)*4;
+			var bonus := AP_GetVitalMaximumValue(who, HITS) / AP_GetVital(who, HITS)*1.5;
 			other := other + bonus;
 		endif
 	endif

@@ -4,6 +4,7 @@ use util;
 include ":attributes:attributes";
 include ":brainAI:npcUtil";
 include ":charactercreation:habilidades";
+include ":timedscripts:timedScripts";
 
 program Install()
 	print("INSTALLING: Exported Vital - RegenRate and MaxValue functions ...");
@@ -29,7 +30,7 @@ exported function GetHitsMaximumValue(mobile)
 
 	if (mobile.npctemplate)
 		vital_points := GetNPCVitalSetting(mobile, "HITS") + (Cint(GetObjProperty(mobile, "hitsmod")) + Cint(GetObjProperty(mobile, "#hitsmod"))) * 100;
-		vital_points := vital_points * 2; 
+		vital_points := vital_points * 2;
 	else // no getHP ja pega o hitsmod dos players
 		vital_points := (GetHP(mobile) + GetPH(mobile)) * 100;
 	endif
@@ -47,6 +48,10 @@ exported function GetManaRegenRate(mobile)
 	//	base_regen := 0;
 	//endif
 	if (TemHabilidade(mobile, "Mente Tranquila"))
+		base_regen := base_regen + base_regen;
+	endif
+
+	if (TemHabilidade(mobile, "Adrenalina Espiritual"))
 		base_regen := base_regen + base_regen;
 	endif
 
@@ -175,17 +180,44 @@ exported function GetSkillCapRegenRate(mobile)
 	if (mobile.npctemplate)
 			return 100;
 	endif
+	var foodbonus := CInt(GetObjProperty(mobile, "capmod"));
+	var bonusRP := CInt(GetGlobalProperty("BonusRP"));
+
 	if (!GetObjProperty(mobile, "fichaRP"))
 		return 0;
-	elseif (GetObjproperty(mobile, "nota") == error)
-		return 100; // como se tivesse nota 5
+	elseif(GetObjproperty(mobile, "nota") == error)
+		return CInt( 50 + bonusRP*75 + foodbonus*25);
 	else
 		var nota := CInt(GetObjProperty(mobile, "nota"));
-		return 100 + CInt(nota*25); // Bonus ou Perda pela nota
+		var mult := bonusRP + nota;
+		var total := CInt( 50 + mult*75 + foodbonus*25);
+		return total;
 	endif
 endfunction
 
 exported function GetSkillCapMaximumValue(mobile)
+var chardata := GetObjProperty(mobile, "chardata");
+var vantagem := chardata.vantagemracial;
+
+if (vantagem == "Aprendiz Rapido")
+	return 24*100;
+	else
 	return 20*100;
+	endif
+endfunction
+
+exported function GetVicioRegenRate(mobile)
+	var base_regen := CInt(AP_GetSettingsCfgElem("Regen").Vicio) * 100;
+	var regen := base_regen + AP_GetVitalRegenRateMod(mobile, "vicio");
+
+	if ((GetObjProperty(mobile, "#ultimouso") + 3000000 > polcore().systime) && (!mobile.npctemplate)  ) // Nao regenera se tiver usado no ultimo dia
+		return 0;
+	endif
+
+	return regen;
+endfunction
+
+exported function GetVicioMaximumValue(mobile)
+	return 86400*100;
 endfunction
 

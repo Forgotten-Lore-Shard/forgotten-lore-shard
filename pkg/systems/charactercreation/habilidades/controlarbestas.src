@@ -9,12 +9,12 @@ program controlar(who)
 	SendSysMessageEx(who, "Escolha o animal para controla-lo.", SSM_REQUEST);
 	var targ := Target(who);
 
-	if (!isTamable(targ))
+	if (!isTamable(targ) || GetObjProperty(targ, "owner") != error)
 		SendSysMessageEx(who, "Este nao e um alvo valido.", SSM_INFO);
 		return 1;
 	endif
 
-	
+
 	TS_StartTimer(targ, "controlarbestas", 120, 1, who);
 
-endprogram 
+endprogram

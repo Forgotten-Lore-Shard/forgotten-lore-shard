@@ -66,13 +66,15 @@ program TamedAI()
 
 			SYSEVENT_ENGAGED:
 
-				opponent := ev.source;
 
 			SYSEVENT_DAMAGED:
 
 				if ( (ev.source).IsA(POLCLASS_MOBILE) )
+					if ( Distance(ev.source, me) <= 1)
 
 					opponent := ev.source;
+
+					endif
 
 				endif
 			EVID_HERDING:
@@ -97,7 +99,7 @@ program TamedAI()
 			NEW_MASTER_CMD:
 
 				Transfer(ev.targ);
-				
+
 
 			SYSEVENT_DOUBLECLICKED:
 
@@ -105,7 +107,7 @@ program TamedAI()
 					if( (Distance(ev.source, me) > 1) )
 						if (ev.source == owner)
 							ProcessDoubleClick(ev);
-						endif				
+						endif
 
 					elseif ( me.graphic in pack_animals )
 
@@ -134,7 +136,7 @@ program TamedAI()
 
 				TakeItem(ev);
 
-					
+
 
 		endcase
 
@@ -148,13 +150,13 @@ program TamedAI()
 
 			//SendSysMessageEX(owner, "You become less proficient in Animal Taming.", SSM_INFO_IC);
 
-			
+
 
 			//if ( me.graphic in mountables )
 
 			//	UnMount(owner);
 
-			//endif			
+			//endif
 
 			//UnTame();
 
@@ -294,9 +296,8 @@ function ProcessSpeech(ev)
 		endif
 
 		var targ := target(ev.source);
-		PrintText(me, "alignment: " + me.alignment);
-		if (me.alignment == "evil")
-			if ( AP_GetSkill(targ, HANDLEANIMAL)+10 < cfg.TameDifficulty )
+		if (cfg.TameDifficulty >= 61)
+			if ( AP_GetSkill(targ, HANDLEANIMAL) * 1.4 < cfg.TameDifficulty )
 				SendSysMessage(owner, "A criatura nao aceita o alvo como novo dono.");
 				return;
 			endif

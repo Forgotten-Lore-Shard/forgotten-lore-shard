@@ -27,7 +27,7 @@ CONST ALIGN_CENTER	:= 0x1;
 CONST ALIGN_RIGHT	:= 0x2;
 
 function GFCloseGumpTimed(mobile, pid, timer, ret_val:=0)
-	return Start_Script(":gumps:autoClose", array{mobile, pid, timer, ret_val});
+	return;
 endfunction
 
 function GFHtmlShadowed(byref gump, x, y, width, height, color, text, size := 5);
@@ -44,7 +44,7 @@ endfunction
  * Purpose
  * Rather than have a lot of CONSTants at the top for
  * different gump images, they are placed in GumpInfo.cfg
- * and retrieved with this function. 
+ * and retrieved with this function.
  * The idea is that it is easier to update GumpInfo.cfg than
  * to recompile all scripts that use these includes.
  *
@@ -61,17 +61,17 @@ function GFCfgConst(elem_name, prop_name)
 	if ( cfg.errortext )
 		return XGFError("GetCfgConst():: Unable to open GumpInfo.cfg -> "+cfg.errortext);
 	endif
-	
+
 	var elem := cfg[elem_name];
 	if ( elem.errortext )
 		return XGFError("GetCfgConst():: Unable to find GumpInfo.cfg["+elem_name+"] ->"+elem.errortext);
 	endif
-	
+
 	var value := GetConfigInt(elem, prop_name);
 	if ( !value )
 		return XGFError("GetCfgConst():: Unable to find property ["+prop_name+"] in elem ["+elem_name+"]");
 	endif
-	
+
 	return value;
 endfunction
 
@@ -100,7 +100,7 @@ function GFExtractData(input, data_id)
 endfunction
 
 
-/* 
+/*
  * GFOptimizeGump(gump)
  *
  * Purpose
@@ -118,7 +118,7 @@ function GFOptimizeGump(byref gump)
 	var cur_page := 0;
 	var gump_pages := dictionary;
 	gump_pages[0] := array;
-	
+
 	//Break the pages apart.
 	foreach entry in (gump.layout)
 		var l_entry := Lower(entry);
@@ -137,7 +137,7 @@ function GFOptimizeGump(byref gump)
 		gump_pages[cur_page].Append(entry);
 		SleepMS(2);
 	endforeach
-	
+
 	//Put the gump back together again.
 	gump.layout := array{}; // Wipe it out
 	foreach page_array in (gump_pages)
@@ -149,7 +149,7 @@ function GFOptimizeGump(byref gump)
 		endforeach
 		SleepMS(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -160,7 +160,7 @@ endfunction
  * Purpose
  * Returns the X coordinate to pass to GFTextLine() that will align
  * the text.
- * 
+ *
  * Parameters
  * type:	The type of horizontal alignment to do.
  *		ALIGN_CENTER - Aligns text between the x_pos and width position.
@@ -171,7 +171,7 @@ endfunction
  *
  * Return value
  * Returns the x coordinate to place the text on.
- *	
+ *
  */
 function GFTextCoords(type:=ALIGN_CENTER, gump_text, x_pos, width:=0)
 	x_pos := CInt(x_pos);
@@ -189,7 +189,7 @@ endfunction
  *
  * Purpose
  * Aligns text between the x position and width position.
- * 
+ *
  * Parameters
  * gump:	Reference to the gump
  * x:		The top-left spot of the X axis.
@@ -198,7 +198,7 @@ endfunction
  * hue:		The decimal number representing the Label's hue
  * text:	The string that is to be exposed.
  *
- * Return value	
+ * Return value
  * Return value is the result from GFTextLine()
  *
  */
@@ -213,7 +213,7 @@ endfunction
  *
  * Purpose
  * Aligns text between the x position and width position.
- * 
+ *
  * Parameters
  * gump:	Reference to the gump
  * x:		The right-most coordinate the text will end on.
@@ -221,7 +221,7 @@ endfunction
  * hue:		The decimal number representing the Label's hue
  * text:	The string that is to be exposed.
  *
- * Return value	
+ * Return value
  * Return value is the result from GFTextLine()
  *
  */
@@ -258,10 +258,10 @@ function GFTextWidth(gump_text)
 	"ghnuvy?<>-----"+	//  8
 	"xJ578$?++++++ "+	//  9
 	"kCE2369^/*****"+	// 10
-	"mwABDFOPŽ™40%%"+	// 11
+	"mwABDFOPÅ½â„¢40%%"+	// 11
 	"GLNQSZ@#######"+	// 12
 	"HRT&__________"+	// 13
-	"KšUYYYYYYYYYYY"+	// 14
+	"KÅ¡UYYYYYYYYYYY"+	// 14
 	"XXXXXXXXXXXXXX"+	// 15
 	"VVVVVVVVVVVVVV"+	// 16
 	"MMMMMMMMMMMMMM"+	// 18

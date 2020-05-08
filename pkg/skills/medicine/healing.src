@@ -227,7 +227,7 @@ program UseBandage(mobile, bandage)
 		endif
 		SubtractAmount(bandage, 1);
 		if ( !HealPatient(mobile, targ, heal_skill, aux_skill, bonus, poison) )
-			PrintText(mobile, "*parou de usar ataduras*");
+			SendSysMessage(mobile, "Voce parou de usar ataduras.");
 		endif
 		EraseObjProperty(targ, "curando");
 		var chance := 3;
@@ -251,12 +251,12 @@ function HealPatient(mobile, targ, heal_skill, aux_skill, bonus, poison)
 	endif*/
 	if (mobile == targ)
 		heal_amt := heal_amt / 2;
-		PrintText(mobile, "*usando ataduras em si mesmo*");
+		PrintText(mobile, "*tratando a si mesmo*");
 	elseif ( Distance(mobile, targ) > 2 )
 		SendSysMessage(mobile, "Seu paciente esta muito distante.");
 		return 1;
 	else
-		PrintText(mobile, "*usando ataduras em "+targ.name+"*");
+		PrintText(mobile, "*tratando "+targ.name+"*");
 	endif
 	if ( !Wait(mobile, 5) )
 		SendSysMessage(mobile, "Voce interrompeu a cura.");
@@ -280,7 +280,7 @@ function HealPatient(mobile, targ, heal_skill, aux_skill, bonus, poison)
 		endif
 	endif
 
-	PrintText(mobile, "*parou de aplicar bandagens*");
+	SendSysMessage(mobile, "Você parou de usar ataduras.");
 	detach();
 	SendSysMessage(targ, "Aguarde enquanto a cura faz efeito.");
 	var i;

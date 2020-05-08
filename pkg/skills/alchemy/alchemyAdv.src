@@ -228,7 +228,7 @@ function MakePotion ( pot, item, who, magic, strength := 0)
 			endif
 			if (GetObjProperty(who, "extratoinstantaneo"))
 					SendSysMessageEx(who, "Voce fez um extrato instantaneo.", SSM_INFO);
-					var pocao := GetObjProperty(thing, "pocao");
+					var pocao := GetObjProperty(thing, "extrato");
        					var pot := CreateItemInBackpack(who, pocao, 1);
 					SetObjProperty(pot, "strength", cint(GetObjProperty(thing, "strength")));
 					DestroyItem(thing);
@@ -307,8 +307,3 @@ function FalhaCritica(who, item)
 		TS_StartTimer(who, "defaultPoison", 120, 5);
 	endif
 endfunction
-
-
-
-
-

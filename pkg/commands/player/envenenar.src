@@ -11,6 +11,7 @@ include ":timedscripts:timedScripts";
 include ":fls_core:fls_characters";
 include "include/say";
 include ":charactercreation:habilidades";
+include ":spells:swordmage";
 
 program do_poisoning(who)
 	EraseObjProperty(who, "IsMeditating");
@@ -26,7 +27,7 @@ program do_poisoning(who)
 		return;
 	elseif (Distance(who, the_poison) > 1)
 		SendSysMessageEx(who, " Voce esta muito distante!", SSM_FAIL);
-		return;		
+		return;
 	elseif (the_poison.graphic != 0x0f09)
 		SendSysMessageEx(who, "Isso nao parece ser uma pocao!", SSM_FAIL);
 		return;
@@ -42,10 +43,10 @@ program do_poisoning(who)
 		return;
 	elseif (Distance(who, the_poison) > 1)
 		SendSysMessageEx(who, " Voce esta muito distante!", SSM_FAIL);
-		return;		
+		return;
 	endif
 
-	//pega info sobre a poçao
+	//pega info sobre a poÃ§ao
 	var acfgfile := ReadConfigFile(":*:itemdesc");
 	var theitem := acfgfile[the_item.objtype];
 	var level, difficulty, points, poisonType;
@@ -53,7 +54,7 @@ program do_poisoning(who)
 	if (!level)
 		level := RandomDiceRoll("1d5");
 	endif
-	//se for uma poçao que nao a default a formula eh essa:
+	//se for uma poÃ§ao que nao a default a formula eh essa:
 	difficulty := 15*level + 10;
 	points := difficulty;
 	case(the_poison.objtype)
@@ -124,7 +125,7 @@ program do_poisoning(who)
 		poisonInfo.+dosage := 20 - (level*2);
 		poisonInfo.+acc := who.acctname;
 		poisonInfo.+time := 40 + level*10;
-		if (temHabilidade(who, "Maximizar Veneno"))
+		if (temHabilidade(who, "Veneno Puro"))
 			poisonInfo.dosage := CInt(poisonInfo.dosage * 1.5);
 			poisonInfo.time := CInt(poisonInfo.time * 1.2);
 		endif
@@ -134,8 +135,19 @@ program do_poisoning(who)
 		endif
 		SetObjProperty(the_item, "poisonInfo", poisonInfo);
 		if (the_item.isA(POLCLASS_WEAPON))
-			if (!TemHabilidade(who, "Maximizar Veneno"))
+			if (!TemHabilidade(who, "Veneno Puro"))
+				if(the_item.hp < 11);
+					MoveObjectToLocation(the_item, 1, 1, 1, who.realm, MOVEOBJECT_FORCELOCATION);
+					SetObjProperty(the_item, "broken", 1);
+					SetObjProperty(the_item, "realdesc", the_item.desc);
+					releasegems(who, the_item);
+					eraseobjproperty(the_item, "gems");
+					SetName(the_item, the_item.desc+" [danificado]");
+					MoveItemToContainer(the_item, who.backpack);
+				SendSysMessageEx(who, "A arma ja estava muito danificada e se quebrou na aplicacao do veneno.", SSM_FAIL);
+			else
 				the_item.hp := the_item.hp - 10;
+				endif
 			endif
 		endif
 	else
@@ -149,7 +161,7 @@ program do_poisoning(who)
 	else
 		var doses := cint(GetObjProperty(the_poison, "doses"));
 		doses := doses - 1;
-		if (doses > 0) 
+		if (doses > 0)
 			SetObjProperty(the_poison, "doses", doses);
 			SendSysMEssageEx(who, "Ainda tem veneno para " + doses + " doses.", SSM_INFO);
 		else

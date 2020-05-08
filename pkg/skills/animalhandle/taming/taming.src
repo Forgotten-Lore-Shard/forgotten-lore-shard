@@ -49,7 +49,7 @@ program TamingSkill(who)
 	GFTextLine(yn_gump, 40, 60, 1153, "Adestrar Animal.");
 
 	GFAddButton(yn_gump, 20, (83), 2117, 2118, GF_CLOSE_BTN, 2);
-	GFTextLine(yn_gump, 40, 80, 1153, "Informações sobre o animal.");
+	GFTextLine(yn_gump, 40, 80, 1153, "InformaÃ§Ãµes sobre o animal.");
 
 	GFTextLine(yn_gump, 40, 100, 1153, "Libertar Animal:");
 
@@ -86,7 +86,7 @@ function taming(who)
 	if( who.hidden )
 		who.hidden := 0;
 	endif
-		
+
 	SendSysMessageEx(who, "Que animal voce deseja adestrar?", SSM_REQUEST);
 	if( who.hidden )
 		who.hidden := 0;
@@ -96,7 +96,7 @@ function taming(who)
 	var skill := AP_GetSkill(who, HANDLEANIMAL);
 
 	var bonus := 0;
-//	SendSysMEssage(who, " " + GetNumPets(who) + " " + GetPetCost(targ) + " " + GetMaxPEts(who) );
+//	SendSysMEssage(who, " " + GetNumPets(who) + " " + GetPetCost(targ) + " " + GetMaxPets(who) );
 	if ( !targ.IsA(POLCLASS_NPC) )
 		SendSysMessageEx(who, "Cancelado", SSM_FAIL);
 		return;
@@ -122,7 +122,7 @@ function taming(who)
 		SendSysMEssageEx(who, "Essa criatura nao aceita ser domesticada.", SSM_FAIL);
 		return 0;
 	endif
-		
+
 	var cfg := ReadConfigFile(":brainAI:npcdesc");
 	var npctemplate := targ.npctemplate;
 	npctemplate := npctemplate[10, len(npctemplate)-9];
@@ -132,7 +132,7 @@ function taming(who)
 		SendSysMessageEx(who, "Voce nao pode adestrar "+targ.name+".", SSM_FAIL);
 		return;
 	endif
-			
+
 	var info := struct;
 	info.+x := who.x;
 	info.+y := who.y;
@@ -146,7 +146,7 @@ function taming(who)
 	//	SendSysMessageEx(who, "Voce nao pode tentar adestrar "+targ.name+" ainda.");
 	//	return 0;
 	endif
-	
+
 	cfg := 0;
 
 	SetObjProperty(who, "#tamewait", ReadGameClock()+15);
@@ -159,40 +159,40 @@ function taming(who)
 			if ( SkillCheck(who, HANDLEANIMAL, info.difficulty) > 0 )
 				SendSysMessageEx(who, "Voce ganhou a confianca de "+targ.name+".", SSM_INFO);
 				targ.SetMaster(who);
-				
+
 				SetObjProperty(targ, "owner", who.serial);
 				SetObjProperty(targ, "name", targ.name);
 				SetObjproperty(targ, "script", targ.script);
 				SetObjProperty(targ, "AntigoTreinadorID", who.serial);
-				
+
 				targ.script := ":ghaia:tamed";
 				RestartScript(targ);
-				
+
 				Run_Script_To_Completion(":death:npcdeath", {targ});
-				
+
 				var tamed := GetObjProperty(who, "TamedPets");
 				if ( !tamed )
 					tamed := array;
 				endif
 				tamed.append(targ.serial);
-				SetObjProperty(who, "TamedPets", tamed);	
-			
+				SetObjProperty(who, "TamedPets", tamed);
+
 				break;
 			endif
-		
+
 		if ( events_waiting() )
 			clear_event_queue();
 		endif
-		
-		
-	endwhile 
+
+
+	endwhile
 
 endfunction
 
 function TameLoop(who, targ, byref info)
 	var my_hostiles := ListHostiles(who, 15);
 	var targ_hostiles := ListHostiles(targ, 15);
-	
+
 	if ( targ.master )
 		SendSysMessage(who, targ.name+" nao pode ser adestrado.", SSM_FAIL);
 		return 0;
@@ -216,7 +216,7 @@ function TameLoop(who, targ, byref info)
 	if ( check > 0 )
 		SendSysMessageEx(who, ""+targ.name+" parece ser seu amigo.", SSM_INFO);
 		AI_MoveXY(targ, info.x, NEMOVE_TOWARD, NEMOVE_WALK, WAKEUP, 1);
-		
+
 		return 1;
 	else//if (check > -25 )
 		var dist := Distance(who, targ);
@@ -252,7 +252,7 @@ function TeachGump(who, tamed)
 	else
 		index_list := GetConfigStringArray(info_cfg["Index"], "Cmd");
 	endif
-	
+
 	template := GumpTemplate();
 
 	var gump := BuildGump(who, tamed);
@@ -267,7 +267,7 @@ endfunction
 function ProcessInput(who, tamed, input)
 	var id := 2;
 	foreach cmd in new_list
-		
+
 		if( input[0] == id )
 			TeachNow(who, tamed, cmd, input);
 			break;
@@ -305,7 +305,7 @@ function BuildGump(who, animal)
 
 	det_page := INIT_DET_PAGE;
 	y_pos := START_Y;
-	
+
 	foreach index in new_list
 		BuildDetails(animal, gump, index, y_pos);
 		SleepMS(2);
@@ -321,7 +321,7 @@ function BuildCmds(animal, byref gump, cmd_elem, byref y_pos)
 		y_pos := START_Y;
 		GFPage(gump, gump.cur_page+1);
 	endif
-	
+
 	if( y_pos == START_Y )
 		GFTextLine(gump, 24, 67, 0, "Comando");
 		GFTextLine(gump, 192, 67, 0, "Detalhar");
@@ -344,10 +344,10 @@ endfunction
 function BuildDetails(targ, byref gump, cmd_name, byref y_pos)
 
 	var cfg_elem := info_cfg[cmd_name];
-	
+
 	GFPage(gump, det_page);
 	GFAddButton(gump, 213, 34, 2223, 2223, GF_PAGE_BTN, 1);
-	GFTextLine(gump, 24, 67, 0, "Descrição");
+	GFTextLine(gump, 24, 67, 0, "DescriÃ§Ã£o");
 	GFTextLine(gump, 192, 67, 0, "Ensinar");
 
 	GFAddButton(gump, 211, y_pos+3, 1209, 1210, GF_CLOSE_BTN, btn_maxId);

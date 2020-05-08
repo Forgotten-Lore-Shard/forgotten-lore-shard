@@ -59,14 +59,14 @@ function GetNumPets(who)
 			if (!Cint(cfg.petslot))
 				num_tamed := num_tamed+1;
 			else
-				num_tamed := Cint(cfg.petslot);
+				num_tamed := num_tamed + Cint(cfg.petslot);
 			endif
 		elseif ( !pet || pet.master !=who )
 			tamed.erase(_serial_iter);
 		endif
 		sleepms(2);
 	endforeach
-	
+
 	SetObjProperty(who, "TamedPets", tamed);
 	who.followers := num_tamed;
 	return num_tamed;
@@ -74,12 +74,12 @@ endfunction
 
 //deleta o serial da lista de seriais do char (quando o npc morre ou eh transferido)
 function ErasePet(who, myserial)
-	
+
 	var tamed := GetObjProperty(who, "TamedPets");
 	if ( !tamed )
 		return;
 	endif
-	
+
 	foreach serial in tamed
 		if ( myserial == serial )
 			MP_Unmount(who);
@@ -94,7 +94,7 @@ function ErasePet(who, myserial)
 
 endfunction
 
-//adiciona o serial do pet 
+//adiciona o serial do pet
 function AddPet(who, serial)
 	var tamed := GetObjProperty(who, "TamedPets");
 	if ( !tamed )
@@ -108,10 +108,18 @@ function AddPet(who, serial)
 endfunction
 
 //numero maximo de pets que alguem pode ter
-function GetMaxPEts(who)
+function GetMaxPets(who)
 
-	var skill := AP_GetSkill(who, HANDLEANIMAL);
-	var maxpets := 1 + cint(skill/45);
+	var skill := cint(AP_GetSkill(who, HANDLEANIMAL));
+	var maxpets := 1;
+
+	if (skill >= 45 && skill < 75)
+		maxpets := maxpets + 1;
+	elseif (skill >= 75 && skill < 90)
+		maxpets := maxpets + 2;
+	elseif (skill >= 90)
+		maxpets := maxpets + 3;
+	endif
 
 	maxpets := maxpets + cint( GetObjProperty(who, "extrapets") );
 

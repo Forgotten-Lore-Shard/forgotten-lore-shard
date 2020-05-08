@@ -174,7 +174,7 @@ endfunction
 
 function Wait(who, segundos)
 	if ( GetObjProperty(who, "#IsWaiting") > ReadGameClock() )
-		return 0; // J· est· esperando
+		return 0; // J√° est√° esperando
 	else
 		EraseObjProperty(who, "#IsWaiting");
 	endif
@@ -227,7 +227,7 @@ function GetHP(who)
 	endif
 
 	if (TemHabilidade(who, "Baixo Limiar de Furia"))
-		hp := hp + 80;
+		hp := hp + 100;
 	endif
 
 	hp := hp + Cint(GetObjProperty(who, "hitsmod")) + Cint(GetObjProperty(who, "#hitsmod"));
@@ -252,7 +252,7 @@ function GetPH(who)
 	endif
 
 	if (TemHabilidade(who, "Baixo Limiar de Furia"))
-		ph := ph - 80;
+		ph := ph - 100;
 	endif
 
 
