@@ -29,12 +29,12 @@ var ver_reparos:=0;
 
 if (craft_skill == METALWORKING)
 	cfg := ReadConfigFile(":metalworking:blacksmithy");
-elseif (craft_skill == WOMENSWORK)
-	cfg := ReadConfigFile(":womenswork:tailoring");
+elseif (craft_skill == DomesticWork)
+	cfg := ReadConfigFile(":DomesticWork:tailoring");
 elseif (craft_skill == WOODWORKING)
 	cfg := ReadConfigFile(":woodworking:carpentry");
 else
-	return 0; 
+	return 0;
 endif
 
 
@@ -65,40 +65,40 @@ if (cint(hisskill)>=cint(item_skill))
   var damaged := maxhp - thehp;
   var damageamount := 0.0;
   damageamount := (125 -  hisskill)/3000.0;
-  
+
   if(what.hp == what.maxhp)
     SendSysMessage(character, "O item nao esta danificado.");
     return;
   endif
-  
+
   if((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
     SendSysMessage(character, "O fragil material quebrou quando voce manipulou ele.");
     DestroyItem(what);
     return;
   endif
-  
+
   if(what.quality <= damageamount)
     SendSysMessage(character, "O fragil material quebrou quando voce manipulou ele.");
     DestroyItem(what);
     return;
   endif
   what.quality := what.quality - damageamount;
-  
+
   if((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
     SendSysMessage(character, "O fragil material quebrou quando voce manipulou ele.");
     DestroyItem(what);
     return;
   endif
- 
+
  if (SkillCheck(character, craft_skill, cint(damaged / 3), 0) > 0 )
     var repaired_amount := cint((hisskill + 1)/2);
     //SendSysMessage(character, "rep"+repaired_amount);
     //SendSysMessage(character, "hisskill: "+((randomint(hisskill) + 1))/2);
-    
+
     if (damaged == 1)
       repaired_amount := 1;
     endif
-    
+
     if (thehp + repaired_amount > what.maxhp)
       what.hp := what.maxhp;
       EraseObjProperty(what, "swings");
@@ -107,35 +107,35 @@ if (cint(hisskill)>=cint(item_skill))
       what.hp := thehp + repaired_amount;
       SendSysMessage(character, "Voce consertou o item.");
     endif
-    
+
     if ((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
       SendSysMessage(character, "O fragil material quebrou quando voce manipulou ele.");
       DestroyItem(what);
       return;
     endif
-  
+
   else
     var damage_amount := randomint(10);
-    
+
     if (thehp <= damage_amount)
       DestroyItem(what);
       SendSysMessage(character, "Voce falhou e destruiu o item.");
     endif
-    
+
     thehp := thehp - damage_amount;
     what.hp := thehp;
-    
+
     if(randomint(2) == 1)
       what.quality := what.quality - (damaged/100);
     endif
-    
+
     if(thehp <= 0)
       DestroyItem(what);
       SendSysMessage(character, "Voce falhou e destruiu o item.");
     else
       SendSysMessage(character, "Voce falhou e danificou o item.");
     endif
-    
+
     if ((what.hp <= 0) || (what.quality <= 0.1) || (!what.quality))
       SendSysMessage(character, "O fragil material quebrou quando voce manipulou ele.");
       DestroyItem(what);
@@ -156,7 +156,7 @@ endif
 else
 	SendSysMessage(character, "Voce nao possui habilidades para isto.");
 endif
-	
+
 else
 	SendSysMessage(character, "Este item nao pode ser reparado: " + GetObjProperty(what,"reparos") + " ponto(s) de reparo restante(s).");
 endif
@@ -170,7 +170,7 @@ function CreateRepairDeed(who, scroll, craft_skill)
      METALWORKING: 		type := "Blacksmith"; color := CInt(2107);
      WOODWORKING: 	type := "Bowyer"; color := CInt(2116);
      //CARPENTRY: 		type := "Carpenter"; color := CInt(2113);
-     WOMENSWORK: 		type := "Tailor"; color := CInt(2128);
+     DomesticWork: 		type := "Tailor"; color := CInt(2128);
   endcase
   var ramt := AP_GetSkill(who, craft_skill);
   if(ramt < 50)
@@ -212,7 +212,7 @@ endfunction
 
 
 function repair_this(who, craft_skill := METALWORKING)
-  
+
 
   SendSysMessage(who, "Escolha o item para consertar..");
   var use_on := Target(who);
@@ -241,18 +241,18 @@ function repair_this(who, craft_skill := METALWORKING)
   var forge := 0;
   case(craft_skill)
      METALWORKING: forge := 1;
-     WOMENSWORK: 
-	if (is_tailor_item(use_on.objtype)) 
+     DomesticWork:
+	if (is_tailor_item(use_on.objtype))
 		repair_item( who, use_on, craft_skill);
-	else 
-		SendSysMessage(who, "Voce nao pode consertar isso.");	
+	else
+		SendSysMessage(who, "Voce nao pode consertar isso.");
 	endif
 	return;
      WOODWORKING:
-	if (is_carpentry_item(use_on.objtype)) 
+	if (is_carpentry_item(use_on.objtype))
 		repair_item( who, use_on, craft_skill);
-	else 
-		SendSysMessage(who, "Voce nao pode consertar isto.");	
+	else
+		SendSysMessage(who, "Voce nao pode consertar isto.");
 	endif
 	return;
 
@@ -281,7 +281,7 @@ function repair_this(who, craft_skill := METALWORKING)
   endif
   return;
 
-//SendSysMessage(character,"Você não possui habilidades para isto");
+//SendSysMessage(character,"VocÃª nÃ£o possui habilidades para isto");
 endfunction
 
 function is_weapon_armor(what)
@@ -296,7 +296,7 @@ function is_weapon_armor(what)
 endfunction
 
 function is_tailor_item(what)
-  var tailorcfg := ReadConfigFile(":womenswork:tailoring");
+  var tailorcfg := ReadConfigFile(":DomesticWork:tailoring");
   var elem := FindConfigElem(tailorcfg, what);
   //var repairable := GetConfigInt(elem, "repairable");  
   if (elem )
