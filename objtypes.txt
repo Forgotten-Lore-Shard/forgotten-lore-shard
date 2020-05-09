@@ -728,7 +728,7 @@
 0xdf4 magicwand3 combat
 0xdf5 magicwand4 combat
 # 0xdf6 - 0xdf8 unused
-0xdf9 cotton womenswork
+0xdf9 cotton domesticwork
 # 0xdfa - 0xdfd unused
 0xdfe cuthair hair
 # 0xdff - 0xe07 unused
@@ -738,7 +738,7 @@
 # 0xe18 - 0xe1b unused
 0xe1c tabuleirodegamao woodworking
 # 0xe1d - 0xe1e unused
-0xe1f yarn womenswork
+0xe1f yarn domesticwork
 0xe20 bloody bandages medicine
 0xe21 bandages medicine
 # 0xe22 - 0xe2c unused
@@ -902,18 +902,18 @@
 0xf90 Deadwood alchemy
 0xf91 WormHeart alchemy
 # 0xf92 - 0xf94 unused
-0xf95 bolt1 womenswork
-0xf96 bolt2 womenswork
-0xf97 bolt3 womenswork
-0xf98 bolt4 womenswork
-0xf99 bolt5 womenswork
-0xf9a bolt6 womenswork
-0xf9b bolt7 womenswork
-0xf9c bolt8 womenswork
-0xf9d SewingKit womenswork
-0xf9e Scissors womenswork
+0xf95 bolt1 domesticwork
+0xf96 bolt2 domesticwork
+0xf97 bolt3 domesticwork
+0xf98 bolt4 domesticwork
+0xf99 bolt5 domesticwork
+0xf9a bolt6 domesticwork
+0xf9b bolt7 domesticwork
+0xf9c bolt8 domesticwork
+0xf9d SewingKit domesticwork
+0xf9e Scissors domesticwork
 # 0xf9f unused
-0xfa0 Thread1 womenswork
+0xfa0 Thread1 domesticwork
 0xfa1 fechadura metalworking
 # 0xfa2 - 0xfa5 unused
 0xfa6 tabuleirodexadrez woodworking
@@ -1019,26 +1019,26 @@
 # 0x105e - 0x1066 unused
 0x1067 cutleather
 # 0x1068 unused
-0x1069 curtidor womenswork
-0x106a curingrack2 womenswork
-0x106b curingrack3 womenswork
-0x106c curingrack4 womenswork
-0x106d curingrack5 womenswork
-0x106e curingrack6 womenswork
-0x106f curingrack7 womenswork
+0x1069 curtidor domesticwork
+0x106a curingrack2 domesticwork
+0x106b curingrack3 domesticwork
+0x106c curingrack4 domesticwork
+0x106d curingrack5 domesticwork
+0x106e curingrack6 domesticwork
+0x106f curingrack7 domesticwork
 0x1070 TrainingDummy training
 # 0x1071 - 0x1073 unused
 0x1074 TrainingDummy2 training
 # 0x1075 - 0x1077 unused
 0x1078 hides
 0x1079 hides2
-0x107a curingrack8 womenswork
-0x107b curingrack9 womenswork
-0x107c curingrack14 womenswork
-0x107d curingrack10 womenswork
-0x107e curingrack11 womenswork
-0x107f curingrack12 womenswork
-0x1080 curingrack13 womenswork
+0x107a curingrack8 domesticwork
+0x107b curingrack9 domesticwork
+0x107c curingrack14 domesticwork
+0x107d curingrack10 domesticwork
+0x107e curingrack11 domesticwork
+0x107f curingrack12 domesticwork
+0x1080 curingrack13 domesticwork
 # 0x1081 - 0x1082 unused
 0x1083 uncookedpizza cooking
 # 0x1084 unused
@@ -1158,24 +1158,24 @@
 0x1384 Bestasemcorda woodworking
 0x1385 Bestapesadasemcorda woodworking
 # 0x1386 - 0x1387 unused
-0x1388 Capuz womenswork
-0x1389 Trajes religiosos womenswork
-0x138a Trajes religiosos womenswork
-0x138b CapaNobre womenswork
+0x1388 Capuz domesticwork
+0x1389 Trajes religiosos domesticwork
+0x138a Trajes religiosos domesticwork
+0x138b CapaNobre domesticwork
 # 0x138c unused
-0x138d CapaPeles womenswork
-0x138e CapaSimples womenswork
+0x138d CapaPeles domesticwork
+0x138e CapaSimples domesticwork
 # 0x138f unused
-0x1390 SaiaImprovisada womenswork
-0x1391 SaiaLonga womenswork
-0x1392 SaiaLongaNobre womenswork
-0x1393 EspartilhoNobre womenswork
-0x1394 VestidoSimples womenswork
-0x1395 VestidoEnfeitado womenswork
-0x1396 VestidoModerno womenswork
+0x1390 SaiaImprovisada domesticwork
+0x1391 SaiaLonga domesticwork
+0x1392 SaiaLongaNobre domesticwork
+0x1393 EspartilhoNobre domesticwork
+0x1394 VestidoSimples domesticwork
+0x1395 VestidoEnfeitado domesticwork
+0x1396 VestidoModerno domesticwork
 # 0x1397 unused
-0x1398 CamisaFeminina womenswork
-0x1399 TunicaNobre womenswork
+0x1398 CamisaFeminina domesticwork
+0x1399 TunicaNobre domesticwork
 # 0x139a - 0x13ae unused
 0x13af WarAxe combat
 # 0x13b0 - 0x13b1 unused
@@ -1309,36 +1309,36 @@
 # 0x1503 - 0x1504 unused
 0x1505 Harrow farming
 # 0x1506 - 0x1514 unused
-0x1515 Cloak womenswork
-0x1516 Skirt womenswork
-0x1517 Shirt womenswork
+0x1515 Cloak domesticwork
+0x1516 Skirt domesticwork
+0x1517 Shirt domesticwork
 # 0x1518 - 0x151f unused
 0x1520 torneiravat2 cooking
 0x1521 fundodovat cooking
 # 0x1522 - 0x1524 unused
 0x1525 torneiravat1 cooking
 # 0x1526 - 0x152d unused
-0x152e ShortPants womenswork
+0x152e ShortPants domesticwork
 # 0x152f - 0x1536 unused
-0x1537 Kilt womenswork
+0x1537 Kilt domesticwork
 # 0x1538 unused
-0x1539 LongPants womenswork
-0x153a LongPants2 womenswork
-0x153b HalfApron womenswork
+0x1539 LongPants domesticwork
+0x153a LongPants2 domesticwork
+0x153b HalfApron domesticwork
 # 0x153c unused
-0x153d FullApron womenswork
+0x153d FullApron domesticwork
 # 0x153e unused
-0x153f Bandana womenswork
+0x153f Bandana domesticwork
 # 0x1540 unused
-0x1541 BodySash womenswork
+0x1541 BodySash domesticwork
 # 0x1542 unused
-0x1543 Skullcap womenswork
+0x1543 Skullcap domesticwork
 # 0x1544 unused
-0x1545 BearMask womenswork
+0x1545 BearMask domesticwork
 # 0x1546 unused
-0x1547 DeerMask womenswork
+0x1547 DeerMask domesticwork
 # 0x1548 unused
-0x1549 TribalMask womenswork
+0x1549 TribalMask domesticwork
 # 0x154a - 0x15ae unused
 0x15af machadodebatalhaduegar combat
 # 0x15b0 - 0x15f7 unused
@@ -1358,22 +1358,22 @@
 # 0x166f - 0x170a unused
 0x170b Boots combat
 # 0x170c unused
-0x170d Sandals womenswork
+0x170d Sandals domesticwork
 # 0x170e unused
-0x170f Shoes womenswork
-0x1710 Shoes2 womenswork
+0x170f Shoes domesticwork
+0x1710 Shoes2 domesticwork
 0x1711 ThighBoots combat
 # 0x1712 unused
-0x1713 FloppyHat womenswork
-0x1714 WideBrimHat womenswork
-0x1715 Cap womenswork
-0x1716 TallStrawHat womenswork
-0x1717 StrawHat womenswork
-0x1718 wizardhat womenswork
-0x1719 Bonnet womenswork
-0x171a FeatheredHat womenswork
-0x171b TricorneHat womenswork
-0x171c Jesterhat womenswork
+0x1713 FloppyHat domesticwork
+0x1714 WideBrimHat domesticwork
+0x1715 Cap domesticwork
+0x1716 TallStrawHat domesticwork
+0x1717 StrawHat domesticwork
+0x1718 wizardhat domesticwork
+0x1719 Bonnet domesticwork
+0x171a FeatheredHat domesticwork
+0x171b TricorneHat domesticwork
+0x171c Jesterhat domesticwork
 0x171d peelbanana food
 0x171e peelbanana2 food
 0x171f banana food
@@ -1392,7 +1392,7 @@
 0x172c peach food
 0x172d pear food
 # 0x172e - 0x1765 unused
-0x1766 clothpiece womenswork
+0x1766 clothpiece domesticwork
 # 0x1767 - 0x182f unused
 0x1830 beker alchemy
 # 0x1831 unused
@@ -1494,7 +1494,7 @@
 # 0x19bc - 0x1a06 unused
 0x1a07 chain fls_core
 # 0x1a08 - 0x1a9b unused
-0x1a9c FlaxBundle womenswork
+0x1a9c FlaxBundle domesticwork
 # 0x1a9d - 0x1aa1 unused
 0x1aa2 hopscones cooking
 # 0x1aa3 - 0x1ad2 unused
@@ -1627,13 +1627,13 @@
 0x1ebc TinkerTools metalworking
 0x1ebd wheatsheaf cooking
 # 0x1ebe - 0x1efc unused
-0x1efd FancyShirt womenswork
+0x1efd FancyShirt domesticwork
 # 0x1efe unused
-0x1eff FancyDress womenswork
+0x1eff FancyDress domesticwork
 # 0x1f00 unused
-0x1f01 PlainDress womenswork
+0x1f01 PlainDress domesticwork
 # 0x1f02 unused
-0x1f03 deathrobe womenswork
+0x1f03 deathrobe domesticwork
 # 0x1f04 - 0x1f0a unused
 0x1f0b Orchelm combat
 # 0x1f0c - 0x1f13 unused
@@ -1710,7 +1710,7 @@
 0x1f6b summonfireelemscroll magery
 0x1f6c summonwaterelemscroll magery
 # 0x1f6d - 0x1f7a unused
-0x1f7b Doublet womenswork
+0x1f7b Doublet domesticwork
 # 0x1f7c unused
 0x1f7d glassofcider food
 # 0x1f7e - 0x1f80 unused
@@ -1733,9 +1733,9 @@
 0x1f9c pitcherofwine food
 # 0x1f9d unused
 0x1f9e pitcherofwater food
-0x1f9f JesterSuit womenswork
+0x1f9f JesterSuit domesticwork
 # 0x1fa0 unused
-0x1fa1 Tunic womenswork
+0x1fa1 Tunic domesticwork
 # 0x1fa2 - 0x1fd3 unused
 0x1fd4 BlackMoonGate moongates
 # 0x1fd5 - 0x1fe6 unused
@@ -1757,7 +1757,7 @@
 0x1ffa [n/a] doors
 0x1ffb [n/a] doors
 0x1ffc [n/a] doors
-0x1ffd Surcoat womenswork
+0x1ffd Surcoat domesticwork
 # 0x1ffe - 0x2005 unused
 0x2006 Corpse containers
 # 0x2007 - 0x203a unused
@@ -1791,7 +1791,7 @@
 # 0x2415 - 0x2554 unused
 0x2555 bighammer stonework
 # 0x2556 - 0x25ea unused
-0x25eb CheckeredShirt womenswork
+0x25eb CheckeredShirt domesticwork
 # 0x25ec - 0x2640 unused
 0x2641 DragonBreastplate combat
 0x2642 DragonBreastplate2 combat
@@ -1825,7 +1825,7 @@
 # 0x26ce unused
 0x26cf GreatSword combat
 # 0x26d0 - 0x278e unused
-0x278f Hood womenswork
+0x278f Hood domesticwork
 # 0x2790 - 0x27a4 unused
 0x27a5 ArcoYumi combat
 0x27a6 ClavadeAnfaugh combat
@@ -1884,7 +1884,7 @@
 0x2df5 ElvenReadingDesk woodworking
 # 0x2df6 - 0x2fb6 unused
 0x2fb7 aljavapequena woodworking
-0x2fb8 oculos womenswork
+0x2fb8 oculos domesticwork
 # 0x2fb9 - 0x2fca unused
 0x2fcb NumajaTunicFemale combat
 # 0x2fcc - 0x308b unused
@@ -1909,8 +1909,8 @@
 0x3162 QuitinaLeggings combat
 0x3163 QuitinaSleeves combat
 # 0x3164 - 0x3176 unused
-0x3177 CamisaNobre womenswork
-0x3178 CamisaFina womenswork
+0x3177 CamisaNobre domesticwork
+0x3178 CamisaFina domesticwork
 # 0x3179 - 0x317a unused
 0x317b NumajaTunic combat
 0x317c NumajaGloves combat
@@ -1964,29 +1964,29 @@
 # 0x398d - 0x3995 unused
 0x3996 FireField_NS walkon
 # 0x3997 - 0x3bbc unused
-0x3bbd CamisaModerna womenswork
-0x3bbe TunicaSimples womenswork
+0x3bbd CamisaModerna domesticwork
+0x3bbe TunicaSimples domesticwork
 # 0x3bbf unused
-0x3bc0 numajatunic womenswork
-0x3bc1 TunicaModerna womenswork
+0x3bc0 numajatunic domesticwork
+0x3bc1 TunicaModerna domesticwork
 # 0x3bc2 unused
-0x3bc3 cinto womenswork
+0x3bc3 cinto domesticwork
 # 0x3bc4 - 0x3bcd unused
-0x3bce EspartilhoSimples womenswork
-0x3bcf cintofeminino womenswork
-0x3bd0 cintofivela womenswork
-0x3bd1 TunicaGala womenswork
-0x3bd2 VestidodeFesta womenswork
+0x3bce EspartilhoSimples domesticwork
+0x3bcf cintofeminino domesticwork
+0x3bd0 cintofivela domesticwork
+0x3bd1 TunicaGala domesticwork
+0x3bd2 VestidodeFesta domesticwork
 0x3bd3 pistola fireweapons
 # 0x3bd4 - 0x3bd6 unused
 0x3bd7 bainhaealjava woodworking
-0x3bd8 ChapeuPirata womenswork
+0x3bd8 ChapeuPirata domesticwork
 0x3bd9 cintoutilidades woodworking
-0x3bda tapaolho womenswork
+0x3bda tapaolho domesticwork
 0x3bdb EspadasDuplas combat
 # 0x3bdc - 0x3be5 unused
 0x3be6 cachimbo tn
-0x3be7 WolfMask womenswork
+0x3be7 WolfMask domesticwork
 # 0x3be8 - 0x3bea unused
 0x3beb RangerSkirt combat
 # 0x3bec - 0x3c00 unused
@@ -2366,8 +2366,8 @@
 # 0x7023 unused
 0x7024 pearSeed farming
 # 0x7025 - 0x7027 unused
-0x7028 tapetedeed womenswork
-0x7029 tela womenswork
+0x7028 tapetedeed domesticwork
+0x7029 tela domesticwork
 0x702a peachSeed farming
 # 0x702b unused
 0x702c startercookbook cooking
@@ -2403,7 +2403,7 @@
 # 0x790e - 0x791b unused
 0x791c aljava woodworking
 # 0x791d unused
-0x791e PolarBearMask womenswork
+0x791e PolarBearMask domesticwork
 # 0x791f - 0x884f unused
 0x8850 marmore stonework
 0x8851 blocomarmore stonework
@@ -2439,7 +2439,7 @@
 # 0x9926 - 0x9933 unused
 0x9934 cascokuatoa survival
 # 0x9935 - 0x9944 unused
-0x9945 Robe womenswork
+0x9945 Robe domesticwork
 # 0x9946 - 0x9955 unused
 0x9956 basenarguile tn
 0x9957 narguile2 tn
@@ -2647,7 +2647,7 @@
 # 0xec2a - 0xed1f unused
 0xed20 courodraconiano survival
 # 0xed21 - 0xed28 unused
-0xed29 courodraconianocurtido womenswork
+0xed29 courodraconianocurtido domesticwork
 # 0xed2a - 0xedfe unused
 0xedff leech medicine
 # 0xee00 unused
@@ -2675,10 +2675,10 @@
 0xee3b madeiranegra gathering
 0xee3c madeiracogumelo gathering
 # 0xee3d - 0xee44 unused
-0xee45 courocurtido womenswork
+0xee45 courocurtido domesticwork
 0xee46 entranhas survival
-0xee47 cordadearco womenswork
-0xee48 kitdetrico womenswork
+0xee47 cordadearco domesticwork
+0xee48 kitdetrico domesticwork
 # 0xee49 - 0xee4c unused
 0xee4d Stew1 food
 # 0xee4e unused
@@ -2688,10 +2688,10 @@
 0xee52 pelebranca survival
 0xee53 pelemarrom survival
 0xee54 pelecinza survival
-0xee55 pelecinzacurtida womenswork
-0xee56 pelemarromcurtida womenswork
-0xee57 pelebegecurtida womenswork
-0xee58 pelebrancacurtida womenswork
+0xee55 pelecinzacurtida domesticwork
+0xee56 pelemarromcurtida domesticwork
+0xee57 pelebegecurtida domesticwork
+0xee58 pelebrancacurtida domesticwork
 # 0xee59 - 0xee5e unused
 0xee5f RabbitStew food
 # 0xee60 - 0xee65 unused
@@ -2710,7 +2710,7 @@
 # 0xee91 - 0xee98 unused
 0xee99 calcario gathering
 # 0xee9a - 0xeeef unused
-0xeef0 CombineCloth womenswork
+0xeef0 CombineCloth domesticwork
 # 0xeef1 - 0xef01 unused
 0xef02 vomit vomit
 # 0xef03 - 0xef10 unused
@@ -2729,15 +2729,15 @@
 0xef1d glanduladecobra alchemy
 0xef1e gravedust alchemy
 0xef1f alchemyrecipe alchemy
-0xef20 couroescamosocurtido womenswork
-0xef21 couroespessocurtido womenswork
-0xef22 couroanfibiocurtido womenswork
-0xef23 couroasperocurtido womenswork
-0xef24 couropeludocurtido womenswork
-0xef25 courotrollcurtido womenswork
-0xef26 couropolarcurtido womenswork
-0xef27 courogigantecurtido womenswork
-0xef28 couroterathancurtido womenswork
+0xef20 couroescamosocurtido domesticwork
+0xef21 couroespessocurtido domesticwork
+0xef22 couroanfibiocurtido domesticwork
+0xef23 couroasperocurtido domesticwork
+0xef24 couropeludocurtido domesticwork
+0xef25 courotrollcurtido domesticwork
+0xef26 couropolarcurtido domesticwork
+0xef27 courogigantecurtido domesticwork
+0xef28 couroterathancurtido domesticwork
 0xef29 ossodourado survival
 # 0xef2a - 0xef2f unused
 0xef30 ossovermelho survival
@@ -2772,7 +2772,7 @@
 # 0xf000 - 0xf021 unused
 0xf022 PuzzleChest mastermind
 # 0xf023 - 0xf124 unused
-0xf125 wool womenswork
+0xf125 wool domesticwork
 # 0xf126 - 0xfddd unused
 0xfdde bandages medicine
 # 0xfddf - 0xff03 unused
