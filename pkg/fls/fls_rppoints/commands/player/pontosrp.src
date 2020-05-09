@@ -1,4 +1,3 @@
-
 use uo;
 use util;
 use file;
@@ -99,17 +98,9 @@ function SendCheckRP(who, conta)
 		GFTextLine(gump, 35, x, 1153, "[10*Nivel] Adquirir um Pergaminho de Habilidade do Nivel Desejado.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 6);
 
-		#x := x +20;
-		#GFTextLine(gump, 35, x, 1153, "[100] Adquirir um slot extra de personagem por 30 dias.");
-		#GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 7);
-
 		x := x +20;
 		GFTextLine(gump, 35, x, 1153, "[200] Barganhar por um Objeto Especial de Roleplay.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 8);
-
-		#x := x +20;
-		#GFTextLine(gump, 35, x, 1153, "[200] Obter +20 nas skills do proximo personagem criado na conta.");
-		#GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 9);
 
 	endif
 
@@ -140,12 +131,6 @@ function SendCheckRP(who, conta)
 			endif
 			var true_skill := AP_GetTrueSkill(who, skill);
 			var temp := true_skill+0.1;
-			#while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(who, skill)) )
-			#	// Kludge for an old core precision bug.
-			#	// Makes sure it always goes up atleast 0.1.
-			#	temp := temp+0.1;
-			#	sleepms(10);
-			#endwhile
 			AP_SetTrueSkill(who, skill, temp);
 			decGrade(who, 15);
 			MakeLog(conta, 15, "Aumentar Pericia", "Aumentou a Pericia " + skill);
