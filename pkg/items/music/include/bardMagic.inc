@@ -107,7 +107,6 @@ function BardBuff(who,item,notas,notas2,tempo,magica)
 				//SendSysmessage (mobile, "*Voce sente-se desencorajado(a) pela musica*", BARD_FONT, BARD_FONT_COLOR_BAD); //Exibe no canto esquerdo. Usar se quiser que afete player.
 			elseif ((mobile.connected) && (mobile == who))
 					PrintTextAbove(Mobile, "*Tocando musica desencorajadora*", BARD_FONT, BARD_FONT_COLOR_ITEM); //Exibe sobre cabeca do bardo
-				endif
 			endif
 		endforeach
 	elseif (magica == 6) //PARALIZE
