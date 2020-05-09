@@ -43,7 +43,7 @@ function ContainerIsLocked(mobile, container)
 		return 0;
 	else
 		// PrintTextAbovePrivate(container, "Isto esta trancado.", mobile);
-		PrintText(mobile, "Tentou abrir " +container.desc++ " mas estava trancado*");
+		PrintText(mobile, "Tentou abrir " +container.desc+ " mas estava trancado*");
 		return 1;
 	endif
 endfunction
