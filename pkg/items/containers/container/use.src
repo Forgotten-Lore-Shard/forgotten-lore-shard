@@ -39,7 +39,7 @@ function ContainerIsLocked(mobile, container)
 		return 0;
 	elseif ( KP_HasKeyForLock(mobile, container) )
 		// SendSysMessage(mobile, "Voce abre o container com a chave.");
-		PrintText(mobile, "*Usou uma chave em " +container.desc++"*");
+		PrintText(mobile, "*Usou uma chave em " +container.desc+"*");
 		return 0;
 	else
 		// PrintTextAbovePrivate(container, "Isto esta trancado.", mobile);
