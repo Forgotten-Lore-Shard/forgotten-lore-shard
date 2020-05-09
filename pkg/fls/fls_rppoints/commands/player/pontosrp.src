@@ -257,8 +257,6 @@ function SendCheckRP(who, conta)
 				pergaminho := 0x6158;
 			elseif (diff == 6)
 				pergaminho := 0x6159;
-			#elseif (diff == 8)
-			#	pergaminho := 0x6160;
 			endif
 			pergaminho := CreateItemInBackpack( who, pergaminho, 1);
 			if (!pergaminho)
