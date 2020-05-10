@@ -19,7 +19,7 @@ program motherbrain(who)
 
 	society.+nome := RequestGump(who, "Escreva o nome da sociedade/tribo (o nome nao pode ser o mesmo que as existentes):", "", "", 1);
 	
-	var base := YesNo(who, "Voce deve escolher a base principal da sociedade, é la onde serao spawnados os npcs. Um target vai aparecer caso queira adicionar um base.");
+	var base := YesNo(who, "Voce deve escolher a base principal da sociedade, Ã© la onde serao spawnados os npcs. Um target vai aparecer caso queira adicionar um base.");
 	if (!base)
 		SendSysMessage(who, "Cancelado");
 		return;
@@ -43,7 +43,7 @@ program motherbrain(who)
 	society.+objetivos := CheckBoxGump(who, 400, 480, "Escolha os objetivos.", objdata.keys());
 	society.+npcs := array{};
 	
-	var salvar := YesNo(who, "Configuração concluida. Deseja adicionar essa sociedade na motherbrain?");
+	var salvar := YesNo(who, "ConfiguraÃ§Ã£o concluida. Deseja adicionar essa sociedade na motherbrain?");
 	if (salvar)
 		var elem := motherdata.CreateElement(society.nome);
 		var ret := elem.setprop("societyinfo", society);

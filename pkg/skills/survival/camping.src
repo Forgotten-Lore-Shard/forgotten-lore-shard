@@ -54,7 +54,7 @@ program UseWood( who, wood )
                 var itemnearby := ListItemsNearLocation( x, y, z, 8 );
 		foreach item in itemnearby
 			if ( (item.graphic == 3555) )
-				SendSysMessageEx(who, "Já existe outro acampamento pronto por perto.", SSM_FAIL );
+				SendSysMessageEx(who, "JÃ¡ existe outro acampamento pronto por perto.", SSM_FAIL );
 				return;
 			endif
 		endforeach  

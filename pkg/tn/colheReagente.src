@@ -39,7 +39,7 @@ program colheReagente(who, item)
 	
 	
 	if (!item)
-		SendSysMessage(who, "Voce nao tem espaço na sua mochila.");
+		SendSysMessage(who, "Voce nao tem espaÃ§o na sua mochila.");
 		return;
 	else
 		SendSysMessage(who, "Voce colheu a planta");

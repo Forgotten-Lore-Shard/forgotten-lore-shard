@@ -31,7 +31,7 @@ program SpellScript(params)
 		//SetName(targ, GetObjProperty(targ, "realdesc"));
 		PrintText(targ, "*consertada*");
 	else
-		PrintText(targ, "*nenhuma mudança aparente*");
+		PrintText(targ, "*nenhuma mudanÃ§a aparente*");
 	endif
 	
 

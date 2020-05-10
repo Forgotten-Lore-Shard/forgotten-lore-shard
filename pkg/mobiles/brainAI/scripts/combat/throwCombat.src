@@ -1,6 +1,6 @@
 /*
 throwCombat - Katabrok
-AI Settings necess·rias:
+AI Settings necess√°rias:
   throwHit (int sound)
   throwDamage (string dice)
   throwItem (int item)

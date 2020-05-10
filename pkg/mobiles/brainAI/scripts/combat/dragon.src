@@ -1,6 +1,6 @@
 /*
 dragon - Katabrok
-AI Settings necess·rias:
+AI Settings necess√°rias:
   BreathRange (int dist)
   BreathRadius (int dist)
   BreathDamage (string dice)

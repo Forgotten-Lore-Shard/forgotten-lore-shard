@@ -2,7 +2,7 @@
 /*
 	Comentado SAVEONEXIT
 	Comentado USESCRIPT
-	If alterado para s� poder ser usado por staffers
+	If alterado para só poder ser usado por staffers
 
 
 */
@@ -183,7 +183,7 @@ program architect_gump(who)
               lang["show_hexdec"],
               lang["quit"],
               "Export in sphere TXT Format",
-              "Baukosten sch�tzen"
+              "Baukosten schotzen"
       };
       layout:= array{
             "page 0",

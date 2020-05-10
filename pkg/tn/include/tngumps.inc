@@ -82,7 +82,7 @@ function AutoCheckBox(mobile, prompt, options, returnKeys := 0)
 	//endforeach
 	
 	GFAddButton(gump, sizex-70, sizey-60, 4502, 4502, 1, 999 );
-	GFTextLine(gump, sizex-110, sizey-50, 1153, "PrÛximo");
+	GFTextLine(gump, sizex-110, sizey-50, 1153, "Pr√≥ximo");
   
 	var ret := array;
   
@@ -140,7 +140,7 @@ function CheckBoxGump(mobile, sizex, sizey, prompt:="", options, opts := 0)
   endforeach
 	
     GFAddButton(gump, sizex-70, sizey-60, 4502, 4502, 1, 999 );
-    GFTextLine(gump, sizex-110, sizey-50, 1153, "PrÛximo");
+    GFTextLine(gump, sizex-110, sizey-50, 1153, "Pr√≥ximo");
     
   var ret := array;
   
@@ -184,7 +184,7 @@ function RadioGump(mobile, sizex, sizey, prompt:="", options, returnkeys := 0, f
   endforeach
 	
   GFAddButton(gump, sizex-70, sizey-60, 4502, 4502, 1, 999 );
-	GFTextLine(gump, sizex-110, sizey-50, 1153, "PrÛximo");
+	GFTextLine(gump, sizex-110, sizey-50, 1153, "Pr√≥ximo");
   
 	var input := GFSendGump(mobile, gump);
 	if ( input[0] == 999 )
@@ -482,7 +482,7 @@ endfunction
 ////////
 // options = [
 //    { 
-//       text = Essa OpÁ„o, 
+//       text = Essa Op√ß√£o,
 //       Icon = 7748, 
 //       Item = item.graphic,
 //       color = 0
@@ -555,8 +555,8 @@ function PositionGump(who, cur_x := 0, cur_y := 0)
          endfor
       endfor
 
-      GFTextLine(gump, 433, 336, 2212, "Clique em um bot„o para reposicionar");
-      GFTextLine(gump, 765, 558, 2212, "Clique em um bot„o para reposicionar");
+      GFTextLine(gump, 433, 336, 2212, "Clique em um bot√£o para reposicionar");
+      GFTextLine(gump, 765, 558, 2212, "Clique em um bot√£o para reposicionar");
       SetGlobalProperty("#resize_gump", struct{ gump := gump, positions := positions});
    else
       positions := gump.positions;

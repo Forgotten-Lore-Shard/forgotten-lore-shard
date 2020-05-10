@@ -28,8 +28,8 @@ program SpellScript(params)
   if (amt < 20)
     amt := 20;
   endif
-  TS_StartTimer(targ, "gloria", GetSpellDuration(AP_GetSkill(who, MAGICLORE)), amt); //dura de 40 à 200 seg e aumenta de 20 a 100%.
-  SendSysMessageEx(targ, "Voce tem a precisão de uma águia.", SSM_INFO);
+  TS_StartTimer(targ, "gloria", GetSpellDuration(AP_GetSkill(who, MAGICLORE)), amt); //dura de 40 a 200 seg e aumenta de 20 a 100%.
+  SendSysMessageEx(targ, "Voce tem a precisÃ£o de uma Ã¡guia.", SSM_INFO);
 
   return 1;
 endprogram

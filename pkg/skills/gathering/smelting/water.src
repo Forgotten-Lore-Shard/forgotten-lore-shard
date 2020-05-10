@@ -140,7 +140,7 @@ function DeterminaLiga(metals, who)
         endforeach
 
 
-	if ( (metais.size() == 2) && ("ferro"  in metais ) && ("estanho" in metais)  ) //aço
+	if ( (metais.size() == 2) && ("ferro"  in metais ) && ("estanho" in metais)  )
 		return 0x6995;
 	elseif ( (metais.size() == 2) && ("galvorn" in metais) && ("helce" in metais)  )
 		return 0x6998;

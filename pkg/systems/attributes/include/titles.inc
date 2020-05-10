@@ -25,9 +25,9 @@ include ":attributes:attributes";
  */
 function AP_GetLevelTitle(skill_level)
 	if (skill_level >= 110)
-		return "Lendário";
+		return "LendÃ¡rio";
 	elseif (skill_level >= 100)
-		return "Grão Mestre";
+		return "GrÃ£o Mestre";
 	elseif (skill_level >= 90)
 		return "Mestre";
 	elseif (skill_level >= 80)
@@ -49,7 +49,7 @@ function AP_GetLevelTitle(skill_level)
 	elseif (skill_level >= 5)
 		return "Destreinado";
 	else
-		return "Inábil";
+		return "InÃ¡bil";
 	endif
 /*	
 	skill_level := Cdbl(skill_level);

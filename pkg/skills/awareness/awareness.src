@@ -50,13 +50,13 @@ function Choose(mobile)
 	GFResizePic(yn_gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 370, 150); //175);
 	
 	var y_pos := 20;
-	GFTextLine(yn_gump, 20, y_pos, 1153, "Escolha uma opção.");
+	GFTextLine(yn_gump, 20, y_pos, 1153, "Escolha uma opÃ§Ã£o.");
 	y_pos := y_pos+40;
 	GFAddButton(yn_gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, 1);
-	GFTextLine(yn_gump, 40, y_pos, 1153, "Examinar algo específico.");
+	GFTextLine(yn_gump, 40, y_pos, 1153, "Examinar algo especÃ­fico.");
 	y_pos := y_pos+40;
 	GFAddButton(yn_gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, 2);
-	GFTextLine(yn_gump, 40, y_pos, 1153, "Examinar a área que estou.");
+	GFTextLine(yn_gump, 40, y_pos, 1153, "Examinar a Ã¡rea que estou.");
 	y_pos := y_pos+40;
 	GFAddButton(yn_gump, 20, (y_pos+3), 2117, 2118, GF_CLOSE_BTN, 3);
 	var ignore := GetObjProperty(mobile, "IgnoreHidden");

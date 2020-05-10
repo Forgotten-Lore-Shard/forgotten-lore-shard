@@ -1,7 +1,7 @@
 /*
 1- so quem tem tag pode por coisa pra vender OK
 2- cada coisa q vc colocou la tem seu id OK
-3- voce pode setar o preÁo das coisas OK
+3- voce pode setar o pre√ßo das coisas OK
 4- voce pode remover coisas  OK
 5- quando o npc vende o dinheiro vai pro seu id (uma prop) e 10% vai pro npc  OK
 6- player comuns (sem tag)so podem comprar e nao vende OK
@@ -135,7 +135,7 @@ program MerchantMenu(params)
 		if (Aceito)
 			var escolhido := listaprodutos[pagina + CStr(input[0])];
 			if (escolhido != error || escolhido != 0)
-				AI_Speak(npc, "Aqui est„o suas Moedas!");
+				AI_Speak(npc, "Aqui est√£o suas Moedas!");
 				CreateItemInBackpack(player,MOEDAS,escolhido.amount * GetObjProperty(escolhido, "valorgem"));
 				DestroyItem(escolhido);
 			else

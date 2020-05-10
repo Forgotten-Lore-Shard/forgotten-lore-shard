@@ -68,11 +68,11 @@ case (estilo)
   break;
 "trancar":
   cabelonovo:= CreateItemAtLocation( who.x, who.y, who.z-4, tranca,  1, realm );
-  PrintText(who, "*trança o cabelo*");
+  PrintText(who, "*tranÃ§a o cabelo*");
   break;
 "trancalonga":
   cabelonovo:= CreateItemAtLocation( who.x, who.y, who.z-4, trancalonga,  1, realm );
-  PrintText(who, "*trança o cabelo*");
+  PrintText(who, "*tranÃ§a o cabelo*");
   break;
 "flor":
   cabelonovo:= CreateItemAtLocation( who.x, who.y, who.z-4, flor,  1, realm );

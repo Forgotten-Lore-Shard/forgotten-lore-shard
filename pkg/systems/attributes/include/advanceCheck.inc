@@ -454,7 +454,7 @@ function limiteportempo (who)
    lim := lim + (CInt(GetObjproperty(who, "nota"))*5); // Influencia de -10 -5 0 +5 +10 dependendo da nota RP
 
    if (lim < 2.5)
-      lim := 2.5; // Valor m�nimo de 2.5
+      lim := 2.5; // Valor minimo de 2.5
    endif
 
    return lim;

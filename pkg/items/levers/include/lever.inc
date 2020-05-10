@@ -160,7 +160,7 @@ function normalusage(who, item)
 
    if (opts.all_levers)
       if (!CheckAllLevers(item, lever_list, opts)) 
-         SendSysMessageEx(who, "Você não percebe nada de diferente", SSM_FAIL);
+         SendSysMessageEx(who, "VocÃª nÃ£o percebe nada de diferente", SSM_FAIL);
          if (RunTraps(item, who)) //se estiver errado, vai cair no outro runtraps
             SetObjProperty(item, "trapSpoted", 1);
             PrintText(who, "*dispara armadilha*"); 
@@ -181,7 +181,7 @@ function normalusage(who, item)
 
    var msg := opts.ontext;
    if(!msg)
-      msg := "Você ouve algo se movendo...";
+      msg := "VocÃª ouve algo se movendo...";
    endif
    SendSysMessageEx(who, msg, SSM_INFO);
 

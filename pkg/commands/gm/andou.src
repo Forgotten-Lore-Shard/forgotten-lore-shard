@@ -12,5 +12,5 @@ while(quem.x == x && quem.y == y)
 endwhile
 
 SetObjProperty(quem, "#torobando", 0);
-sendsysmessage(quem, "voce nao est· mais furtando.");
+sendsysmessage(quem, "voce nao est√° mais furtando.");
 endprogram

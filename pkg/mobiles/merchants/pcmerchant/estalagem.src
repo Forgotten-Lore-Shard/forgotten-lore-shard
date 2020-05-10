@@ -173,7 +173,7 @@ program MerchantMenu(params)
 		endif
 	elseif (input[0] == 400)//entregar quarto
 	
-		var yes := yesno(player, "Deseja devolver o quarto?  Seus itens ser„o deletados." );
+		var yes := yesno(player, "Deseja devolver o quarto?  Seus itens ser√£o deletados." );
 		var quarto := quartos[meuquarto];
 		if (yes)
 			var cent := quarto.centro;
@@ -231,7 +231,7 @@ program MerchantMenu(params)
 		endforeach
 		
 	elseif (input[0] == 600) //linkar mural
-		SendSysMessageEx(player, "Escolha o Mural que o NPC anunciara a cobranÁa de alugueis.");
+		SendSysMessageEx(player, "Escolha o Mural que o NPC anunciara a cobran√ßa de alugueis.");
 		var mural := Target(player, TGTOPT_NOCHECK_LOS+TGTOPT_NEUTRAL);
 		if (mural.objtype != 0x1E5E && mural.objtype != 0x1E5F)
 			SendSysMessageEx(player, "Isto nao e um BulletinBoard =[.", SSM_FAIL);

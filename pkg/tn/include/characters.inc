@@ -99,7 +99,7 @@ function RemoveKitsSkillsMods(who)
 
 endfunction
 
-//as funções abaixo sao old. usadas no antigo sistema de classes
+//as funÃ§Ãµes abaixo sao old. usadas no antigo sistema de classes
 // nada de util
 // pode deletar acho
 

@@ -5,7 +5,7 @@ function ICP_ItemDescGump(pkg_name)
 	var item_cfg := ReadConfigFile(":"+pkg_name+":itemdesc");
 	var elem_names := GetConfigStringKeys(item_cfg);
 	if ( !item_cfg || elem_names.size() < 1 )
-		GFTextMid(gump, 0, 250, 500, 2100, "Não há itens que pertençam a este package");
+		GFTextMid(gump, 0, 250, 500, 2100, "NÃ£o hÃ¡ itens que pertenÃ§am a este package");
 	else
 		var y_pos := 100;
 		var x_pos := 25;
@@ -58,9 +58,9 @@ function ICP_ItemDescGump(pkg_name)
 endfunction
 
 function ICP_CreateItem(who, object)
-	var question := "Onde você deseja colocar o item que está prestes a criar?";
+	var question := "Onde vocÃª deseja colocar o item que estÃ¡ prestes a criar?";
 	var yes := "Na minha mochila.";
-	var no := "Nos meus pés no chão.";
+	var no := "Nos meus pÃ©s no chÃ£o.";
 
 	var create_method := YesNo(who, question, yes, no);
 	var item := 0;

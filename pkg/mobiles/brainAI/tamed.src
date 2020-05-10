@@ -10,7 +10,7 @@ use storage;
  * comandos:
  * - procure ajuda
  * - encontre caminho
- * - caçar
+ * - caÃ§ar
  * - fingir de morto
  * - procurar item
  * - posicoes de batalha
@@ -230,7 +230,7 @@ program TamedAI()
 endprogram
 
 /////////////////////////////////
-/////// FUNÇÕES GERAIS //////////
+/////// FUNCOES GERAIS //////////
 /////////////////////////////////
 
 
@@ -582,7 +582,7 @@ endfunction
 
 
 /////////////////////////////////
-//////// MOVIMENTAÇÂO ///////////
+//////// MOVIMENTACAO ///////////
 /////////////////////////////////
 
 
@@ -917,7 +917,7 @@ endfunction
 
 function DeliverItem(tobj, twho)
 	PrintTextAbove(me, "*estende " + tobj.desc + " apontando para " + twho.name + "*");
-	var trade := YesNo(twho, me.name + " está te oferecendo " + tobj.desc + ". Aceita?", "Sim, muito obrigado.", "Não, eu não aceito!");
+	var trade := YesNo(twho, me.name + " estÃ¡ te oferecendo " + tobj.desc + ". Aceita?", "Sim, muito obrigado.", "NÃ£o, eu nÃ£o aceito!");
 	if(trade)
 		MoveItemToContainer(tobj, twho.backpack);
 		PrintTextAbove(twho, "*pega " + tobj.desc + " e coloca na bolsa*");

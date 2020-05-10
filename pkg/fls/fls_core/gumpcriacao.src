@@ -9,8 +9,8 @@ include "include/client";
 include ":fls_core:fls_chargumps";
 include ":fls_core:fls_characters";
 
-//introdução - ok
-//Nome do Personagem, Classe e Raça - ok
+//introduÃ§Ã£o - ok
+//Nome do Personagem, Classe e RaÃ§a - ok
 //Escolha de cabelo, barba, cor de cabelo e barba e de pele. - ok
 //Compra de atributos - ok
 //compra de skills -  ok

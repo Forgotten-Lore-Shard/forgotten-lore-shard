@@ -91,7 +91,7 @@ if(((item.objtype==0xec25)||(item.objtype==0xec26)) && (hits > 0))
 	PlayStationaryEffect(item.x, item.y, item.z, FX_SMOKE, 2, 4);
 	ConsumeVital( who, STAMINA, 2000 );
 	
-	PrintText(item, "*A " +item.desc+ " começa a ceder*");
+	PrintText(item, "*A " +item.desc+ " comeÃ§a a ceder*");
 	SetObjProperty(item,"hits",hits-1);
 
 else

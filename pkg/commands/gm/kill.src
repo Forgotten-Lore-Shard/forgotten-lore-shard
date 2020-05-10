@@ -16,7 +16,7 @@ program textcmd_Kill(who)
 	endif
 	
     if (targ.acctname == "Arandur")
-        SendSysMessage(who, "Voce n„o pode matar O Papai Urso.");
+        SendSysMessage(who, "Voce n√£o pode matar O Papai Urso.");
         return 1;
 	endif
 

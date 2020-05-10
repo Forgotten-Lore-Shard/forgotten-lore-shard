@@ -37,12 +37,12 @@ function ConstructGump(item)
       GFTextLine(gump, 45, y, _ifElse(opts.moveitems, 520, 500), "Mover objetos");
       GFAddButton(gump, 25, y+2, 2117, 2118, GF_CLOSE_BTN, 101);
       y += 20;
-      GFTextLine(gump, 45, y, _ifElse(opts.teleport_to, 520, 500), "Teleportar usu·rio");
+      GFTextLine(gump, 45, y, _ifElse(opts.teleport_to, 520, 500), "Teleportar usu√°rio");
       GFAddButton(gump, 25, y+2, 2117, 2118, GF_CLOSE_BTN, 5);
    endif
    
    y += 20;
-   GFTextLine(gump, 45, y, _ifElse(opts.graphicarrays, 520, 500), "Mudar gr·fico da alavanca");
+   GFTextLine(gump, 45, y, _ifElse(opts.graphicarrays, 520, 500), "Mudar gr√°fico da alavanca");
    GFAddButton(gump, 25, y+2, 2117, 2118, GF_PAGE_BTN, 2);
    y += 20;
    GFTextLine(gump, 45, y, _ifElse(GetObjProperty(item, "HaveTrap"), 520, 500), "Adicionar armadilhas");
@@ -72,7 +72,7 @@ function ConstructGump(item)
    GFAddButton(gump, 25, y+2, 2117, 2118, GF_CLOSE_BTN, 8);
 
    GFPage(gump, 2);
-   GFTextLine(gump, 145, 50, 900, "Escolha o gr·fico da alavanca");
+   GFTextLine(gump, 145, 50, 900, "Escolha o gr√°fico da alavanca");
 
    GFTilePic(gump, 105, 120, 4237);
    GFAddButton(gump, 85, 130, 210, 211, GF_CLOSE_BTN, 20);
@@ -165,7 +165,7 @@ endprogram
 function setMoveObject(who, item)
    var opts := item.GetLeverOpts();
 
-   SendSysMessageEx(who, "Escolha o que vocÍ deseja mover.");
+   SendSysMessageEx(who, "Escolha o que voc√™ deseja mover.");
    var trg;
    var newarray := array{};
    while(1 && who.connected)
@@ -183,8 +183,8 @@ function setMoveObject(who, item)
    if (!opts.movetime) opts.movetime := 15; endif
 
    var input_list := array{};
-   input_list.append(struct{ "title" := "Quantas vezes ser· repetido o movimento?", "marked" := ""+cint(opts.movetime) });
-   input_list.append(struct{ "title" := "Qual posiÁ„o ser· movida? (+x +y +z)", "marked" := " ".join(opts.movefinal) });
+   input_list.append(struct{ "title" := "Quantas vezes ser√° repetido o movimento?", "marked" := ""+cint(opts.movetime) });
+   input_list.append(struct{ "title" := "Qual posi√ß√£o ser√° movida? (+x +y +z)", "marked" := " ".join(opts.movefinal) });
    var output := QuestionsGump(who, input_list);
    if (!output)
       return;
@@ -217,7 +217,7 @@ function setPowerEvent(who, item)
    if (!powerword) powerword := ""; endif
 
    var input_list := array{};
-   input_list.append(struct{ "title" := "Qual frase ir· revelar a alavanca? (em branco para remover)", "marked" := powerword });
+   input_list.append(struct{ "title" := "Qual frase ir√° revelar a alavanca? (em branco para remover)", "marked" := powerword });
    var output := QuestionsGump(who, input_list);
    if (!output)
       return;
@@ -264,14 +264,14 @@ endfunction
 function setOpenDoor(who, item)
    var opts := item.GetLeverOpts();
    var newarray := array{};
-   SendSysMessageEx(who,"Escolha a porta que vocÍ deseja linkar com esta alavanca. Esc para cancelar");
+   SendSysMessageEx(who,"Escolha a porta que voc√™ deseja linkar com esta alavanca. Esc para cancelar");
    var trg;
    while(1)
          trg := Target(who);
          if(!trg)
             break;
          elseif (!trg.isDoor())
-            SendSysMessageEx(who, "Isso n„o È uma porta", SSM_FAIL);
+            SendSysMessageEx(who, "Isso n√£o √© uma porta", SSM_FAIL);
             continue;
          endif
          newarray.append(trg.serial);
@@ -302,7 +302,7 @@ function setOnofftext(who, item)
    if (!opts.ontext) opts.ontext := ""; endif
 
    var input_list := array{};
-   input_list.append(struct{ "title" := "Qual frase ser· enviada quando alavanca for ativada?", "marked" := opts.ontext });
+   input_list.append(struct{ "title" := "Qual frase ser√° enviada quando alavanca for ativada?", "marked" := opts.ontext });
    var output := QuestionsGump(who, input_list);
    if (!output)
       return;
@@ -328,14 +328,14 @@ endfunction
 function doorstatus(who, item)
    var opts := item.GetLeverOpts();
    var newarray := array{};
-   SendSysMessageEx(who,"Escolha a porta que vocÍ deseja linkar com esta alavanca. Esc para cancelar", SSM_REQUEST);
+   SendSysMessageEx(who,"Escolha a porta que voc√™ deseja linkar com esta alavanca. Esc para cancelar", SSM_REQUEST);
    var trg;
    while(1)
       trg := Target(who);
       if(!trg)
          break;
       elseif (!trg.isDoor())
-         SendSysMessageEx(who, "Isso n„o È uma porta", SSM_FAIL);
+         SendSysMessageEx(who, "Isso n√£o √© uma porta", SSM_FAIL);
          continue;
       endif
       newarray.append(trg.serial);
@@ -352,7 +352,7 @@ endfunction
 function bindlights(who, item)
    var opts := item.GetLeverOpts();
    var newarray := array{};
-   SendSysMessageEx(who,"Escolha as luzes que vocÍ deseja linkar com esta alavanca. Esc para cancelar", SSM_REQUEST);
+   SendSysMessageEx(who,"Escolha as luzes que voc√™ deseja linkar com esta alavanca. Esc para cancelar", SSM_REQUEST);
    var trg;
    while(1)
       trg := Target(who);
@@ -374,8 +374,8 @@ endfunction
 
 function bindlevers(who, item)
    var opts := item.GetLeverOpts();
-   SendSysMessageEx(who,"Escolha as alavancas que vocÍ deseja linkar com esta alavanca. Esc para cancelar", SSM_REQUEST);
-   SendSysMessageEx(who,"As alavancas escolhidas perder„o suas proprieades e funcionar„o", SSM_INFO);
+   SendSysMessageEx(who,"Escolha as alavancas que voc√™ deseja linkar com esta alavanca. Esc para cancelar", SSM_REQUEST);
+   SendSysMessageEx(who,"As alavancas escolhidas perder√£o suas proprieades", SSM_INFO);
    SendSysMessageEx(who,"em conjunto com esta alavanca", SSM_INFO);
    var trg;
    var newarray := array{};
@@ -384,7 +384,7 @@ function bindlevers(who, item)
       if(!trg)
          break;
       elseif (trg.objtype != 0x108c)
-         SendSysMessageEx(who,"Isso n„o È uma alavanca.");
+         SendSysMessageEx(who,"Isso n√£o √© uma alavanca.");
          continue;
       endif
 
@@ -398,8 +398,8 @@ function bindlevers(who, item)
 
    opts.linked_to := newarray;
    var input_list := array{};
-   input_list.append(struct{ "title" := "Todas as alavancas devem ser acionadas?", "marked" := cint(opts.all_levers)+1, "radio" := array{"N„o", "Sim"} });
-   input_list.append(struct{ "title" := "Precisam ordem para serem acionadas (random)?", "marked" := cint(opts.all_levers_order)+1, "radio" := array{"N„o", "Sim"} });
+   input_list.append(struct{ "title" := "Todas as alavancas devem ser acionadas?", "marked" := cint(opts.all_levers)+1, "radio" := array{"N√£o", "Sim"} });
+   input_list.append(struct{ "title" := "Precisam ordem para serem acionadas (random)?", "marked" := cint(opts.all_levers_order)+1, "radio" := array{"N√£o", "Sim"} });
    var output := QuestionsGump(who, input_list);
    if (!output)
       return;
@@ -449,10 +449,10 @@ endfunction
 function togglewalkon(who, item)
    var opts := item.GetLeverOpts();
    if (opts.walkon)
-      SendSysMessageEx(who, "O item n„o ser· mais ativado ao andar por cima", SSM_FAIL);
+      SendSysMessageEx(who, "O item n√£o ser√° mais ativado ao andar por cima", SSM_FAIL);
       opts.-"walkon";
    else
-      SendSysMessageEx(who, "O item ser· mais ativado ao andar por cima", SSM_INFO);
+      SendSysMessageEx(who, "O item ser√° mais ativado ao andar por cima", SSM_INFO);
       opts.walkon := 1;
    endif
    item.setLeverOpts(opts);

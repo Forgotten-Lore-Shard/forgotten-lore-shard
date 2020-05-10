@@ -61,7 +61,7 @@ function getCondition(item)
 	elseif (c > 0.3)
 		return "Bastante Danificada";
 	else
-		return "Quebradi鏰";
+		return "Quebradi莽a";
 	endif
 endfunction
 
@@ -105,11 +105,11 @@ function TranslateHit(crit)
 	elseif (crit == "chargehit")
 		return "Carga";
 	elseif (crit == "concussionhit")
-		return "Concuss鉶";
+		return "Concuss茫o";
 	elseif ( crit == "freearmorhit")
 		return "Movimento Livre";
 	elseif (crit == "heighthit")
-		return "Diferen鏰 de Altura";
+		return "Diferen莽a de Altura";
 	elseif ( crit == "QueimaRoupa")
 		return "Tiro a Queima Roupa";
 	elseif ( crit == "pushback")
@@ -269,7 +269,7 @@ exported function MegaCliloc( who, byref packet )
 
 		if (GetObjProperty(item,"magic"))
 			if (temHabilidade(who, "Detectar Item Magico"))
-				xDesc := xDesc + blue + "M醙ico<br>";
+				xDesc := xDesc + blue + "M芒gico<br>";
 			endif
 		endif
 
@@ -297,7 +297,7 @@ exported function MegaCliloc( who, byref packet )
 					if (temHabilidade(who, "Arqueologo"))
 						xDesc := xDesc + white + "" + desc + "<BR>";
 					else
-						xDesc :=  xDesc + "*Inscri珲es em L韓gua Desconhecida*<BR>";
+						xDesc :=  xDesc + "*Inscri莽玫es em L铆ngua Desconhecida*<BR>";
 					endif
 			else
 				xDesc := xDesc + white + "" + desc + "<BR>";
@@ -363,17 +363,17 @@ exported function MegaCliloc( who, byref packet )
 				if (mods != error)
 					foreach mod in (mods.keys())
 						if (mod == "strmod")
-							xDesc := xDesc + blue + "B鬾us For <br>";
+							xDesc := xDesc + blue + "B么nus For <br>";
 						elseif (mod == "dexmod")
-							xDesc := xDesc + blue + "B鬾us Des <br>";
+							xDesc := xDesc + blue + "B么nus Des <br>";
 						elseif (mod == "intmod")
-							xDesc := xDesc + blue + "B鬾us Int <br>";
+							xDesc := xDesc + blue + "B么nus Int <br>";
 						elseif (mod == "hitsmod")
-							xDesc := xDesc + blue + "B鬾us PVs<br>";
+							xDesc := xDesc + blue + "B么nus PVs<br>";
 						elseif (mod == "manamod")
-							xDesc := xDesc + blue + "B鬾us Mana <br>";
+							xDesc := xDesc + blue + "B么nus Mana <br>";
 						elseif (mod == "stammod")
-							xDesc := xDesc + blue + "B鬾us Stam <br>";
+							xDesc := xDesc + blue + "B么nus Stam <br>";
 						elseif (mod == "PhysicalResistMod")
 							xDesc := xDesc + blue + "Resistencia Fisica <br>";
 						elseif (mod == "ColdResistMod")
@@ -390,10 +390,10 @@ exported function MegaCliloc( who, byref packet )
 					endforeach
 				endif
 				if (item.dmg_mod > 0 )
-					xDesc := xDesc + blue + "B鬾us Dano";
+					xDesc := xDesc + blue + "B么nus Dano";
 				endif
 				if (item.hp_mod > 0)
-					xDesc := xDesc + blue + "B鬾us Item PVs";
+					xDesc := xDesc + blue + "B么nus Item PVs";
 				endif
 				var hitsscripts := GetObjProperty(item, "HitScripts");
 				if (hitsscripts != error)

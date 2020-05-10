@@ -40,7 +40,7 @@ function createChestSpawngump(who, type)
 				spawns.append(spawnpoint);
 			endif
 		endforeach
-	elseif ( type == 3) //todo exibir as op�oes de regions
+	elseif ( type == 3) //todo exibir as opções de regions
 		var regionrect := Requestgump(who, "Digite o x1, y1, x2, y2");
 		if (regionrect)
 			regionrect := SplitWords(regionrect);

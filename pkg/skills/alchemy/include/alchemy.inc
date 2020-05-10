@@ -52,7 +52,7 @@ function empty_bottle(character, potion, potiontype := 0)
 		goles := cint(GetObjProperty(potion, "goles"));
 	endif
   
-	if(potiontype == 1)  //eh uma po�ao de 1 so gole
+	if(potiontype == 1)  //eh uma poção de 1 so gole
 		goles := 0;
 	endif
   

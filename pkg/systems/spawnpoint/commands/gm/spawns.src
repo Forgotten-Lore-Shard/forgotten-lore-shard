@@ -42,7 +42,7 @@ function createSpawngump(who, type,  oldspawns := 0, start := 0, end := 0)
 			endif
 			sleepms(2);
 		endforeach
-	elseif ( type == 3) //todo exibir as opçoes de regions
+	elseif ( type == 3) //todo exibir as opÃ§Ãµes de regions
 		var regionrect := Requestgump(who, "Digite o x1, y1, x2, y2");
 		if (regionrect)
 			regionrect := SplitWords(regionrect);
@@ -177,7 +177,7 @@ function createSpawngump(who, type,  oldspawns := 0, start := 0, end := 0)
 	if (result[0])
 		if (result[0] == 6)
 			if (who.cmdlevel < 4)
-				SendSysMessage(who, "Você não pode fazer isso.");
+				SendSysMessage(who, "VocÃª nÃ£o pode fazer isso.");
 				return;
 			endif
 			var carrega := yesno(who, "Carregar todos os spawns do mundo aqui demora MUITO. Deseja fazer isso?");
