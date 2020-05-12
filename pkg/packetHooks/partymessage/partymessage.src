@@ -15,7 +15,7 @@ exported function PartyMessageSpy( who, byref packet )
 	var length_of_text := ( packet.GetSize() - 5 ) / 2;
 	var message_txt := packet.GetUnicodeString(4, length_of_text);
 	message_txt.Erase(1);
-	message_txt := CChrZ(message_txt);
+	//message_txt := CChrZ(message_txt);
 	
 	if (!message_txt)
 		return 0;

@@ -24,7 +24,7 @@ exported function handleUCOutgoing( character, byref packet )
 
 	var length_of_text := ( packet.GetInt16(1) - 49 ) / 2;
 	var message_txt := packet.GetUnicodeString(48, length_of_text);
-	message_txt := CChrZ(message_txt);
+	//message_txt := CChrZ(message_txt);
 
 	if ( (getObjProperty(source, "metamorfose") != error) || (getObjProperty(source, "mudo") != error) || (getObjProperty(source, "#sleep") != error))
 		if  (type != 0x02)
