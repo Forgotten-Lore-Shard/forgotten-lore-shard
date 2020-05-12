@@ -11,13 +11,11 @@ exported function HandleSendSkillSent( who, byref packet )
   if(!tipo)
     return 0;
   endif
-  //print("SendSKILL");
   return 1;
 endfunction
 
 exported function HandleSendSkillReceived( who, byref packet )
   who := who;
   packet := packet;
-  //print("ReceiveSKILL");
   return 1;
 endfunction

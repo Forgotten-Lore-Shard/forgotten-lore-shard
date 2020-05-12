@@ -6,8 +6,6 @@ include ":charactercreation:habilidades";
 program TimedScript_Paralysis(params)
 	var mobile := params[1];
 
-	print("spell sleep");
-
 	PlaySoundEffect(mobile, 0x205);
 	
 	if (mobile.graphic == 401)

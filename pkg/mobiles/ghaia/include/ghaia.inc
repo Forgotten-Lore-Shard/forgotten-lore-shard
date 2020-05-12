@@ -295,14 +295,10 @@ function InitializeNpc(mobile)
 
   //elem := FindConfigElem(npccfgfile, mytemplate);
   propallies := GetConfigStringDictionary( elem, "allyprop");
-  //printtextabove(mobile, " prop " + propallies + " " + elem + " " + propallies);
 
   var spawnpointserial := GetObjProperty(mobile, "spawnpoint");
-  //printtextabove(mobile, " " + spawnpointserial);
-  //print("spawnpoint " + spawnpointserial);
   if (spawnpointserial)
     var spawnpoint := SystemFindObjectBySerial(spawnpointserial);
-    //printtextabove(mobile, " " + spawnpoint);
     if (spawnpoint)
       var range := cint(GetObjProperty(spawnpoint, "Range"));
       if (!range)
@@ -311,7 +307,6 @@ function InitializeNpc(mobile)
       SetObjProperty(mobile, "anchor", array{ spawnpoint.x , spawnpoint.y });
 	  SetObjProperty(mobile, "range", range);
       var e := SetAnchor(spawnpoint.x, spawnpoint.y, range, 90);
-      //print("drop anchor " + e);
     endif
   endif
 
