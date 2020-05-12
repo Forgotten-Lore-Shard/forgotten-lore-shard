@@ -38,7 +38,11 @@ program tirocarregado(who)
 	endif
 	
 	var aljava := GetEquipmentByLayer(who, 0x14);
-	var ammo := GetObjProperty(who.weapon, "ammo");
+	if (!aljava)
+		aljava:=GetEquipmentByLayer(who, 0x12);
+	endif
+	
+    	var ammo := GetObjProperty(who.weapon, "ammo");
 	if (!ammo)
 		SendSysMessage(who, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 1;
