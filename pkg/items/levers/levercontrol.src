@@ -28,7 +28,7 @@ program lever(item)
       var powerevent := GetObjProperty(item, "powerword");
       if (event && item.invisible)
          if (event.type == SYSEVENT_SPEECH && powerevent)
-            var word := lower(CChrz(event.uc_text));
+            var word := lower(event.text);
             if (word == lower(powerevent))
                item.invisible := 0;
                //PrintText(item, "*Uma alavanca aparece*");
