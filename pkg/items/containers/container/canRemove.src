@@ -23,7 +23,7 @@ program canRemove(mobile, container, item, move_type)
 	endif
 
 	if (mobile)
-		print("mobile");
+		// print("mobile");
 		if (!mobile.npctemplate)
 			//print("mobile is ap layer");
 			var aux := container;
