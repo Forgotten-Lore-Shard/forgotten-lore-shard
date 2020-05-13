@@ -281,14 +281,10 @@ function makefood(who, input)
             
             foreach item in line
                 var ingred := FindObjtypeInContainer(who.backpack,getobjtypebyname(item));
-                SendSysMessage(who, "line: " + item);
-                SendSysMessage(who, "obj: " + getobjtypebyname(item));
                 if (GetObjProperty(ingred, "capmod") == error)
-                    SendSysMessage(who, "nao tem capmod. " + ingred);
                     capmod_temp := capmod_temp;
                 else
                     capmod_temp := capmod_temp + CInt(GetObjProperty(ingred, "capmod" ));
-                    SendSysMessage(who, "temcapmod. "+ ingred);
                 endif
             endforeach
             
