@@ -34,7 +34,14 @@ program tirodesfocado(who)
 		return 1;
 	endif
 	
+	var aljavas := array{0x791c, 0x2fb7};
 	var aljava := GetEquipmentByLayer(who, 0x14);
+	
+		if (aljava.objtype in aljavas)
+			aljava := GetEquipmentByLayer(who, 0x14);
+		else
+			aljava := GetEquipmentByLayer(who, 0xc);
+		endif
 	var ammo := GetObjProperty(who.weapon, "ammo");
 	if (!ammo)
 		SendSysMessage(who, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
