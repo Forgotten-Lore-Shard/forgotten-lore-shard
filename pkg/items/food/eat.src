@@ -45,6 +45,31 @@ program eat_food(who, food)
 	if ( CINT(getObjProperty(food, "blessedfood")) == 1 ) 
 		foodvalue := 5;
 	endif
+	
+	if (getObjProperty(food, "capmod"))
+		var capmod := getObjProperty(food, "capmod");
+			case(capmod)
+			1:
+			TS_StartTimer(who, "capmod", 600, 1, 0, 1);
+			2:
+			TS_StartTimer(who, "capmod", 720, 2, 0, 1);
+			3:
+			TS_StartTimer(who, "capmod", 840, 3, 0, 1);
+			4:
+			TS_StartTimer(who, "capmod", 960, 4, 0, 1);
+			5:
+			TS_StartTimer(who, "capmod", 1080, 5, 0, 1);
+			6:
+			TS_StartTimer(who, "capmod", 1200, 6, 0, 1);
+            7:
+			TS_StartTimer(who, "capmod", 1200, 7, 0, 1);
+            8:
+			TS_StartTimer(who, "capmod", 1200, 8, 0, 1);
+            9:
+			TS_StartTimer(who, "capmod", 1200, 9, 0, 1);
+			endcase
+		RecalcVitals(who);	
+	endif
 
 	var surprisemsg := "";
 	var surpriseabove := "";

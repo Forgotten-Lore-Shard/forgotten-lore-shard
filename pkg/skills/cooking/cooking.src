@@ -96,19 +96,27 @@ function cookit(who,item);
 		theIngredients := GetIngredients(who, ingredients);
 		ingredientsno := theIngredients.size;
 		print ("Numero de ingredientes: " + ingredientsno);
-			if (theIngredients == error)
-			SendSysMessage(who, "Voce nao tem os igredientes necessarios.");
-      return;
-    endif
+		if (theIngredients == error)
+            SendSysMessage(who, "Voce nao tem os igredientes necessarios.");
+            return;
+        endif
+        //Pega o capmod dos ingredientes
+        var capmod_temp :=0;
+        foreach ingred in theIngredients 
+            if (GetObjProperty(ingred, "capmod") == error)
+                capmod_temp := capmod_temp;
+            else
+                capmod_temp := capmod_temp + CInt(GetObjProperty(ingred, "capmod");
+        endforeach
 	endif
   if(skill_needed)
     if(SkillCheck( who, DomesticWork, skill_needed, 0) > 0);
       var amt := item.amount;
       if(DestroyItem(item))
         newitem := CreateItemInBackpack(who, product, amt);
-		   if(newitem)
+		if(newitem)
 	      SendSysMessage(who, "Voce guardou o item na sua mochila");
-		  case ( ingredientsno )
+		  case ( ingredientsno + capmod_temp)
 		  2:
 		  SetObjProperty(newitem, "capmod", 1);
 		  3:
@@ -121,6 +129,12 @@ function cookit(who,item);
 		  SetObjProperty(newitem, "capmod", 5);
 		  7:
 		  SetObjProperty(newitem, "capmod", 6);
+          8:
+		  SetObjProperty(newitem, "capmod", 7);
+          9:
+		  SetObjProperty(newitem, "capmod", 8);
+          10:
+		  SetObjProperty(newitem, "capmod", 9);
 		  endcase
 	    else
 	      SendSysMessage(who, "You dont have any room in your backpack.");
