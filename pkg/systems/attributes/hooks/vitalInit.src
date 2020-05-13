@@ -180,18 +180,29 @@ exported function GetSkillCapRegenRate(mobile)
 	if (mobile.npctemplate)
 			return 100;
 	endif
-	var foodbonus := CInt(GetObjProperty(mobile, "capmod"));
-	var bonusRP := CInt(GetGlobalProperty("BonusRP"));
-
-	if (!GetObjProperty(mobile, "fichaRP"))
+    
+    if (!GetObjProperty(mobile, "fichaRP"))
 		return 0;
-	elseif(GetObjproperty(mobile, "nota") == error)
-		return CInt( 50 + bonusRP*75 + foodbonus*25);
-	else
-		var nota := CInt(GetObjProperty(mobile, "nota"));
-		var mult := bonusRP + nota;
-		var total := CInt( 50 + mult*75 + foodbonus*25);
-		return total;
+    else
+        if (GetObjProperty(mobile, "capmod") == error)
+            var foodbonus := 0;
+        else
+            var foodbonus := CInt(GetObjProperty(mobile, "capmod"));
+        endif
+        
+        if ((GetGlobalProperty("BonusRP") == error) || (GetGlobalProperty("BonusRP") == 0))
+            var bonusRP := 0;
+        else
+            var bonusRP := 1;
+        endif
+        
+        if (GetObjProperty(mobile, "nota") == error)
+            var nota := 0;
+        else
+            var nota := CInt(GetObjProperty(mobile, "nota"));
+        endif
+        
+        return CInt(50 + bonusRP*25 + nota*25 + foodbonus*15);
 	endif
 endfunction
 
