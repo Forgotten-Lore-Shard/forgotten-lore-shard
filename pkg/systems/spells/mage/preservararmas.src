@@ -25,7 +25,7 @@ program SpellScript(params)
         	PlaySoundEffect(targ, SFX_BLESS);
 		SendSysMessageEx(who, "Voce encantou a arma.", SSM_INFO);
 	else
-		SendSysMEssageEx(who, "Esta magia so funciona em armas.", SSM_FAIL);
+		SendSysMessageEx(who, "Esta magia so funciona em armas.", SSM_FAIL);
 	endif
 
 	

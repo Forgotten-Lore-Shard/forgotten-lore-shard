@@ -67,7 +67,7 @@ program reset(who)
 			var requisitos := retornaRequisitos( hab);
 			foreach req in requisitos
 				if ( !(req in habfinal))
-					SendSysMEssageEx(who, "Voce nao pode remover a habilidade " + remover[1] + " porque e pre requisito para " + hab, SSM_FAIL);
+					SendSysMessageEx(who, "Voce nao pode remover a habilidade " + remover[1] + " porque e pre requisito para " + hab, SSM_FAIL);
 					return;
 				endif
 			endforeach

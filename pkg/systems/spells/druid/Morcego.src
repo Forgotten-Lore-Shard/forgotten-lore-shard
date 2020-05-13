@@ -18,6 +18,6 @@ program SpellScript(params)
   endif
   PlaySoundEffect(targ, 0x1e4);
   targ.setlightlevel( 0, 1800 );
-  SendSysMEssageEx(who, "Voce consegue ver no escuro.", SSM_INFO); 
+  SendSysMessageEx(who, "Voce consegue ver no escuro.", SSM_INFO);
 endprogram
 

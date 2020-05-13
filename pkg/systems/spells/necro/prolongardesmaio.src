@@ -33,7 +33,7 @@ program SpellScript(params)
 
 	SetObjProperty(targ, "prolongardesmaio", 1);
 		
-	SendSysMEssageEx(who, "Os batimentos cardiacos do corpo sao reduzidos e seu desmaio sera prolongado", SSM_INFO);
+	SendSysMessageEx(who, "Os batimentos cardiacos do corpo sao reduzidos e seu desmaio sera prolongado", SSM_INFO);
 	
 	return 1;
 endprogram 

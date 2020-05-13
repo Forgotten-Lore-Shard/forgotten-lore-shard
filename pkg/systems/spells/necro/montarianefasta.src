@@ -81,7 +81,7 @@ program SpellScript(params)
 
 	TS_StartTimer(undead, "summon", GetSpellDuration(AP_GetSkill(who, MAGICLORE)));
 
-	SendSysMEssageEx(who, "Voce teve sucesso invocar a montaria nefasta.", SSM_INFO);
+	SendSysMessageEx(who, "Voce teve sucesso invocar a montaria nefasta.", SSM_INFO);
 	
 	return 1;
 endprogram 

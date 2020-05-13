@@ -7,12 +7,12 @@ program doubleattack(who)
 
 	var encantada := GetObjProperty(who.weapon, "#elementalweapon");
 	if (encantada == error)
-		SendSysMEssageEx(who, "Sua arma precisa estar encantada com algum poder elemental.", SSM_FAIL);
+		SendSysMessageEx(who, "Sua arma precisa estar encantada com algum poder elemental.", SSM_FAIL);
 		return 1;
 	endif
 
 	if (readgameclock() > encantada.endtime )
-		SendSysMEssageEx(who, "Sua arma precisa estar encantada com algum poder elemental.", SSM_FAIL);
+		SendSysMessageEx(who, "Sua arma precisa estar encantada com algum poder elemental.", SSM_FAIL);
 		return 1;
 	endif
 

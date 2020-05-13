@@ -118,7 +118,7 @@ function CriticalHitScripts(attacker, defender, weapon, armor, basedamage, byref
 	endif
 
 	if (TemHabilidade(defender, "Ladrao da Sorte"))
-		SendSysMEssageEx(defender, "Voce desviou do critico e usara isso contra seu oponente!", SSM_INFO);			
+		SendSysMessageEx(defender, "Voce desviou do critico e usara isso contra seu oponente!", SSM_INFO);
 		SetObjProperty(defender, "#nextcritical", 1);
 		return 1;
 	endif

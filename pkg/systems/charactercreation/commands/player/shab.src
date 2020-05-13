@@ -68,14 +68,14 @@ function ProccessHab(who, hab)
 	var uso := GetConfigString(habelem, "uso");
 
 	if (uso != "Ativa")
-		SendSysMEssageEx(who, "Esta habilidade nao pode ser ativada.");
+		SendSysMessageEx(who, "Esta habilidade nao pode ser ativada.");
 		return;
 	endif
 
 
 //	sendsysmessage(who, " " + TS_GetCooldown(who, hab) );
 	if ( TS_GetCooldown(who, hab) != error && who.cmdlevel < 3)
-		SendSysMEssageEx(who, "Voce nao pode usar essa habilidade agora.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce nao pode usar essa habilidade agora.", SSM_FAIL);
 		return 1;
 	endif
 	
@@ -146,7 +146,7 @@ function CreateGumpHabilidade(who)
 	GFResizePic(gump, 15, 40, 0x13BE, 350, 620);
 	GFTextMid(gump, 80, 50, 250, 1153, "Habilidades de Classe");
 
-	var habilidades := GetObjPRoperty(who, "habilidades");
+	var habilidades := GetObjProperty(who, "habilidades");
 	if (!habilidades)
 		habilidades := dictionary;
 	endif

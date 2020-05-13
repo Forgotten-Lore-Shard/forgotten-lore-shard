@@ -135,7 +135,7 @@ function usarDisfarce(who, disfarce)
 		SendSysMessageEx(who, "Quem voce deseja disfarcar?", SSM_REQUEST);
 		var targ := target(who);
 		if (!targ)
-			sendsysmessageex(who, "Cancelado");
+			SendSysMessageEx(who, "Cancelado");
 			return;
 		elseif (targ.connected && targ != who)
 			var pode := YesNo(targ, "Voce permite "+who.name+" disfarcar voce?");
@@ -299,7 +299,7 @@ function disguiseSelf(who, kit, byref disfarce);
 			disfarce.saved := 1;
 			var nome := RequestGump(who, "Qual o nome desse disfarce?");
 			disfarce.nome := nome;
-			var disfarces := GetObjPRoperty(kit, "disfarces");
+			var disfarces := GetObjProperty(kit, "disfarces");
 			if (disfarces == error)
 				disfarces := array;
 			endif

@@ -82,7 +82,7 @@ function copyrecipe(who, recipe)
 	if (ConsumeSubstance(who.backpack, OBJ_BLANK_SCROLL, 1))
 		if ((SkillCheck(who, MAGERY, cint(recipe.Difficulty), 0) > 0))
 			if  (!AP_ConsumeVital(who, MANA, recipe.mana)) 
-				SendSysMEssageEx(who, "Voce esta sem mana.", SSM_FAIL);
+				SendSysMessageEx(who, "Voce esta sem mana.", SSM_FAIL);
 				return 1;
 			endif
 			if (!TNCheckReagents(who, recipe, 0))

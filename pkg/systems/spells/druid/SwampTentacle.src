@@ -25,7 +25,7 @@ program SpellScript(params)
   TS_StartTimer(targ, "graspingroots", 6 );
   TS_StartTimer(targ, "Paralyze", 6 );
 
-  SendSysMEssageEx(who, "Voce prendeu seu inimigo.", SSM_INFO);
+  SendSysMessageEx(who, "Voce prendeu seu inimigo.", SSM_INFO);
 
   return 1;
 endprogram

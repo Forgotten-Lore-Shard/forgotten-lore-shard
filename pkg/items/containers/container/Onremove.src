@@ -17,7 +17,7 @@ program onRemove(character, container, item, item_amount, movetype)
 
 	if (character.concealed || character.hidden || aux.objtype == 0xEFFD || movetype == MOVETYPE_COREMOVE);
 	else
-		if (GetObjPRoperty(character, "maosleves") == 1)
+		if (GetObjProperty(character, "maosleves") == 1)
 			EraseObjProperty(character, "maosleves");
 		else
 			PrintText(character, "*Tirou " + item.desc + " da " + container.desc + "*", 41);

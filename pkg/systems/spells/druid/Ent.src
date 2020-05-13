@@ -31,12 +31,12 @@ program SpellScript(params)
   PlaySoundEffect(who, SFX_SPELL_STRENGTH);
   PlayStationaryEffect(who.x, who.y, who.z, FX_SPARK_EFFECT, 2, 2);
   var tree:= CreateItemAtLocation(who.x, who.y, who.z, trunk_objtype, 1, who.realm);
-  SendSysMEssageEx(who, "Voce esta em forma de arvore.", SSM_INFO);
+  SendSysMessageEx(who, "Voce esta em forma de arvore.", SSM_INFO);
   while (loop == 1)
         if (x != who.x || y != who.y)
            who.graphic := oldgraphic;
            who.hidden := 0;
-           SendSysMEssageEx(who, "Voce saiu da forma de arvore.", SSM_INFO);
+           SendSysMessageEx(who, "Voce saiu da forma de arvore.", SSM_INFO);
            DestroyItem(tree);
            return;
         endif

@@ -57,7 +57,7 @@ function Buildhouse(character, deed)
   	endif
 
 	if (Distance(character,where) > 50)
-		SendSysMEssageEx(character, "Voce esta muito distante.", SSM_FAIL);
+		SendSysMessageEx(character, "Voce esta muito distante.", SSM_FAIL);
 		return;
 	endif
 

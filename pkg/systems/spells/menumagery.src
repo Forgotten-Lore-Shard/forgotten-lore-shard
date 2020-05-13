@@ -84,7 +84,7 @@ function SendGumpDruida(who)
 		var description := getConfigString(elem, "Desc");
 		if( YesNo(who, "Tem certeza que quer aprender essa magia? : "+CStr(description)) )
 			if  (animalspell  in spells)
-				SendSysMEssageEx(who, "Voce ja sabe esta magia.", SSM_FAIL);
+				SendSysMessageEx(who, "Voce ja sabe esta magia.", SSM_FAIL);
 				return 1;
 			else
 				spells.append(animalspell);

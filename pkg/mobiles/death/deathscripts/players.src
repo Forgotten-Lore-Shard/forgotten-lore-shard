@@ -276,7 +276,7 @@ function KataWakeUp(ghost, corpse)
 	endif
 	//SetCoolDown(ghost, "deathtime", 30);
 
-	var save := GetObjPRoperty(ghost, "savegame");
+	var save := GetObjProperty(ghost, "savegame");
 	if (save != error)
 		MoveObjectToLocation(ghost, save.x, save.y, save.z, save.realm, MOVEOBJECT_FORCELOCATION);
 		AP_SetVital(ghost, STAMINA, cint(save.stamina));

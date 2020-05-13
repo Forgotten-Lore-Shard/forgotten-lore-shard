@@ -301,8 +301,8 @@ function ActivateMagicItem(item)
 		SetObjProperty(item, "equip", equip);		
 	endif
 
-	if (GetObjPRoperty(item, "magicColor") != error)
-		item.color := Cint(GetObjPRoperty(item, "magicColor"));
+	if (GetObjProperty(item, "magicColor") != error)
+		item.color := Cint(GetObjProperty(item, "magicColor"));
 		EraseObjProperty(item, "magicColor");
 	endif
 

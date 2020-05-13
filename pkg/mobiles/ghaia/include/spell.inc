@@ -533,7 +533,7 @@ function CastSpellNPC(opponent, spell_list)
 	if ( (enfraquecer || medo) && (ampliardor || envenenar || vinganca ))
 		if (randomint(2) == 0) //ataca oponente
 			if (vinganca)
-				if ( GetObjPRoperty(me.opponent, "#vinganca") != error ) //se o alvo nao ta sob o efeito ainda
+				if ( GetObjProperty(me.opponent, "#vinganca") != error ) //se o alvo nao ta sob o efeito ainda
 					start_script(":spells:mesum/vinganca", array{me, me.opponent});
 					setCooldown(me, "npcspell", 5);
 				endif

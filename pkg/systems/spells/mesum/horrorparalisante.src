@@ -30,14 +30,14 @@ program SpellScript(params)
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
 		if (CheckResist(targ, VONTADE, 65+cint(AP_GetSkill(who, MAGICLORE))))
-			SendSysMEssageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
+			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			who.frozen := 0;
 		return;
 		endif
 	else
 		if (CheckResist(targ, VONTADE, 40+cint(AP_GetSkill(who, MAGICLORE))))
-			SendSysMEssageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
+			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			who.frozen := 0;
 		return;
@@ -47,7 +47,7 @@ program SpellScript(params)
 	while  (time < 10)
 
 		if ( (who.x != oldx) || (who.y != oldy))
-			SendSysMEssageEx(who, "Voce se moveu e cancelou a magia.", SSM_FAIL);
+			SendSysMessageEx(who, "Voce se moveu e cancelou a magia.", SSM_FAIL);
 			break;
 		endif
 

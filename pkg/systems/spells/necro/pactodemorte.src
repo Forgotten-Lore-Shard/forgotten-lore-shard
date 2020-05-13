@@ -39,7 +39,7 @@ program SpellScript(params)
 	PrintTextAbove(who, "*sangrando muito*", 3, 0);
 	pentagrama := CriarPentagrama(who, who);
 	if (pentagrama == "fail")
-		SendSysMEssageEx(who, "O pacto falhou", SSM_INFO);
+		SendSysMessageEx(who, "O pacto falhou", SSM_INFO);
 		targ.frozen := 0;
 		who.frozen := 0;
 		return 0;
@@ -51,7 +51,7 @@ program SpellScript(params)
 	PrintTextAbove(targ, "*sangrando muito*", 3, 0);
 	pentagrama := CriarPentagrama(targ, who);
 	if (pentagrama == "fail")
-		SendSysMEssageEx(who, "O pacto falhou", SSM_INFO);
+		SendSysMessageEx(who, "O pacto falhou", SSM_INFO);
 		targ.frozen := 0;
 		who.frozen := 0;
 		return 0;
@@ -64,8 +64,8 @@ program SpellScript(params)
 	ApplyDamage(who, 9999);
 	ApplyDamage(targ, 9999);
 	PlaySoundEffect(targ, 383);
-	SendSysMEssageEx(who, "O pacto tras a morte a ambos", SSM_INFO);
-	SendSysMEssageEx(targ, "O pacto tras a morte a ambos", SSM_INFO);
+	SendSysMessageEx(who, "O pacto tras a morte a ambos", SSM_INFO);
+	SendSysMessageEx(targ, "O pacto tras a morte a ambos", SSM_INFO);
 	
 	return 1;
 

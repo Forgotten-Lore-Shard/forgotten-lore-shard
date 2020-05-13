@@ -285,7 +285,7 @@ function ProcessSpeech(ev)
 		npctemplate := npctemplate[10, len(npctemplate)-9];
 		cfg := cfg[npctemplate];
 
-		if (GetObjPRoperty(me, "summon") == 1)
+		if (GetObjProperty(me, "summon") == 1)
 			SendSysMessage(owner, "Outros nao podem controlar criaturas invocadas por voce.");
 			return;
 		endif
@@ -313,7 +313,7 @@ function ProcessSpeech(ev)
 
 	elseif( text[name+" livre"] || text["todos livres"] )
 
-		if (GetObjPRoperty(me, "summon") == 1)
+		if (GetObjProperty(me, "summon") == 1)
 			SendSysMessage(owner, "Criaturas invocadas nao podem ser libertadas normalmente.");
 			return;
 		endif

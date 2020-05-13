@@ -19,7 +19,7 @@ program SpellScript(params)
 	var info := params[2];
 	params := 0; // No longer needed
 
-	SendSysMEssageEx(who, "Escolha onde quer abrir o portal.", SSM_REQUEST);
+	SendSysMessageEx(who, "Escolha onde quer abrir o portal.", SSM_REQUEST);
 	var targ := TargetCoordinates(who);
 	if (!targ)
 		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);

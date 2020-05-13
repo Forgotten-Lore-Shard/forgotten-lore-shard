@@ -21,7 +21,7 @@ program drink_blue (who, potion)
 	endif
 
 	if ( TS_GetCooldown(who, "manapot") != error)
-		SendSysMEssageEx(who, "Voce nao pode usar essa pocao agora.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce nao pode usar essa pocao agora.", SSM_FAIL);
 		return 1;
 	endif
 	if (cint(GetObjProperty(who, "#manapotion")))
@@ -61,4 +61,5 @@ program drink_blue (who, potion)
 	EraseObjProperty(who, "#manapotion");
 	SendSysMessageEx(who, "Terminou o efeito da pocao.", SSM_INFO);	
 endprogram
-  
+ 
+ 

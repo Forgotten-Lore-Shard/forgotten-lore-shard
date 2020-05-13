@@ -22,7 +22,7 @@ program fireweapon(who, item)
 		return;
 	endif
 
-	var balas := cint(GetObjPRoperty(item, "balas"));
+	var balas := cint(GetObjProperty(item, "balas"));
 	if (balas <= 0)
 		SendSysMessageEx(who, "A arma esta descarregada, escolha uma pocao para carrega-la.", SSM_FAIL);
 		var pot := Target(who);

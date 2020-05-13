@@ -7,7 +7,7 @@ function CheckIngredients(master, ritualid)
 
 	var cfg := ReadconfigFile(":tn:rituals");
 	if (!cfg)
-		SendSysMEssageEx(master, "Config file not found: :tn:rituals", SSM_FAIL); 
+		SendSysMessageEx(master, "Config file not found: :tn:rituals", SSM_FAIL);
 		return 0;
 	endif
 

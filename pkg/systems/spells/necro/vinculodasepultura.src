@@ -62,7 +62,7 @@ program SpellScript(params)
 		oldy := CInt(location[2]);
 		oldz := CInt(location[3]);
 
-		SendSysMEssageEx(who, "Seu corpo percorre o mundo procurando o vinculo da sepultura de " + name, SSM_INFO);
+		SendSysMessageEx(who, "Seu corpo percorre o mundo procurando o vinculo da sepultura de " + name, SSM_INFO);
 		MoveObjectToLocation( who, 4549  , 3083 , 0, who.realm);
 		sleepms(500);
 		MoveObjectToLocation( who, 839 , 1794, 1, who.realm);

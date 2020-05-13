@@ -21,7 +21,7 @@ endfunction
 
 program fillbook(who, slip)
 	
-	if (cint(GetObjPRoperty(slip, "RecipeId")) == 0)
+	if (cint(GetObjProperty(slip, "RecipeId")) == 0)
 		SetObjProperty(slip, "RecipeId", RandomInt(41)+1);
 	endif
 

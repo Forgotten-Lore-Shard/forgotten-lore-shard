@@ -123,7 +123,7 @@ exported function Attack(attacker, defender)
 		EraseObjProperty(attacker, "#finalizar");
 	endif
 
-	if ( cint( GetObjPRoperty(attacker, "#ataqueinesperado") ) == 1 )
+	if ( cint( GetObjProperty(attacker, "#ataqueinesperado") ) == 1 )
 		if ( GetObjProperty(defender, "lastHit") != error)
 			var def := GetObjProperty(defender, "lastHit");
 			def := def.serial;
@@ -230,7 +230,7 @@ exported function Attack(attacker, defender)
       			return 1;
     		endif*/
 
-		if (GetObjPRoperty(defender, "maolivre") == 1)
+		if (GetObjProperty(defender, "maolivre") == 1)
 			EraseObjPRoperty(defender, "maolivre");
 			SetObjProperty(defender, "evasao", 1);
 		endif
@@ -313,7 +313,7 @@ exported function Attack(attacker, defender)
 			SetObjProperty(defender, "#esquivaacrobatica", 1);
 		endif
 
-		if (GetObjPRoperty(defender, "maolivre") == 1)
+		if (GetObjProperty(defender, "maolivre") == 1)
 			EraseObjPRoperty(defender, "maolivre");
 			oportunidade := 1;
 		endif

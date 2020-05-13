@@ -89,7 +89,7 @@ endprogram
 
 function CloseDistance( opponent )
 
-	if ( GetObjPRoperty(me, "noclosecombat") == 1)
+	if ( GetObjProperty(me, "noclosecombat") == 1)
 		return 0;
 	endif
 
@@ -106,7 +106,7 @@ var sleepdelay := 275 - me.run_speed;//(CInt(GetDexterity(me)) * 1.5);
             return 1;
         default:
 		if (!CheckLineofSight(me, opponent)) //se nao consegue ver
-			var path := GetObjPRoperty(me, "path"); //procura se ja calculou o path
+			var path := GetObjProperty(me, "path"); //procura se ja calculou o path
 			if (path == error) //se nao calculou
 				var flags := FP_IGNORE_MOBILES;
 				if ( cint(GetObjProperty(me, "ignoredoor")) || cint(GetObjProperty(me, "opendoor")) )

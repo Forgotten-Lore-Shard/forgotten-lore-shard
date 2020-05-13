@@ -18,7 +18,7 @@ program SpellScript(params)
 
 	TS_StartTimer(who, "aparenciacadaverica", GetSpellDuration(AP_GetSkill(who, MAGICLORE)) / 2, 1, who, 0); //20 min
 	PlaySoundEffect(who, 385);
-	SendSysMEssageEx(who, "A sua aparencia se torna cadaverica", SSM_INFO);
+	SendSysMessageEx(who, "A sua aparencia se torna cadaverica", SSM_INFO);
 	
 	return 1;
 endprogram 

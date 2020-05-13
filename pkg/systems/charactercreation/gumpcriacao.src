@@ -931,7 +931,7 @@ var gfdata := array{
 			var index := input - 100;
 			var itemname := itemsname[index];
 			var custo := CInt(itemscost[index]);
-		//	sendsysmessageex(who, itemname + " custa " + custo + " creditos.", SSM_INFO);
+		//	SendSysMessageEx(who, itemname + " custa " + custo + " creditos.", SSM_INFO);
 			if (chardata.credits < custo)
 				SendsysMessageEx(who, "Voce nao possui creditos para este item.", SSM_FAIL);
 				ItemPicker(who, chardata);
@@ -1030,7 +1030,7 @@ var gfdata := array{
 				return 1;
 			endif
 			if (points <= 0)
-				SendSysMEssageEx(who, "Voce nao tem mais pontos.", SSM_FAIL);
+				SendSysMessageEx(who, "Voce nao tem mais pontos.", SSM_FAIL);
 				atributos(who, chardata,points);
 				return 1;
 			endif
@@ -1044,7 +1044,7 @@ var gfdata := array{
 				return 1;
 			endif
 			if (points <= 0)
-				SendSysMEssageEx(who, "Voce nao tem mais pontos.", SSM_FAIL);
+				SendSysMessageEx(who, "Voce nao tem mais pontos.", SSM_FAIL);
 				atributos(who, chardata,points);
 				return 1;
 			endif
@@ -1058,7 +1058,7 @@ var gfdata := array{
 				return 1;
 			endif
 			if (points <= 0)
-				SendSysMEssageEx(who, "Voce nao tem mais pontos.", SSM_FAIL);
+				SendSysMessageEx(who, "Voce nao tem mais pontos.", SSM_FAIL);
 				atributos(who, chardata,points);
 				return 1;
 			endif
@@ -1107,11 +1107,11 @@ endfunction
 program createchar(who)
 
 	if (GetObjProperty(who, "criandochar") == 1 && who.cmdlevel < 1)
-		SendSysMEssageEx(who, "Delete seu personagem antes de criar de novo.", SSM_FAIL);
+		SendSysMessageEx(who, "Delete seu personagem antes de criar de novo.", SSM_FAIL);
 		return 1;
 	endif
 	if (GetObjProperty(who, "delete") == 1)
-		SendSysMEssageEx(who, "Voce nao pode ter mais de um personagem por conta.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce nao pode ter mais de um personagem por conta.", SSM_FAIL);
 		return 1;
 	endif
 

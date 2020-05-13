@@ -16,7 +16,7 @@ program SpellScript(params)
 
 	SetObjProperty(who, "#presenteespiritual", ReadGameClock()+cint(AP_GetSkill(who, MAGICLORE)*6) );
 	PlaySoundEffect(who, 385);
-	SendSysMEssageEx(who, "Cada morte e um presente.", SSM_INFO);
+	SendSysMessageEx(who, "Cada morte e um presente.", SSM_INFO);
 	Corromper(who, 29, 0);
 	
 	return 1;

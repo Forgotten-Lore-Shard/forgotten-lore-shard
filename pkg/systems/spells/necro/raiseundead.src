@@ -104,7 +104,7 @@ program SpellScript(params)
 	TS_StartTimer(undead, "summon", GetSpellDuration(AP_GetSkill(who, MAGICLORE)) / 2);
 		
 
-	SendSysMEssageEx(who, "Voce teve sucesso ao levantar o corpo", SSM_INFO);
+	SendSysMessageEx(who, "Voce teve sucesso ao levantar o corpo", SSM_INFO);
 	
 	return 1;
 endprogram 

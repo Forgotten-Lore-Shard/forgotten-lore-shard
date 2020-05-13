@@ -18,7 +18,7 @@ program SpellScript(params)
 	var info := params[2];
 	params := 0; // No longer needed
 
-	SendSysMEssageEx(who, "Escolha o alvo.", SSM_REQUEST);
+	SendSysMessageEx(who, "Escolha o alvo.", SSM_REQUEST);
 	var loc := Target(who);
 
 	if (!loc)

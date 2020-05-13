@@ -80,7 +80,7 @@ endfunction
 
 function teleport(who)
 
-	SendSysMEssageEx(who, "Escolha para onde quer mover.", SSM_REQUEST);
+	SendSysMessageEx(who, "Escolha para onde quer mover.", SSM_REQUEST);
 	var loc := TargetCoordinates(who);
 	if ( !loc )
 		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);

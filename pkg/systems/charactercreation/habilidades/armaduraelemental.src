@@ -39,7 +39,7 @@ program manobra(who)
 			who.resist_poison_mod  := 20;
 		endif
 	else
-		SendSysMEssageEx(who, "Voce ja  escolheu sua armadura elemental.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce ja  escolheu sua armadura elemental.", SSM_FAIL);
 	endif
 
 endprogram   

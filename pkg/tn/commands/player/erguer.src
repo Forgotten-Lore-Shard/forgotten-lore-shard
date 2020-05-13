@@ -40,12 +40,12 @@ program erguer(who)
 	if (!GetObjProperty(alvo, "erguido"))
 		SetObjProperty(alvo, "erguido", 1);
 		MoveObjectToLocation(alvo, alvo.x, alvo.y, alvo.z+5, alvo.realm, MOVEOBJECT_FORCELOCATION);
-		SendSysMEssageEx(who, "Voce ergueu o objeto. Para abaixar use o .erguer novamente.", SSM_INFO);
+		SendSysMessageEx(who, "Voce ergueu o objeto. Para abaixar use o .erguer novamente.", SSM_INFO);
 		PrintText(who, "*Ergue o objeto" + alvo.name + "*");
 	elseif (GetObjProperty(alvo, "erguido") == 1)
 		EraseObjProperty(alvo, "erguido");
 		MoveObjectToLocation(alvo, alvo.x, alvo.y, alvo.z-5, alvo.realm, MOVEOBJECT_FORCELOCATION);
-		SendSysMEssageEx(who, "Voce abaixou o objeto.", SSM_INFO);
+		SendSysMessageEx(who, "Voce abaixou o objeto.", SSM_INFO);
 		PrintText(who, "*Abaixa o objeto" + alvo.name + "*");
 	endif
 	

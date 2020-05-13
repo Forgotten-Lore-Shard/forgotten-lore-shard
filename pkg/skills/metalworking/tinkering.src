@@ -190,7 +190,7 @@ function makeTinkeringItems(who, what, amt, tool)
 					endif
 					DestroyItem(pot);
 				else
-					SendSysMEssageEx(who, "Esta nao e a pocao certa.", SSM_FAIL);
+					SendSysMessageEx(who, "Esta nao e a pocao certa.", SSM_FAIL);
 					DestroyItem(theitem);
 					return;
 				endif

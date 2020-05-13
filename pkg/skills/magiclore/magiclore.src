@@ -13,7 +13,7 @@ program skill_armslore(who)
 	var item := Target(who, TGTOPT_CHECK_LOS);
 
 	if (!item)
-		SendSysMEssageEx(who, "Cancelado.", SSM_FAIL);
+		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);
 		return;
 	endif
 
@@ -75,7 +75,7 @@ program skill_armslore(who)
 				var cfg := ReadConfigFile(":spells:config/allspells");
 				var elem := FindConfigElem(cfg, swordgem);
 				var name := GetConfigString(elem, "Name");
-				SendSysMEssageEx(who, "Esta gema magica possui energia para: " + name, SSM_INFO);
+				SendSysMessageEx(who, "Esta gema magica possui energia para: " + name, SSM_INFO);
 
 				SetObjProperty(item, "swordmage", name);
 				var whos := GetObjProperty(item, "magicwho");
@@ -97,7 +97,7 @@ program skill_armslore(who)
 				var elem := FindConfigElem(cfg, priestrune);
 				var name := GetConfigString(elem, "Name");
 				var desc := GetConfigString(elem, "Desc");
-				SendSysMEssageEx(who, "Esta runa magica possui energia para: " + name, SSM_INFO);
+				SendSysMessageEx(who, "Esta runa magica possui energia para: " + name, SSM_INFO);
 				SendSysMessageEx(who, "Descricao: " + desc, SSM_INFO);
 				SetObjProperty(item, "swordmage", name);
 				var whos := GetObjProperty(item, "magicwho");

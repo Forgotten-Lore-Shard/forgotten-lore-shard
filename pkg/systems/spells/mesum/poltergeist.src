@@ -16,13 +16,14 @@ program SpellScript(params)
 	var who := params[1];
 	var targ := params[2];
 	params := 0; // No longer needed
-
+
+
 	if ( targ.IsA(POLCLASS_MOBILE) || (targ.multi.serial) || (targ.container.serial) )
 		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);
 		return 0;
 	endif
 
-	SendSysMEssageEx(who, "Escolha para onde quer mover.", SSM_REQUEST);
+	SendSysMessageEx(who, "Escolha para onde quer mover.", SSM_REQUEST);
 	var loc := TargetCoordinates(who);
 	if ( !loc )
 		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);
