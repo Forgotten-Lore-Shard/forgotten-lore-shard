@@ -22,7 +22,6 @@ function CarveFish(who, blade, use_on)
 	var pesostack;
 	var steak;
 	var num_steaks;
-	print("teste");
 	if( (!Accessible(who, use_on)) or (!CheckLineOfSight(who, use_on)) or (distance(who, use_on) > 2) )
 		SendSysMessage(who, "Voce nao pode usar isto.");
 		return 0;

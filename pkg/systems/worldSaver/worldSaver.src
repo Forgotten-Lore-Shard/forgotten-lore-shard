@@ -74,7 +74,6 @@ endfunction
 
 function GetWaitTime(byref savetimes)
 	var wait_time := savetimes.nextsave - savetimes.lasttick;
-	//Print("WaitTime="+wait_time);
 	return wait_time;
 endfunction
 

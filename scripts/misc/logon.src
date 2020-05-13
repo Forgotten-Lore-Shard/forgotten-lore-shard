@@ -84,7 +84,6 @@ program Logon(who)
 	endif*/
 
 	if (HaveReverseVision(who))
-		print("reverse light");
 		ReverseLight(who);
 	endif
 
