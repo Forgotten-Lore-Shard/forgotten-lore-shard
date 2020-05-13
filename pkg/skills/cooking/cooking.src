@@ -107,7 +107,6 @@ function cookit(who,item);
                 capmod_temp := capmod_temp;
             else
                 capmod_temp := capmod_temp + CInt(GetObjProperty(ingred, "capmod");
-            endif
         endforeach
 	endif
   if(skill_needed)
