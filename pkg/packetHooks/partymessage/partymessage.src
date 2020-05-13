@@ -12,18 +12,15 @@ endprogram
 
 
 exported function PartyMessageSpy( who, byref packet )
-	//var length_of_text := ( packet.GetSize() - 5 ) / 2;
-    var length_of_text := ( packet.GetInt16(1) - 6 ) / 2;
-	//var message_txt := packet.GetUnicodeString(4, length_of_text);
-	var message_txt := packet.GetUnicodeString(5, length_of_text);
-	//message_txt.Erase(1);
-	//message_txt := CChrZ(message_txt);
+
+    var message_txt := packet.GetUnicodeString(6, (packet.GetInt16(1) - 12) /2);
 	
 	if (!message_txt)
 		return 0;
 	endif
 	
 	foreach player in GetGlobalProperty("GmsOnlines")
+        
 		player := SystemFindObjectBySerial(Cint(player));
 		if ( GetObjProperty(player, "PartySpyOn") && player.cmdlevel >= 3 && player != who)
 			var sender := who.name;
@@ -35,17 +32,9 @@ exported function PartyMessageSpy( who, byref packet )
 			if (GetObjProperty(player, "PartySpyOn") == "on")
 				leader := splitwords(leader);
 				leader := leader[1];
-				if (GetGlobalProperty("onlyuni"))
-					SendSysMessageUNI(player, "[Party-"+leader+"]["+sender+"]: "+message_txt, 0x003e);
-				else
-					SendSysMessage(player, "[Party-"+leader+"]["+sender+"]: "+message_txt, _DEFAULT_TEXT_FONT , 0x003e);
-				endif
+				SendSysMessage(player, "[Party-"+leader+"]["+sender+"]: "+message_txt,_DEFAULT_TEXT_FONT , 0x003e);		
 			elseif(GetObjProperty(player, "PartySpyOn") == leader)
-				if (GetGlobalProperty("onlyuni"))
-					SendSysMessageUNI(player, "[PT-SPY]["+sender+"]: "+message_txt, 0x003e);
-				else
-					SendSysMessage(player, "[PT-SPY]["+sender+"]: "+message_txt, _DEFAULT_TEXT_FONT , 0x003e);
-				endif
+				SendSysMessage(player, "[PT-SPY]["+sender+"]: "+message_txt,_DEFAULT_TEXT_FONT , 0x003e);
 			endif
 			
 		endif
