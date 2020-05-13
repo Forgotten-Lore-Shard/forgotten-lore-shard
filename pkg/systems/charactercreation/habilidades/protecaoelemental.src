@@ -27,7 +27,7 @@ program manobra(who)
 			who.resist_energy_mod  := 25;
 		endif
 	else
-		SendSysMEssageEx(who, "Voce ja  escolheu sua protecao elemental.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce ja  escolheu sua protecao elemental.", SSM_FAIL);
 	endif
 
 endprogram   

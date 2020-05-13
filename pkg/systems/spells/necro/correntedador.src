@@ -61,7 +61,7 @@ program SpellScript(params)
 	PlaySoundEffect(who, 384);
 
 
-	SendSysMEssageEx(who, "Voce fez um corrente de dor", SSM_INFO);
+	SendSysMessageEx(who, "Voce fez um corrente de dor", SSM_INFO);
 	
 	return 1;
 endprogram 

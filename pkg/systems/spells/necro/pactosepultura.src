@@ -35,8 +35,8 @@ program SpellScript(params)
 	SetObjProperty(who, "pactodesepulturadmg", necrovital);
 	SetObjProperty(who, "pactodesepultura", targ.serial);
 
-	SendSysMEssageEx(who, "Voce e " + targ.name + " estao em um pacto de sepultura", SSM_INFO);
-	SendSysMEssageEx(targ, "Voce e " + who.name + " estao em um pacto de sepultura", SSM_INFO);
+	SendSysMessageEx(who, "Voce e " + targ.name + " estao em um pacto de sepultura", SSM_INFO);
+	SendSysMessageEx(targ, "Voce e " + who.name + " estao em um pacto de sepultura", SSM_INFO);
 	
 	return 1;
 endprogram 

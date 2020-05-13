@@ -30,7 +30,7 @@ program summontotem(params)
 	var undead :=   summon(":brainai:simulacro", targ, who);		
 
 	if (undead)
-		SendSysMEssageEx(who, "Voce teve sucesso em invocar  a criatura.", SSM_INFO);
+		SendSysMessageEx(who, "Voce teve sucesso em invocar  a criatura.", SSM_INFO);
 	endif
 
 	TS_StartTimer(undead, "summon", GetSpellDuration(AP_GetSkill(who, MAGICLORE)) / 2);	

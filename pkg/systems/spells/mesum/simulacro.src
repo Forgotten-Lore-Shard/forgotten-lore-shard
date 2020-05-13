@@ -31,7 +31,7 @@ program summontotem(params)
 	var undead :=   summon(":brainai:simulacro", targ, who);		
 
 	if (undead)
-		SendSysMEssageEx(who, "Voce teve sucesso em invocar  a criatura.", SSM_INFO);
+		SendSysMessageEx(who, "Voce teve sucesso em invocar  a criatura.", SSM_INFO);
 		Corromper(who, 90, targ);
 	endif
 

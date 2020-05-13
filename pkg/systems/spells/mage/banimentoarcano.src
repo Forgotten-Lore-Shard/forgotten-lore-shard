@@ -24,7 +24,7 @@ program SpellScript(params)
 	endif
 
 	if (!CheckLineOfSight(targ, who))
-		SendSysMEssageEx(who, "Voce nao ve o alvo.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce nao ve o alvo.", SSM_FAIL);
 		return;
 	endif
 

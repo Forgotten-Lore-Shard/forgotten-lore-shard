@@ -29,7 +29,7 @@ program SpellScript(params)
 		oldy := CInt(lastlocation[2]);
 		oldz := CInt(lastlocation[3]);
 		MoveObjectToLocation( who, oldx , oldy , oldz , who.realm);
-		SendSysMEssageEx(who, "Seu corpo transcede o veu ate o mundo dos vivos.", SSM_INFO);
+		SendSysMessageEx(who, "Seu corpo transcede o veu ate o mundo dos vivos.", SSM_INFO);
 		who.frozen := 0;
 	else
 		var lastlocation := { who.x , who.y , who.z };
@@ -42,7 +42,7 @@ program SpellScript(params)
 		Destroyitem( sparkle );
 		SetObjProperty(who, "#LastLocation", lastlocation);
 		MoveObjectToLocation( who, 5280, 3754, 20, who.realm);
-		SendSysMEssageEx(who, "Seu corpo transcede o veu ate o mundo dos mortos.", SSM_INFO);
+		SendSysMessageEx(who, "Seu corpo transcede o veu ate o mundo dos mortos.", SSM_INFO);
 		who.frozen := 0;
 	endif
 	

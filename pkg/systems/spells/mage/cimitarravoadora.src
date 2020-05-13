@@ -18,7 +18,7 @@ program SpellScript(params)
 	var info := params[2];
 	params := 0; // No longer needed
 
-	SendSysMEssageEx(who, "Escolha uma cimitarra.", SSM_REQUEST);
+	SendSysMessageEx(who, "Escolha uma cimitarra.", SSM_REQUEST);
 	var targ := Target(who);
 	if (!targ)
 		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);

@@ -42,7 +42,7 @@ program SpellScript(params)
 	DamageFLS(targ, dmg, DMG_FORCED, who);
 
 	PlaySoundEffect(who, 385);
-	SendSysMEssageEx(who, "O alvo esta tendo sonhos terriveis.", SSM_INFO);
+	SendSysMessageEx(who, "O alvo esta tendo sonhos terriveis.", SSM_INFO);
 	Corromper(who, 31, targ);
 	
 	return 1;

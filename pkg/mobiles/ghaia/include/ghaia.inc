@@ -286,10 +286,10 @@ function InitializeNpc(mobile)
   endif
 
 
-  if (GetObjPRoperty(mobile, "championspawn") == 2)
+  if (GetObjProperty(mobile, "championspawn") == 2)
     SetObjProperty(mobile, "#championspawn", 1);
     ApplyDamage( mobile, 20000);
-  elseif (GetObjPRoperty(mobile, "championspawn") == 1)
+  elseif (GetObjProperty(mobile, "championspawn") == 1)
     SetObjPRoperty(mobile, "championspawn", 2);
   endif
 

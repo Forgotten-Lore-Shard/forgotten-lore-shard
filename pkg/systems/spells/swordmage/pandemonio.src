@@ -32,7 +32,7 @@ program SpellScript(params)
 
 		var elemental := GetObjProperty(targ, "#elementalweapon");
 		if (elemental.type != DMG_FIRE)
-			SendSysMEssageEx(who, "Esta arma precisa estar encantada com Lamina Flamejante.", SSM_FAIL);
+			SendSysMessageEx(who, "Esta arma precisa estar encantada com Lamina Flamejante.", SSM_FAIL);
 			return 1;
 		endif
 

@@ -72,7 +72,7 @@ program TamingSkill(who)
 	elseif (input == 2)
 		Start_Script(":animallore:animalLore", who);
 	elseif (input > 100)
-		SendSysMEssageEx(who, "Voce libertou seu animal.", SSM_INFO);
+		SendSysMessageEx(who, "Voce libertou seu animal.", SSM_INFO);
 		ErasePet(who, pets[input-100]);
 		destama(pets[input-100]);
 	endif
@@ -119,7 +119,7 @@ function taming(who)
 	endif
 
 	if (isBoss(targ))
-		SendSysMEssageEx(who, "Essa criatura nao aceita ser domesticada.", SSM_FAIL);
+		SendSysMessageEx(who, "Essa criatura nao aceita ser domesticada.", SSM_FAIL);
 		return 0;
 	endif
 

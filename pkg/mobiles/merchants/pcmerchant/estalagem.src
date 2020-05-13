@@ -161,7 +161,7 @@ program MerchantMenu(params)
 				bank_region := CP_DEFAULT_AREA;
 			endif
 			if ( !debitoEmConta(bank_region, player, 100) )
-				SendSysMEssageEx(player, "Voce precisa de 100 moedas no banco.", SSM_FAIL);
+				SendSysMessageEx(player, "Voce precisa de 100 moedas no banco.", SSM_FAIL);
 			else
 				var lockid := AllocLockId();
 				var key := CreateItemInBackpack( player, "ironkey", 1 );
@@ -275,7 +275,7 @@ program MerchantMenu(params)
 	elseif (input[0] < 100 && input[0] >= 1) //alugar quarto
 		
 		if (souInquilino)
-			SendSysMEssageEx(player, "Voce ja tem um quarto.");
+			SendSysMessageEx(player, "Voce ja tem um quarto.");
 			return 1;
 		endif
 		
@@ -354,7 +354,7 @@ function debitoEmConta(banco, player, amount)
 	endif
 	
 	if (!CheckGoldAmount(bank_box, amount))
-		SendSysMEssageEx(player, "Voce nao tem dinheiro.");
+		SendSysMessageEx(player, "Voce nao tem dinheiro.");
 		return 0;
 	endif
 	

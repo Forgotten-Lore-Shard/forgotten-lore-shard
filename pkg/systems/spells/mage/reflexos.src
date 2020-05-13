@@ -29,7 +29,7 @@ program SpellScript(params)
 	TS_StartTimer(targ, "agility", GetSpellDuration(AP_GetSkill(who, MAGICLORE)), amt, who, 1); //20 min
 
 	PlaySoundEffect(targ, SFX_SPELL_AGILITY);
-	SendSysMEssageEx(who, "Voce esta muito agil.", SSM_INFO);
+	SendSysMessageEx(who, "Voce esta muito agil.", SSM_INFO);
 	
 	return 1;
 endprogram 

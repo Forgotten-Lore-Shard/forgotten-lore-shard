@@ -25,8 +25,8 @@ program SpellScript(params)
 	
 	SetObjProperty(targ, "evasao", 1);
 	PlaySoundEffect(targ, SFX_SPELL_PROTECTION);
-	SendSysMEssageEx(who, "O alvo foi encantado com sucesso.", SSM_INFO);
-	SendSysMEssageEx(targ, "Voce se sente mais agil.", SSM_INFO);
+	SendSysMessageEx(who, "O alvo foi encantado com sucesso.", SSM_INFO);
+	SendSysMessageEx(targ, "Voce se sente mais agil.", SSM_INFO);
 	
 	return 1;
 endprogram    

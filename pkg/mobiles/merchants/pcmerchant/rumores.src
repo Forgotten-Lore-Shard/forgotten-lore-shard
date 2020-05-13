@@ -72,7 +72,7 @@ program MerchantMenu(params)
 	var input := GFSendGump(player, gump);
 
 	if (input[0] == 20)
-		var r := GetObjPRoperty(npc, "rumores");
+		var r := GetObjProperty(npc, "rumores");
 		if (r == error)
 			r :=array;
 		endif

@@ -32,7 +32,7 @@ program SpellScript(params)
 	
  
 	PlaySoundEffect(who, 385);
-	SendSysMEssageEx(who, "Voce converteu sua energia vital em mana", SSM_INFO);
+	SendSysMessageEx(who, "Voce converteu sua energia vital em mana", SSM_INFO);
 	
 	return 1;
 endprogram 

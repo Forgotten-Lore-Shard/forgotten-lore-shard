@@ -29,7 +29,7 @@ program SpellScript(params)
   TS_StartTimer(targ, "strength", GetSpellDuration(AP_GetSkill(who, MAGICLORE)), amt, who, 1 );
 
   PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
-  SendSysMEssageEx(who, "Voce deixou o alvo forte como um urso.", SSM_INFO);
+  SendSysMessageEx(who, "Voce deixou o alvo forte como um urso.", SSM_INFO);
 
   return 1;
 endprogram

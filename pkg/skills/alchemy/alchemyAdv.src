@@ -274,7 +274,7 @@ function FalhaCritica(who, item)
 		SendSysMessageEx(who, "Voce nao consegui fazer nada com isso.", SSM_FAIL);
 		return;
 	//elseif ( falha < 68 )
-	//	SendSysMEssageEx(who,"AHH!  Seu cabelo caiu!!!", SSM_FAIL);
+	//	SendSysMessageEx(who,"AHH!  Seu cabelo caiu!!!", SSM_FAIL);
 	//	DestroyItem(GetEquipmentByLayer (who, LAYER_HAIR));
 	//	DestroyItem(GetEquipmentByLayer (who, LAYER_BEARD));
 	//	return;
@@ -288,7 +288,7 @@ function FalhaCritica(who, item)
 		sleep(180);
 		who.color := who.truecolor;
 	elseif ( falha < 86 )
-		SendSysMEssageEx(who,"O que foi isso?!", SSM_FAIL);
+		SendSysMessageEx(who,"O que foi isso?!", SSM_FAIL);
 		if (who.graphic == 401)
 			who.graphic := 400;
 		else
@@ -298,7 +298,7 @@ function FalhaCritica(who, item)
 		Detach();
 		who.graphic := who.objtype;
 	elseif ( falha < 95 )
-		SendSysMEssageEx(who,"VAI EXPLO...", SSM_FAIL);
+		SendSysMessageEx(who,"VAI EXPLO...", SSM_FAIL);
 		PlayStationaryEffect( who.x, who.y, who.z, 0x36b0, 7, 10, 1);
 		PlaySoundEffect(who, 0x208);
 		ApplyRawDamage(who, cint(30+ randomInt(100) ) );

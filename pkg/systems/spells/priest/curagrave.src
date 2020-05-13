@@ -66,7 +66,7 @@ program SpellScript(params)
 	recalcvitals(targ);
 
 	PlayObjectCenteredEffect(targ, 0x375A, 0, 16);
-	SendSysMEssageEx(targ, "Voce sente seus ferimentos se curarem magicamente.", SSM_INFO);
+	SendSysMessageEx(targ, "Voce sente seus ferimentos se curarem magicamente.", SSM_INFO);
 	PlaySoundEffect(targ, SFX_SPELL_HEAL);
 	
 	return 1;

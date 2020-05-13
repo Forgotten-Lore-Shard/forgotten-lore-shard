@@ -84,7 +84,7 @@ program MainHitScript( params )
 
 	//calcula os danos
 	basedamage := CalculateTotalDamageBonus(rawdamage, attacker, defender);
-	if (cint(GetObjPRoperty(attacker, "#mataroumorrer")) > 0 )
+	if (cint(GetObjProperty(attacker, "#mataroumorrer")) > 0 )
 		basedamage := basedamage*3;
 	endif
 	if(TemHabilidade(attacker, "Flanquear"))
@@ -107,7 +107,7 @@ program MainHitScript( params )
 			EraseObjProperty(attacker, "movement");
 			return 1;
 		else
-			SendSysMEssageEx(attacker, "Voce perdeu seu ataque especial.", SSM_INFO);
+			SendSysMessageEx(attacker, "Voce perdeu seu ataque especial.", SSM_INFO);
 			EraseObjProperty(attacker, "movement");
 		endif
 	endif
@@ -189,7 +189,7 @@ program MainHitScript( params )
 		endif
 
 		total := CalculateTotalDamage(defender, basedamage, attacker, dmgList);
-		if (GetObjPRoperty(attacker, "#ignorardefesas") >= 1);
+		if (GetObjProperty(attacker, "#ignorardefesas") >= 1);
 			 var ignr := getObjPRoperty(attacker, "#ignorardefesas");
 			ignr := ignr - 1;
 			if (ignr <= 0)
@@ -276,7 +276,7 @@ program MainHitScript( params )
 		else
 			//printtextabove(attacker, "causa dano");
 			var finalizar := 0;
-			if ( cint(GetObjPRoperty(attacker, "#finalizar")) == 1)
+			if ( cint(GetObjProperty(attacker, "#finalizar")) == 1)
 				if ( !isBloodied(defender) )
 					finalizar := 1;
 				endif
@@ -610,7 +610,7 @@ function CriticalHitScripts(attacker, defender, weapon, armor, basedamage, byref
 	endif
 
 	if (TemHabilidade(defender, "Ladrao da Sorte"))
-		SendSysMEssageEx(defender, "Voce desviou do critico e usara isso contra seu oponente!", SSM_INFO);
+		SendSysMessageEx(defender, "Voce desviou do critico e usara isso contra seu oponente!", SSM_INFO);
 		SetObjProperty(defender, "#nextcritical", 1);
 		return 1;
 	endif

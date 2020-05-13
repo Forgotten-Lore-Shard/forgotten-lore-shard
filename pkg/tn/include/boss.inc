@@ -12,16 +12,16 @@ include ":gumps:yesno";
 include "include/client";
 
 function GetBossStruct(targ)
-	var spawnpoint := SystemFindObjectBySerial( GetObjPRoperty(targ, "spawnpoint") );
-	var unique := GetObjPRoperty(spawnpoint, "uniquestat");
+	var spawnpoint := SystemFindObjectBySerial( GetObjProperty(targ, "spawnpoint") );
+	var unique := GetObjProperty(spawnpoint, "uniquestat");
 	return unique;
 
 endfunction
 
 function isBoss(targ)
-	var spawnpoint := SystemFindObjectBySerial( GetObjPRoperty(targ, "spawnpoint") );
+	var spawnpoint := SystemFindObjectBySerial( GetObjProperty(targ, "spawnpoint") );
 	if (spawnpoint != error)
-		var unique := GetObjPRoperty(spawnpoint, "unique");
+		var unique := GetObjProperty(spawnpoint, "unique");
 		if (unique != error)
 			return 1;
 		endif
@@ -384,7 +384,7 @@ function CreateBossStructGump(who, byref boss)
 			var opt := RadioGump(who, 180, 220, "Editar item", array{"Criar", "Deletar", "Alterar Chance"});			
 			if (opt == "Deletar")
 				boss.loot.erase(index);
-				SendSysMEssageEx(who, "O item foi removido.", SSM_INFO);
+				SendSysMessageEx(who, "O item foi removido.", SSM_INFO);
 			elseif ( opt == "Criar" )
 				var retitem := CreateItemInBackpackFromTemplate(who, boss.loot[index].item);
 				if (!retitem)

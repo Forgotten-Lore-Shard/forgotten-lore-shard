@@ -66,7 +66,7 @@ function SetEquipmentMods(who, item)
       			elseif ((mod == "intmod")&&(GetObjProperty(item,"magic")!=1))
         			AP_ModifyStatMod(who, INTELLIGENCE, Cint( mods["intmod"] ) );
       			elseif ((mod == "setprop" )&&(GetObjProperty(item,"magic")!=1))
-        			SetObjProperty(who, ("#" + GetObjProperty(item, "propname")), GetObjPRoperty(item, "propvalue"));
+        			SetObjProperty(who, ("#" + GetObjProperty(item, "propname")), GetObjProperty(item, "propvalue"));
       			elseif ((mod == "manamod")&&(GetObjProperty(item,"magic")!=1))
         			SetObjProperty(who, "#manamod", Cint(GetObjProperty(who, "#manamod")) + Cint(mods["manamod"] ) );
         			RecalcVitals(who);

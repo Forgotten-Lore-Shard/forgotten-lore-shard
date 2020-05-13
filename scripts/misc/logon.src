@@ -49,7 +49,7 @@ program Logon(who)
 
 			var i := 0;	
 
-			var skills := GetObjPRoperty(who, "chardata").Skills;
+			var skills := GetObjProperty(who, "chardata").Skills;
 			for ( i := 0; i < ticks; i := i + 1)
 
 				var possiveis := array;
@@ -66,7 +66,7 @@ program Logon(who)
 
 				var chosen := possiveis[ RandomInt(possiveis.size())+1 ];
 				LogToFile(":tn:passiva.log", who.name + " " + who.acctname + " ganhou 0.1 em " + chosen);
-				SetObjProperty(who, "skillpassiva", cint(GetObjPRoperty(who, "skillpassiva"))+1); //conta quantos ups teve
+				SetObjProperty(who, "skillpassiva", cint(GetObjProperty(who, "skillpassiva"))+1); //conta quantos ups teve
 				//AP_SetTrueSkill(who, chosen,   (AP_GetTrueSkill(who, chosen)+0.1));
 				var temp := (AP_GetTrueSkill(who, chosen)+0.1);
 				while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(who, chosen)) )

@@ -6,7 +6,7 @@ include ":gumps:requestgump";
 
 program totem(who, wand)
 
-	var kit := GetObjPRoperty(who, "kit");
+	var kit := GetObjProperty(who, "kit");
 	if (kit != "Totemista")
 		return;
 	endif 

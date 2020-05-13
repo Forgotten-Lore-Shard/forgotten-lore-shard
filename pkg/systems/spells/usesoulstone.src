@@ -6,7 +6,7 @@ include "include/client";
 
 program soulstone(who, item)
 
-	SendSysMEssageEx(who, "Voce libertou a alma da pedra", SSM_INFO);
+	SendSysMessageEx(who, "Voce libertou a alma da pedra", SSM_INFO);
 	var amount := 10;
 
 	AP_SetVital(who, "dp", cint(AP_GetVital(who, "dp")+amount));

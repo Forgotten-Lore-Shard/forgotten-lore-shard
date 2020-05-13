@@ -24,7 +24,7 @@ program Eagle_ring(who, ring)
 	  who.title_race := CStr (oldrace) ;
       else
 	   if  (cooldown.duration > 0)
-		SendSysMEssageEx(who, "Voce deve esperar mais para usar este item novamente.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce deve esperar mais para usar este item novamente.", SSM_FAIL);
   	   else
           	var oldname := who.name;
   		SetObjProperty (who, "oldname", CStr (oldname));
@@ -35,7 +35,7 @@ program Eagle_ring(who, ring)
 	   	TS_StartTimer(who, "velocidade", 40); 
 	   	TS_StartTimer(who, "stamina", 40);
           	PlaySoundEffect(who, SFX_SPELL_BLESS);
-          	SendSysMEssageEx(who, "Voce esta em forma de aguia.", SSM_INFO);
+          	SendSysMessageEx(who, "Voce esta em forma de aguia.", SSM_INFO);
 	   	who.graphic := 5;	
           	who.name := "Aguia";
 		who.title_race := "";

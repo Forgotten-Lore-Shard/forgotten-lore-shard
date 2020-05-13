@@ -236,7 +236,7 @@ endprogram
 
 function ProcessSpeech(ev)
 
-	var text := lower( CChrZ(ev.uc_text) );
+	var text := lower(ev.text);
 	var name := lower(me.name);
 	if	( ( (ev.source).serial != (me.master).serial ) && 
 		( ev.source.serial != GetObjProperty(me, "AntigoTreinadorID") ) &&

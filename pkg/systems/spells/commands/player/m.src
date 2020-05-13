@@ -23,7 +23,7 @@ program magia(who, spellname)
 	endforeach
 
 	if (!achou)
-		SendSysMEssageEx(who, "A magia " + spellname + " nao existe.", SSM_FAIL);
+		SendSysMessageEx(who, "A magia " + spellname + " nao existe.", SSM_FAIL);
 		return;
 	endif
 

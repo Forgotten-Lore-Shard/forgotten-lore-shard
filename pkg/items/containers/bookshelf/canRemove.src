@@ -9,7 +9,7 @@ program canRemoveScript(mobile, container, item, move_type)
 	item := item;
 	move_type := move_type;
 
-	if (GetObjPRoperty(container, "cantremove") == 1)
+	if (GetObjProperty(container, "cantremove") == 1)
 		return 0;
 	endif
 

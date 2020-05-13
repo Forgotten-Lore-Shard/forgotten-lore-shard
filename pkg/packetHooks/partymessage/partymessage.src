@@ -14,6 +14,7 @@ endprogram
 exported function PartyMessageSpy( who, byref packet )
 
     var message_txt := packet.GetUnicodeString(6, (packet.GetInt16(1) - 12) /2);
+
 	
 	if (!message_txt)
 		return 0;

@@ -24,7 +24,7 @@ program drink_blue (who, potion)
 
 
 	if ( TS_GetCooldown(who, "staminapot") != error)
-		SendSysMEssageEx(who, "Voce nao pode usar essa pocao agora.", SSM_FAIL);
+		SendSysMessageEx(who, "Voce nao pode usar essa pocao agora.", SSM_FAIL);
 		return 1;
 	endif
 

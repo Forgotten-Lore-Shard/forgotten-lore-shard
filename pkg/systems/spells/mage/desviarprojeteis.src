@@ -27,7 +27,7 @@ program SpellScript(params)
 	TS_StartTimer(targ, "desviarprojetil", 60, 1, who, 1); //1 min
 
 	PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
-	SendSysMEssageEx(who, "Voce esta protegido contra projeteis.", SSM_INFO);
+	SendSysMessageEx(who, "Voce esta protegido contra projeteis.", SSM_INFO);
 	
 	return 1;
 endprogram 

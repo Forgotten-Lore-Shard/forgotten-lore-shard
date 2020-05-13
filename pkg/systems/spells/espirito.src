@@ -17,7 +17,7 @@ program spirit(who ,item)
 	
 		if (!(spellid in spells))
 			spells.append(spellid);
-			SendSysMEssageEx(who, "Espirito adicionado no totem.", SSM_INFO);
+			SendSysMessageEx(who, "Espirito adicionado no totem.", SSM_INFO);
 			SetObjProperty(targ, "spells", spells);
 			DestroyItem(item);
 		endif

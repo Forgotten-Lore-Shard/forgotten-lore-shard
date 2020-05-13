@@ -25,7 +25,8 @@ program SpellScript(params)
 	if (GetObjProperty(targ, "#descansotranquilo"))
 		SendSysMessageEx(who, "Voce so pode orar uma magia ao mesmo tempo.", SSM_FAIL);
 		return;
-	endif
+	endif
+
 	PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
 
 	var x := targ.x; 
@@ -46,7 +47,7 @@ program SpellScript(params)
 		foreach char in (nearbypeople)
 			if (char.warmode)
 				continuehealing := 0;
-				SendSysMEssageEx(who,  "A magia foi interrompida por um conflito.", SSM_FAIL);
+				SendSysMessageEx(who,  "A magia foi interrompida por um conflito.", SSM_FAIL);
 				break;
 			endif
 		endforeach

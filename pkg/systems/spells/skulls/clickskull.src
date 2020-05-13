@@ -19,7 +19,7 @@ program usavarinha(who, wand)
 
 	var cargas := Cint(GetObjProperty(wand, "cargas"));
 	if (cargas <= 0)
-		SendSysMEssageEx(who, "O cranio esta sem cargas.", SSM_FAIL);
+		SendSysMessageEx(who, "O cranio esta sem cargas.", SSM_FAIL);
 		return;
 	else
 		cargas := cargas - 1;

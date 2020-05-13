@@ -45,7 +45,7 @@ program pergrad(who, item)
 			endif
 			SendSysMessageEx(who, "Voce comprou a habilidade: " + escolhida, SSM_INFO);
 			if (escolhida == "Grande Fortitude")
-				var hitsmod := cint(GetObjPRoperty(who, "hitsmod"));
+				var hitsmod := cint(GetObjProperty(who, "hitsmod"));
 				hitsmod := hitsmod + 20;
 				setObjProperty(who, "hitsmod", hitsmod);
 				recalcvitals(who);

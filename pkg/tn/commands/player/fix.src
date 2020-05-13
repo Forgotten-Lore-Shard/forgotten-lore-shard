@@ -23,7 +23,7 @@ program fix(who)
 		return 0;
 	endif
 	
-	if (GetObjPRoperty(alvo, "canfix") != 1)
+	if (GetObjProperty(alvo, "canfix") != 1)
 		SendSysMessageEx(who, "Voce nao pode fixar este item.");
 		return 0;
 	endif
@@ -45,11 +45,11 @@ program fix(who)
 		if (alvo.movable == 1)
 			SetObjProperty(alvo, "fixer", who.serial);
 			alvo.movable := 0;
-			SendSysMEssageEx(who, "O item esta imovel agora e somente voce podera solta-lo.", SSM_INFO);
+			SendSysMessageEx(who, "O item esta imovel agora e somente voce podera solta-lo.", SSM_INFO);
 		else
 			if (CInt(GetObjProperty(alvo, "crafterserial")) == who.serial)
 				alvo.movable := 1;
-				SendSysMEssageEx(who, "O item esta solto.", SSM_INFO);
+				SendSysMessageEx(who, "O item esta solto.", SSM_INFO);
 				SetObjProperty(alvo, "fixer", who.serial);
 				GetDeed(who, alvo);
 			else

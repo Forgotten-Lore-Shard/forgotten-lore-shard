@@ -17,7 +17,7 @@ program SpellScript(params)
   TS_StartTimer(who, "berserk", GetSpellDuration(AP_GetSkill(who, MAGICLORE)), amt, who, 1 );
 
   PlaySoundEffect(who, SFX_SPELL_STRENGTH);
-  SendSysMEssageEx(who, "Voce entrou em um estado de furia.", SSM_INFO);
+  SendSysMessageEx(who, "Voce entrou em um estado de furia.", SSM_INFO);
 
   return 1;
 endprogram                    

@@ -43,13 +43,13 @@ program SendQuestMenu(params)
 		// testa se nao ja fez antes
 		// avisa e inicia o timer no npc
 		// armazena a prop do cara q pegou a quest
-		var finalizadas := GetObjPRoperty(player, "quests");
+		var finalizadas := GetObjProperty(player, "quests");
 		if (finalizadas == error)
 			finalizadas := array;
 		endif
 		foreach q in finalizadas
 			if (q.name == questinfo.nome)
-				SendSysMEssageEx(player, "Voce nao pode mais fazer essa missao.", SSM_FAIL);
+				SendSysMessageEx(player, "Voce nao pode mais fazer essa missao.", SSM_FAIL);
 				return;
 			endif
 		endforeach

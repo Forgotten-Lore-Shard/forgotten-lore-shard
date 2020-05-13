@@ -23,7 +23,7 @@ program SpellScript(params)
 	endif
 	
 	if (!who.dead)
-		SendSysMEssageEx(who, "Voce esta escondido.", SSM_INFO);
+		SendSysMessageEx(who, "Voce esta escondido.", SSM_INFO);
 		who.hidden := 1;
 	endif
 	

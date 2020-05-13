@@ -163,9 +163,9 @@ program do_poisoning(who)
 		doses := doses - 1;
 		if (doses > 0)
 			SetObjProperty(the_poison, "doses", doses);
-			SendSysMEssageEx(who, "Ainda tem veneno para " + doses + " doses.", SSM_INFO);
+			SendSysMessageEx(who, "Ainda tem veneno para " + doses + " doses.", SSM_INFO);
 		else
-			SendSysMEssageEx(who, "Voce usou todas as doses do veneno.", SSM_INFO);
+			SendSysMessageEx(who, "Voce usou todas as doses do veneno.", SSM_INFO);
 			SubtractAmount(the_poison, 1);
 			EraseObjProperty(the_poison, "doses");
 			CreateItemInBackpack(who, 0xf0e, 1);

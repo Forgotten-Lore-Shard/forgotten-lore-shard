@@ -16,7 +16,7 @@ program lingua(who)
 	if (qt > 0)
 		var minhaslinguas := CheckBoxGump(who, 200, 180, "Escolha " + qt + "linguas. ", array{"Silvestre", "Draconiano", "Antigo Comum", "Lambion", "Lingua dos Mortos", "Abissal"});
 		if (minhaslinguas.size() > qt)
-			SendSysMEssageEx(who, "Voce escolheu mais do que devia.", SSM_FAIL);
+			SendSysMessageEx(who, "Voce escolheu mais do que devia.", SSM_FAIL);
 			return;
 		endif
 		SetObjProperty(who, "linguas", minhaslinguas);

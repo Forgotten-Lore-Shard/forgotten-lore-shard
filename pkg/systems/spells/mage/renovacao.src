@@ -26,8 +26,8 @@ program SpellScript(params)
 	TS_CurePoison(targ, 10000, "P", 10);
 
 	PlaySoundEffect(targ, SFX_SPELL_CURE);
-	SendSysMEssageEx(who, "Voce curou os venenos no alvo.", SSM_INFO);
-	SendSysMEssageEx(targ, "Voce foi curado do veneno.", SSM_INFO);
+	SendSysMessageEx(who, "Voce curou os venenos no alvo.", SSM_INFO);
+	SendSysMessageEx(targ, "Voce foi curado do veneno.", SSM_INFO);
 	
 	return 1;
 endprogram 

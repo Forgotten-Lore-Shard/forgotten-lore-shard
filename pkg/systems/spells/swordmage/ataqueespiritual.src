@@ -29,16 +29,16 @@ program SpellScript(params)
 
 		var elemental := GetObjProperty(targ, "#elementalweapon");
 		if (elemental == error)
-			SendSysMEssageEx(who, "Sua arma precisa estar com algum encantamento fundamental.", SSM_FAIL);
+			SendSysMessageEx(who, "Sua arma precisa estar com algum encantamento fundamental.", SSM_FAIL);
 			return 1;
 		endif
 
 		if ( GetCooldown(targ, "blessweapon") > 0 )
-			SendSysMEssageEx(who, "Esta arma ja esta com um encantamento.", SSM_FAIL);
+			SendSysMessageEx(who, "Esta arma ja esta com um encantamento.", SSM_FAIL);
 			return 1;
 		endif
 
-		SendSysMEssageEx(who, "A gema neutra foi ativada.", SSM_INFO);
+		SendSysMessageEx(who, "A gema neutra foi ativada.", SSM_INFO);
 		SetCooldown(targ, "habelemental", 20);
 		SetCooldown(targ, "ataqueespiritual", 20);
 

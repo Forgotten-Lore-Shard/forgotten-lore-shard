@@ -29,7 +29,7 @@ program SpellScript(params)
 	
 
 	PlaySoundEffect(targ, SFX_SPELL_CUNNING);
-	SendSysMEssageEx(targ, "Agora voce entendeu.", SSM_INFO);
+	SendSysMessageEx(targ, "Agora voce entendeu.", SSM_INFO);
 	
 	return 1;
 endprogram 

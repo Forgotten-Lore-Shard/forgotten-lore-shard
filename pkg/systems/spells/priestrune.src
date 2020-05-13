@@ -26,7 +26,7 @@ program usavarinha(who, wand)
 		endif
 	endif
 	if (cargas <= 0)
-		SendSysMEssageEx(who, "A runa esta sem cargas e se desfez.", SSM_FAIL);
+		SendSysMessageEx(who, "A runa esta sem cargas e se desfez.", SSM_FAIL);
 		DestroyItem(wand);
 		return;
 	else

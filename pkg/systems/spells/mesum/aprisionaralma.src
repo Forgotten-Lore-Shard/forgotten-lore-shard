@@ -22,7 +22,7 @@ program SpellScript(params)
 	if (targ.npctemplate == ":brainai:lich"|| targ.npctemplate == ":brainai:demiliche"|| targ.npctemplate == ":brainai:dracolich" || targ.npctemplate == ":brainai:Daemon" || targ.npctemplate == ":brainai:bonedaemon"|| targ.npctemplate == ":brainai:SucubusSuperior" || targ.npctemplate == ":brainai:ArcaneDaemon"|| targ.npctemplate == "ChaosDaemon"|| targ.npctemplate == ":brainai:pitfiend" || targ.npctemplate == ":brainai:Moloch") 
 		SetObjProperty(targ, "soulstone", 1);
 		PlaySoundEffect(targ, SFX_SPELL_WEAKEN);
-		SendSysMEssageEx(who, "Voce aprisionara a alma do alvo.", SSM_INFO);
+		SendSysMessageEx(who, "Voce aprisionara a alma do alvo.", SSM_INFO);
 		Corromper(who, 88, targ);
 	endif
 	

@@ -389,7 +389,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			PrintText(who, "*enfurecido*");
 		endif
 		if (temHabilidade(who, "Furia Primitiva"))
-			if (GetObjPRoperty(who, "metamorfose") != error)
+			if (GetObjProperty(who, "metamorfose") != error)
 				other:= other + 1.0;
 				PrintText(who, "*enfurecido*");
 			endif

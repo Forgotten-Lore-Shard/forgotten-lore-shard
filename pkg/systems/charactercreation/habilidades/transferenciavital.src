@@ -34,14 +34,14 @@ program manobra(mobile)
 	if(TemHabilidade(mobile, "Vontade Esmagadora"))
 	
 		if (CheckResist(targ, VONTADE, 65+cint(AP_GetSkill(mobile, MAGICLORE))))
-			SendSysMEssageEx(mobile, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
+			SendSysMessageEx(mobile, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			mobile.frozen := 0;
 			return;
 		endif
 	else
 		if (CheckResist(targ, VONTADE, 40+cint(AP_GetSkill(mobile, MAGICLORE))))
-			SendSysMEssageEx(mobile, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
+			SendSysMessageEx(mobile, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			mobile.frozen := 0;
 			return;
@@ -51,7 +51,7 @@ program manobra(mobile)
 	while  (time < 10)
 
 		if ( (mobile.x != oldx) || (mobile.y != oldy))
-			SendSysMEssageEx(who, "Voce se moveu e cancelou a magia.", SSM_FAIL);
+			SendSysMessageEx(who, "Voce se moveu e cancelou a magia.", SSM_FAIL);
 			break;
 		endif
 

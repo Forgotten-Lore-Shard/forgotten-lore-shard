@@ -13,12 +13,12 @@ program manobra(attacker)
 
 		var targ := target(attacker);
 		if (!targ)
-			SendSysMEssageEx(attacker, "Cancelado.", SSM_FAIL);
+			SendSysMessageEx(attacker, "Cancelado.", SSM_FAIL);
 			return;
 		endif
 
 		if (!targ.isa(POLCLASS_MOBILE))
-			SendSysMEssageEx(attacker, "Cancelado.", SSM_FAIL);
+			SendSysMessageEx(attacker, "Cancelado.", SSM_FAIL);
 			return;
 		endif
 

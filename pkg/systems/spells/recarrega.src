@@ -30,7 +30,7 @@ program recarrega(item_recebe)
 							If(GetObjProperty(itemcerto, "charges") == 0)
 								SetObjProperty(itemcerto, "charges",GetObjProperty(itemcerto, "maxcharges"));
 								
-								var customText := GetObjPRoperty(item_recebe, "customText");
+								var customText := GetObjProperty(item_recebe, "customText");
 								var cor_original:=itemcerto.color;
 
 								sleep(2);

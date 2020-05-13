@@ -382,7 +382,7 @@ function AddItemToSell(npc, player)
 		endif
 	endif
 
-	if ( cint(GetObjPRoperty(npc, "onlyartifice")) == 1)
+	if ( cint(GetObjProperty(npc, "onlyartifice")) == 1)
 		if (getObjProperty(player, "kit") != "Artifice")
 			SendSysMessage(player, "Apenas artifices podem por itens a venda nesse mercador.");
 			return;

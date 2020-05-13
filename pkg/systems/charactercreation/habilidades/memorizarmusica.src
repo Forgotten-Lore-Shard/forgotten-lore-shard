@@ -40,7 +40,7 @@ program memorizarmusica(who)
 		SendSysMessageEx(who, "Escolha a partitura magica.", SSM_REQUEST);
 		var targ := Target(who);
 		if (!targ || targ.container != who.backpack)
-			SendSysMEssageEx(who, "Cancelado.", SSM_FAIL);
+			SendSysMessageEx(who, "Cancelado.", SSM_FAIL);
 			return 1;
 		endif
 
