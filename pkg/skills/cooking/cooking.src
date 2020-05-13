@@ -92,6 +92,7 @@ function cookit(who,item);
   var theIngredients := {};
   var newitem;
   var ingredientsno;
+  var capmod_temp :=0;
 	if (ingredients)
 		theIngredients := GetIngredients(who, ingredients);
 		ingredientsno := theIngredients.size;
@@ -101,12 +102,14 @@ function cookit(who,item);
             return;
         endif
         //Pega o capmod dos ingredientes
-        var capmod_temp :=0;
         foreach ingred in theIngredients 
             if (GetObjProperty(ingred, "capmod") == error)
+                SendSysMessage(who, "nao tem capmod." + ingred);
                 capmod_temp := capmod_temp;
             else
-                capmod_temp := capmod_temp + CInt(GetObjProperty(ingred, "capmod");
+                capmod_temp := capmod_temp + CInt(GetObjProperty(ingred, "capmod" ));
+                SendSysMessage(who, "temcapmod."+ ingred);
+            endif
         endforeach
 	endif
   if(skill_needed)
@@ -116,7 +119,9 @@ function cookit(who,item);
         newitem := CreateItemInBackpack(who, product, amt);
 		if(newitem)
 	      SendSysMessage(who, "Voce guardou o item na sua mochila");
-		  case ( ingredientsno + capmod_temp)
+          var ingredients_temp := ingredientsno + capmod_temp;
+          SendSysMessage(who, "ingreds." + ingredients_temp); 
+		  case ( ingredients_temp )
 		  2:
 		  SetObjProperty(newitem, "capmod", 1);
 		  3:

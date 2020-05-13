@@ -260,11 +260,12 @@ function makefood(who, input)
 		endif
 		
 		var ingredientesno := 0;
+        var capmod_temp := 0;
 		var consumelist := {};
 		var details := struct;
 		details .+ vector;
 		details .+ amount;
-
+        
 		foreach line in getconfigstringarray(recipeinfo, "ingredient")
 			ingredientesno := ingredientesno +1;
 			line := splitwords(line);
@@ -277,16 +278,32 @@ function makefood(who, input)
 			endwhile
 
 			line := splitwords(line);
+            
+            foreach item in line
+                var ingred := FindObjtypeInContainer(who.backpack,getobjtypebyname(item));
+                SendSysMessage(who, "line: " + item);
+                SendSysMessage(who, "obj: " + getobjtypebyname(item));
+                if (GetObjProperty(ingred, "capmod") == error)
+                    SendSysMessage(who, "nao tem capmod. " + ingred);
+                    capmod_temp := capmod_temp;
+                else
+                    capmod_temp := capmod_temp + CInt(GetObjProperty(ingred, "capmod" ));
+                    SendSysMessage(who, "temcapmod. "+ ingred);
+                endif
+            endforeach
+            
 			var yield := 0;
 			foreach item in line
 				yield := yield + searchpack(who, getobjtypebyname(item));
 			endforeach
-
+            
 			if (yield < amount)
 				SendSysMessageEx(who, "Voce nao possui ingredientes suficientes.", SSM_FAIL);
 				SendSysMessageEx(who, "Faltando " + amount + " " + line[1], SSM_FAIL);
 				return;
 			else
+                
+                
 				var temp := {}; // Build a list of ObjTypes from the names
 				foreach item in line
 					temp.append(getobjtypebyname(item));
@@ -307,7 +324,8 @@ function makefood(who, input)
 		if (SkillCheck(who, DomesticWork, recipeinfo.skill, recipeinfo.skill*2) > 0)
 			var newitem := createiteminbackpack(who, getobjtypebyname(recipeinfo.objtype), 1);
 			SendSysMessageEx(who, "Voce guardou a comida na sua mochila.", SSM_INFO);
-			case ( ingredientesno )
+            var ingredients_temp := ingredientesno + capmod_temp;
+			case ( ingredients_temp )
 		  2:
 		  SetObjProperty(newitem, "capmod", 1);
 		  3:
@@ -320,6 +338,12 @@ function makefood(who, input)
 		  SetObjProperty(newitem, "capmod", 5);
 		  7:
 		  SetObjProperty(newitem, "capmod", 6);
+          8:
+		  SetObjProperty(newitem, "capmod", 7);
+          9:
+		  SetObjProperty(newitem, "capmod", 8);
+          10:
+		  SetObjProperty(newitem, "capmod", 9);
 		  endcase
 		else
 			SendSysMessageEx(who, "Voce falhou e arruinou a comida!", SSM_FAIL);
