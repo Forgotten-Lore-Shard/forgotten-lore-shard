@@ -196,7 +196,7 @@ exported function GetSkillCapRegenRate(mobile)
         if ((GetGlobalProperty("BonusRP") == error) || (GetGlobalProperty("BonusRP") == 0))
             bonusRP := 0;
         else
-            bonusRP := 1;
+            bonusRP := CInt(GetGlobalProperty("BonusRP"));
         endif
         
         if (GetObjProperty(mobile, "nota") == error)
