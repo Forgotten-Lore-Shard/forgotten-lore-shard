@@ -61,7 +61,6 @@ function UpOreAmounts()
 endfunction
 
 function RegenWood(settings)
-	Print("Running wood regeneration cycle...");
 	var data_file := LJ_GetDataFile();
 	
 	foreach elem_name in DFGetElemNames(data_file)
@@ -80,8 +79,6 @@ endfunction
 function UpMiscAmounts()
 	var data_file := DFOpenDataFile("MiscResources", DF_CREATE);
 	var elems := DFGetElemNames(data_file);
-
-	SysLog("Running mining-resource regeneration cycle. ("+elems.size()+") coordinates.");
 
 	foreach coordinate in elems
 		var coordinate_info := DFFindElement(data_file, coordinate);
