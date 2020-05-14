@@ -95,7 +95,7 @@ function SendCheckRP(who, conta)
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 5);
 
 		x := x +20;
-		GFTextLine(gump, 35, x, 1153, "[10*Nivel] Adquirir um Pergaminho de Habilidade do Nivel Desejado.");
+		GFTextLine(gump, 35, x, 1153, "[30*Nivel] Adquirir um Pergaminho de Habilidade do Nivel Desejado.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 6);
 
 		x := x +20;
@@ -130,7 +130,7 @@ function SendCheckRP(who, conta)
 				return;
 			endif
 			var true_skill := AP_GetTrueSkill(who, skill);
-			var temp := true_skill+0.1;
+			var temp := true_skill+0.4;
 			AP_SetTrueSkill(who, skill, temp);
 			decGrade(who, 15);
 			MakeLog(conta, 15, "Aumentar Pericia", "Aumentou a Pericia " + skill);
