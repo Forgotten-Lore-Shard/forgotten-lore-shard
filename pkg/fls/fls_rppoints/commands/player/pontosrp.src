@@ -130,7 +130,7 @@ function SendCheckRP(who, conta)
 				return;
 			endif
 			var true_skill := AP_GetTrueSkill(who, skill);
-			var temp := true_skill+0.4;
+			var temp := true_skill+0.1;
 			AP_SetTrueSkill(who, skill, temp);
 			decGrade(who, 15);
 			MakeLog(conta, 15, "Aumentar Pericia", "Aumentou a Pericia " + skill);
