@@ -40,22 +40,20 @@ var makermark := 1;
 // was originally colored logs. The colored log objtype is stored
 // in the cprop, and is used to get it's "ResourceList" reference.
 function MaterialSelection(who, craft_skill, type, chk)
-
- 	SendSysMessage(who, "Escolha o "+lower(type)+" que voce deseja trabalhar.");
+	
+	SendSysMessage(who, "Escolha o "+lower(type)+" que voce deseja trabalhar.");
 	var material := Target(who);
 
 	if(!material)
 		SendSysMessage(who, "Cancelado.");
 		return 0;
 	endif
-	
 	if(material.container.serial != who.backpack.serial)
 		SendSysMessage(who, "O material nao esta na sua mochila.");
 		return 0;
 	endif
-	
 	if( (!Accessible(who, material)) || (Distance(who, material) > 2)
-       || (material.movable == 0) || (!ReserveItem(material)))
+	   || (material.movable == 0) || (!ReserveItem(material)))
 		SendSysMessage(who, "Voce nao pode usar isto.");
 		return 0;
 	endif
@@ -142,68 +140,78 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 	var targMaterials := dictionary;
 	var chosenPrincipalMaterial := 0;
 	var materialColor := 0;
-	foreach thing in (materials.keys())
-		if (thing == "metal" || thing == "wood" || thing == "glass" 
-			|| thing == "cloth" || thing == "leather" || thing == "stone"
-			|| thing == "arrowhead")
-
-			var ret := MaterialSelection(who, craft_skill, thing, 0);
-			if (!ret)
-				SendSysMessageEx(who, "Voce nao possui os materiais necessarios.", SSM_FAIL);
-				return OUT_OF_MATERIALS;
-			else
-				if (ret[1].amount < materials[thing] )
-					SendSysMessageEx(who, "Voce nao possui os materiais necessarios." , SSM_FAIL);
-					return OUT_OF_MATERIALS;			
-				else
-					if (thing == "arrowhead")
-						var arrowtype := GetconfigInt(theitemElem, "arrowtype");
-						if (cint(GetObjProperty(ret[1], "material")) != arrowtype)
-							SendSysMessageEx(who, "Voce nao pode fabricar estas flechas com a ponta escolhida." , SSM_FAIL);
-							return OUT_OF_MATERIALS;
-						endif
-					endif
-					targMaterials[ret[1].objtype] := materials[thing];
-					if (thing == principalMaterial)
-						materialColor := ret[1].color;
-						chosenPrincipalMaterial := ret[1].objtype;
-					endif
-				endif
-			endif
-		else
-			foreach item in (EnumerateItemsInContainer(who.backpack))
-					//sendsysmessage(who, " " + item.objtype + " " + cint(thing));
-				if (item.objtype == cint(thing))
-					if (targMaterials[thing])
-						targMaterials[thing] := targMaterials[thing] + item.amount;
-					else
-						targMaterials[thing] :=  item.amount;
-					endif
-				endif
-			endforeach
-			if ( targMaterials[thing] < (materials[thing] + more))
-				SendSysMessageEx(who, "Voce nao possui os materiais necessarios." , SSM_FAIL);
-				return OUT_OF_MATERIALS;
-			else
-				targMaterials[thing] := materials[thing];
-			endif
-		endif
-
-	endforeach
-
+	
 	var counter := 0;
 	var theitems := array;
-
 	var initialX := who.x;
 	var initialY := who.y;
-	while (counter < amt)
+	var item;
+	var arrowtype;
+	var check;
+	var ret := dictionary;
+	var hisskill;
+	
+	while (counter < amt)	//executa o craft o numero de vezes solicitadas ou ate acabar algum dos materiais
 		counter := counter + 1;
+		//SendSysMessage(who, "Tentativa numero " + Cstr(counter) + " de fazer o item.", 0, 133);
+		foreach thing in (materials.keys())	//Comeca a verificar se os materiais tem tipos variados (Exemplo: Barra de Ferro, Barra de Aço, etc.)
+			if (thing == "metal" || thing == "wood" || thing == "glass" 
+				|| thing == "cloth" || thing == "leather" || thing == "stone"
+				|| thing == "arrowhead")	//os materiais que tem tipos variados 
+				if(counter == 1)	//na primeira iteração pergunta quais materiais de tipos variados serao usados.
+					ret[thing] := MaterialSelection(who, craft_skill, thing, 0); //seleciona os tipos de cada material de tipo variado, apenas na primeira iteracao.
+				endif
+				if (!ret[thing])	//quando a selecao de material falhar, exibe mensagem de erro.
+					SendSysMessageEx(who, "Voce nao possui os materiais necessarios.", SSM_FAIL);
+					return OUT_OF_MATERIALS;
+				else	//se um material valido foi escolhido, verifica se ele tem quantidade suficiente
+					//SendSysMessageEx(who, "DEBUG: " + cstr(ret[thing][1].amount) + " < " + cstr(materials[thing]) + " - BETA", SSM_FAIL);	//quando a quantidade de um material for insuficiente, exibe mensagem de erro.
+					if (ret[thing][1].amount < materials[thing]) //caso em que ha menos material que o necessario para fabricar o item
+						SendSysMessageEx(who, "nao possui materiais suficientes." , SSM_FAIL);	//quando a quantidade de um material for insuficiente, exibe mensagem de erro.
+						return OUT_OF_MATERIALS;
+					else	//caso em que ha o material necessario para fabricar o item
+						if (thing == "arrowhead") //verificacao diferenciada para pontas de flechas
+							arrowtype := GetconfigInt(theitemElem, "arrowtype");
+							if (cint(GetObjProperty(ret[thing][1], "material")) != arrowtype)
+								SendSysMessageEx(who, "Voce nao pode fabricar estas flechas com a ponta escolhida." , SSM_FAIL);
+								return OUT_OF_MATERIALS;
+							endif
+						endif
+						targMaterials[ret[thing][2]] := materials[thing];  //Alteracao da quantidade de materiais de tipos variados a serem utilizados ocorre aqui
+						if (thing == principalMaterial)
+							materialColor := ret[thing][1].color;
+							chosenPrincipalMaterial := ret[thing][2];
+						endif
+					endif
+				endif
+			else	//os materiais que nao tem tipos variados 
+				foreach item in (EnumerateItemsInContainer(who.backpack)) //Checa os itens na mochila para contabilizar o material
+						//sendsysmessage(who, " " + item.objtype + " " + cint(thing));
+					if (item.objtype == cint(thing))	//acha os itens do tipo do material pedido
+						if (targMaterials[thing])
+							targMaterials[thing] := targMaterials[thing] + item.amount;
+						else
+							targMaterials[thing] :=  item.amount;
+						endif
+					endif
+				endforeach
+				if ( targMaterials[thing] < (materials[thing] + more))
+					//SendSysMessageEx(who, "DEBUG: " + cstr(targMaterials[thing]) + " < " + cstr((materials[thing] + more)) + " - GAMA", SSM_FAIL);	//quando a quantidade de um material for insuficiente, exibe mensagem de erro.
+					SendSysMessageEx(who, "Voce nao possui os materiais necessarios." , SSM_FAIL);
+					return OUT_OF_MATERIALS;
+				else
+					targMaterials[thing] := materials[thing];
+				endif
+			endif
+		endforeach
+
+
 		if ( (who.x != initialX) || (who.y != initialY) )
 			SendSysMessageEx(who, "Voce parou de se concentrar no que estava fazendo.", SSM_FAIL);
 			return 1;
 		endif
 
-		var item := 0;
+		item := 0;
 		if (anvil)
 			item := CreateItemAtLocation(anvil.x, anvil.y, anvil.z, objtype, 1, anvil.realm);
 			item.movable := 0;
@@ -216,7 +224,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 			DestroyItem(item);
 		endif
 
-		var check := Skillcheck(who, craft_skill, diff, pts) ;
+		check := Skillcheck(who, craft_skill, diff, pts) ;
 
 		if(check > 0)
 			if (!SubtractMaterial(who, targMaterials, 1+more))
@@ -238,7 +246,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 
 			SendSysMessageEx(who, "Voce criou o item o colocou na mochila.", SSM_INFO);
 		
-			var hisskill := AP_GetSkill(who, craft_skill);
+			hisskill := AP_GetSkill(who, craft_skill);
 
 			if (theitem.isa(POLCLASS_WEAPON) || theitem.isa(POLCLASS_ARMOR))	
 				SetObjProperty(theitem,"reparos",(hisskill/2));
@@ -257,6 +265,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 			endif
 
 			theitems.append( theitem);
+
 		else
 			SubtractMaterial(who, targMaterials, 0.5); //consome metade do material
 			SendSysMessageEx(who, "Voce falhou ao fazer o item e perdeu material." , SSM_FAIL);
