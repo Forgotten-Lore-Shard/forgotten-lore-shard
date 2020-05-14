@@ -210,6 +210,20 @@ function ItemTrackGump(who, items)
 			y := 0;		
 		endif
 		temcoisa := 1;
+		
+		elseif(item.objtype == 0xa5a)
+				itemarray.append(item);
+				GFTextLine(gump, (47 + x), (70 + y), 800, "Oasis");
+				GFAddButton(gump, (30 + x), (74 + y),  2103, 2104, GF_CLOSE_BTN, b );
+				y := y + 20;
+				b := b + 1;
+					if (y > 380)
+						x := x + 150;
+						y := 0;		
+					endif
+				temcoisa := 1;
+				
+				
      	   elseif(item.isa(POLCLASS_CORPSE))
 		itemarray.append(item);
 		GFTextLine(gump, (47 + x), (70 + y), 800, "Corpo");
