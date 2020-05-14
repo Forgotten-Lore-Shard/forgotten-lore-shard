@@ -23,45 +23,31 @@ program SpellScript(params)
 		return;
 	endif
 
-	var time := GetSpellDuration( AP_GetSkill(who, MAGICLORE) );
+	var time :=  cint(AP_GetSkill(who, MAGICLORE) / 2);
 	
 	if (targ.isA(POLCLASS_WEAPON))
 
 		var elemental := GetObjProperty(targ, "#elementalweapon");
 		if (elemental.type != DMG_FIRE)
-			SendSysMessageEx(who, "Esta arma precisa estar encantada com Lamina Flamejante.", SSM_FAIL);
+			SendSysMEssageEx(who, "Esta arma precisa estar encantada com Lamina Flamejante.", SSM_FAIL);
 			return 1;
 		endif
 
 		if ( GetCooldown(targ, "blessweapon") > 0 )
-			SendSysMessageEx(who, "Esta arma ja esta com um encantamento.", SSM_FAIL);
+			SendSysMEssageEx(who, "Esta arma ja esta com um encantamento.", SSM_FAIL);
 			return 1;
 		endif
 
 		SendSysMessageEx(who, "As chamas da sua arma estao incontrolaveis.", SSM_INFO);
-		Detach();
 
-		var bonus := 0;
-		while( who.weapon == targ )
+		TS_StartTimer(who, "sacrificioflamejante", time);
 	
-			if (who.dead)
-				break;
-			endif
-			
-			ApplyRawDamage(who, 10);
-			bonus := bonus + 0.2;
-			SetObjProperty(targ, "#dmgbonus", bonus);
-			PrintText(who, "*queimando com chamas da espada*");
-			sleep(5);
-		endwhile
-	
-		SetObjProperty(who, "#dmgbonus", GetObjProperty(who, "#dmgbonus") - bonus);	
-		SendSysMessageEx(who,  "As chamas estao quietas.", SSM_INFO);
-		return 1;
 	endif
 
 	SendSysMessageEx(who, "Alvo invalido.", SSM_INFO);
 
 endprogram    
+ 
+ 
  
  
