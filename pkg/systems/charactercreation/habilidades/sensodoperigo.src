@@ -9,18 +9,19 @@ include "include/sysEvent";
 program manobra(who)
 	var nearby := ListHostiles(who, 10);
 	var hostiles := array{};
+	SendSysMessage(who, "Senso do Perigo ativado");
 	foreach char in nearby
 			hostiles.append(char);
 		sleepms(20);
 	endforeach
-
+	who.concealed := 1;
 	foreach char in hostiles
+		SendSysMessage(who, "Senso do Perigo ajudou a evitar " + char.name);
 		SendEvent(char, struct{"type":=EVID_TAUNT, "source":=who});
-		sleepms(20);
+		//sleepms(20);
 	endforeach
 
-	who.concealed := 1;
-	sleepms(50);
+	sleepms(300);
 	who.concealed := 0;
 	return 1;
-endprogram  
+endprogram
