@@ -31,8 +31,8 @@ program Logon(who)
 
 	endif
 	
-/*	//checa se vai subir skill passiva
-	if ( FindAccount(who.acctname).getprop("nota") == 2)
+	//checa se vai subir skill passiva
+	if ( FindAccount(who.acctname).getprop("nota") == 4)
 
 		var lastPrize := getobjproperty(who, "lastprize");
 		if (lastPrize == error)
@@ -81,7 +81,7 @@ program Logon(who)
 		endif
 	else
 		EraseObjProperty(who, "lastprize");
-	endif*/
+	endif
 
 	if (HaveReverseVision(who))
 		ReverseLight(who);
