@@ -2,7 +2,7 @@ use uo;
 use util;
 use cfgfile;
 
-program instrucaoFabricacao(who, nome)
+program instrucao(who, nome)
 	if(who.cmdlevel > 1)
 		var item;
 		var cfg;
