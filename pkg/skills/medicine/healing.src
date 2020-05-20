@@ -280,7 +280,7 @@ function HealPatient(mobile, targ, heal_skill, aux_skill, bonus, poison)
 		endif
 	endif
 
-	SendSysMessage(mobile, "Você parou de usar ataduras.");
+	SendSysMessage(mobile, "Voce parou de usar ataduras.");
 	detach();
 	SendSysMessage(targ, "Aguarde enquanto a cura faz efeito.");
 	var i;

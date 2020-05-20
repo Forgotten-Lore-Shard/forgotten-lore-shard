@@ -397,7 +397,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		if (GetCooldown(who, "FuriaPrimordial"))
 			var inimigos := ListHostiles(who, 3, LH_FLAG_LOS);
 			inimigos := inimigos.size();
-			other := other + 0.8*inimigos;
+			other := other + 0.3*inimigos;
 		endif
 		if (GetCooldown(who, "FuriaMortal"))
 			var bonus := AP_GetVitalMaximumValue(who, HITS) / AP_GetVital(who, HITS)*1.5;
@@ -419,7 +419,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	if (GetObjProperty(who, "#SequenciaDevastadoraAcumulada"))
-		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.5;
+		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.3;
 	endif
 
 	var mod := dmg * (tatics + str + weapon + other);

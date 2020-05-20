@@ -223,7 +223,7 @@ function GetHP(who)
 	var hp := CInt(AP_GetTrueStat(who, "Strength"))/2;
 
 	if (TemHabilidade(who, "Sangue Grosso"))
-		hp := hp + 50;
+		hp := hp + 35;
 	endif
 
 	if (TemHabilidade(who, "Baixo Limiar de Furia"))

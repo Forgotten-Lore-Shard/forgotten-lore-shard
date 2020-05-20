@@ -1187,13 +1187,13 @@ program createchar(who)
 	var privalue := 40.0;
 	var secvalue := 20.0;
 	var tercvalue := 0.0;
-	if ( FindAccount(who.acctname).getprop("nota") == 2)
+	FindAccount(who.acctname).setprop("nota", 0);
+	if ( (FindAccount(who.acctname).getprop("nota") == 2) || (FindAccount(who.acctname).getprop("mortelog") > 3888000))
 		privalue := 60.0;
 		secvalue := 40.0;
 		tercvalue := 20.0;
-		FindAccount(who.acctname).setprop("nota", 0);
 	endif
-	foreach primaria in primarias
+		foreach primaria in primarias
 		AP_setTrueSkill(who, primaria, privalue);
 	endforeach
 	var secundarias := GetSecundarias(who);
