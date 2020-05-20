@@ -18,7 +18,7 @@ function examinarAlvo(who)
 	endif
 
 	var found := 0;
-	if ( GetObjProperty(targ, "Disfarcado") )
+	if ( GetObjProperty(targ, "disfarce") )
 		if ( SkillCheck(who, AWARENESS, -1) > 0 )
 			found:=1;
 			var char := GetObjProperty(targ, "chardata");
