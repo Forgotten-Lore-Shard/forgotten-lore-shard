@@ -13,7 +13,7 @@ program create(item)
 		var level := GetConfigInt(elem, "level");
 		var name:= GetConfigString(elem,"name");
 		var text:= GetConfigString(elem,"text");
-		if (item.objtype == 0xF990) 
+		if (item.objtype == 0xFF990) 
 			possiveis.append(key);
 		endif
 	endforeach	
