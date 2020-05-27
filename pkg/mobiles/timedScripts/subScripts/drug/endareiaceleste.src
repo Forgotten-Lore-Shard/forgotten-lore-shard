@@ -15,7 +15,7 @@ program TimedScript_Alcohol(params)
 
 	mobile.resist_physical_mod := mobile.resist_physical_mod - 20;
 	AP_ModifyStatMod(mobile, STRENGTH, -20);
-	AP_SetSkillMod(mobile, TACTICS, -20);
+	AP_ModifySkillMod(mobile, TACTICS, -20);
 	RecalcVitals(mobile);
 	
 endprogram

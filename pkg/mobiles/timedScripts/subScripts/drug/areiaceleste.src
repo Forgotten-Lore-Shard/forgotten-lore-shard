@@ -16,7 +16,7 @@ program TimedScript_Alcohol(params)
 	var cycle := 0;
 	mobile.resist_physical_mod := mobile.resist_physical_mod + 20;
 	AP_ModifyStatMod(mobile, STRENGTH, 20);
-	AP_SetSkillMod(mobile, TACTICS, 20);
+	AP_ModifySkillMod(mobile, TACTICS, 20);
 	RecalcVitals(mobile);
 	while ( 1 )
 		cycle := cycle+1;
