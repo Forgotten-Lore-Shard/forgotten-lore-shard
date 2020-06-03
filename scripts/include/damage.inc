@@ -419,7 +419,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	if (GetObjProperty(who, "#SequenciaDevastadoraAcumulada"))
-		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.3;
+		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.4;
 	endif
 
 	var mod := dmg * (tatics + str + weapon + other);
