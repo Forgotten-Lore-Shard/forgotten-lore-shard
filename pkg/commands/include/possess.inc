@@ -122,7 +122,7 @@ function unpossess(me, freeze :=1)
 	if (freeze)
 		oldnpc.frozen := 0;
 	else
-		oldnpc.frozen := 1;
+		oldnpc.frozen := 0;
 	endif
 	
 	AP_RefreshVitals(me);
