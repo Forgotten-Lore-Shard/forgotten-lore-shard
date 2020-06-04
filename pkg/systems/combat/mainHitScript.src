@@ -226,9 +226,9 @@ program MainHitScript( params )
 							endif
 						endforeach
 					endif
-
-
 				endif
+
+				
 
 		if ( AP_GetVital(defender, HITS) < total )
 			if ( temhabilidade(attacker, "Trespassar") )
@@ -236,9 +236,14 @@ program MainHitScript( params )
 			elseif ( isBloodied(attacker) && temhabilidade(attacker, "Trespassar Critico") )
 				Trespassar(attacker, defender);
 			endif
-			if ( TemHabilidade(defender, "Furia da Derrota"))
+			if ( temHabilidade(defender, "Furia da Derrota"))
+			PrintText(defender, "*Furia da Derrota*");
+				if (GetObjProperty(defender, "critdelay") > 0)
+					EraseObjProperty(defender, "critdelay");
+				endif	
 				SetObjProperty(defender, "#CriticalChance", 100);
 				defender.attack_once(attacker);
+				EraseObjProperty(defender, "#CriticalChance");
 			endif
 			if ( temHabilidade(attacker, "Golpes Amplos"))
 				var pt := attacker.party.members;
@@ -261,6 +266,7 @@ program MainHitScript( params )
 					endforeach
 				endif
 			endif
+		endif	
 
 		//	if ( temHabilidade(attacker, "Assassinato Horrorizante") )
 		//		SetCooldown(attacker, "evasion_chance", 20);
@@ -293,7 +299,7 @@ program MainHitScript( params )
 			endif
 		endif
 		EraseObjProperty(attacker, "backstab");
-	endif
+
 
 	EraseObjProperty(attacker, "backstab");
 	return 1;
