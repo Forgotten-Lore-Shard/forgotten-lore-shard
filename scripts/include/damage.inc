@@ -399,7 +399,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			inimigos := inimigos.size();
 			other := other + 0.3*inimigos;
 		endif
-		if (GetCooldown(who, "FuriaMortal"))
+		if (GetCooldown(who, "furiamortal"))
 			var bonus := AP_GetVitalMaximumValue(who, HITS) / AP_GetVital(who, HITS)*1.5;
 			other := other + bonus;
 		endif
