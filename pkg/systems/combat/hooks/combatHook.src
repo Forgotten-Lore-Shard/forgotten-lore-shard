@@ -80,7 +80,12 @@ exported function Attack(attacker, defender)
 	wpn_a_elem := GetWpnCfgInfo(attacker, wpn_a);
 	wpn_d_elem := GetWpnCfgInfo(defender, wpn_d);
 
-	var anim := wpn_a_elem.Anim;
+var anim := wpn_a_elem.Anim;
+    	
+	if ( attacker.graphic != 400 || attacker.graphic != 401)
+       		anim := 0x0c;
+    	endif
+	
 
 	if ( (attacker.paralyzed) || (attacker.frozen) )
 		SendSysMessage(attacker, "Voce nao consegue atacar.");
