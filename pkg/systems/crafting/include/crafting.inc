@@ -322,13 +322,13 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 	DmgMods := SplitWords(DmgMods);
 	var ResistMods := GetConfigString(elem, "AoSResistMod");
 	ResistMods := SplitWords(ResistMods);
-	var hpmod := GetConfigInt(elem, "hpmod");
+    var hpmod := GetConfigInt(elem, "hpmod"); //modificador de durabilidade do item pelo material
 
-
+    
 	if(theitem.isA(POLCLASS_WEAPON))
+        var cfg:=ReadConfigFile(":combat:itemdesc");
+        var elem := FindConfigElem(cfg, theitem.objtype);
 		theitem.damage_physical_mod := Cint(DmgMods[1]);
-		var cfg:=ReadConfigFile(":combat:itemdesc");
-		var elem := FindConfigElem(cfg, theitem.objtype);
 		if (elem.Attribute != "RangedCombat")
 			theitem.damage_fire_mod := Cint(DmgMods[2]);
 			theitem.damage_cold_mod := Cint(DmgMods[3]);
@@ -336,16 +336,22 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 			theitem.damage_energy_mod := Cint(DmgMods[5]);
 		endif
 	elseif(theitem.isA(POLCLASS_ARMOR))
-		theitem.resist_physical_mod := Cint(ResistMods[1]);
-		theitem.resist_fire_mod := Cint(ResistMods[2]);	
-		theitem.resist_cold_mod := Cint(ResistMods[3]);
-		theitem.resist_poison_mod := Cint(ResistMods[4]);	
-		theitem.resist_energy_mod := Cint(ResistMods[5]);
+        var cfg:=ReadConfigFile(":combat:itemdesc");
+        var elem := FindConfigElem(cfg, theitem.objtype);
+        if (elem.parrydelay == error) //se for escudo nao aplica o resitmod
+            theitem.resist_physical_mod := Cint(ResistMods[1]);
+            theitem.resist_fire_mod := Cint(ResistMods[2]);	
+            theitem.resist_cold_mod := Cint(ResistMods[3]);
+            theitem.resist_poison_mod := Cint(ResistMods[4]);	
+            theitem.resist_energy_mod := Cint(ResistMods[5]);
+        endif
 	//flechas e virotes de guerra
 	elseif (theitem.objtype == 0x9088 || theitem.objtype == 0x9098)
 		SetObjProperty(theitem, "dmgmods", DmgMods);
 	endif
-
+    //aplica o modificador de durabilidade do material
+    theitem.maxhp_mod := Cint(hpmod * Cint(theitem.maxhp) /100.0); 
+    theitem.hp := theitem.maxhp_mod + theitem.hp;
 endfunction
 
 function CraftExceptional(who, theitem, craft_skill)
@@ -363,7 +369,11 @@ function CraftExceptional(who, theitem, craft_skill)
 		if(theitem.isA(POLCLASS_WEAPON))
 			AddQualityDamageMod(theitem, EXCEP );
 		elseif(theitem.isA(POLCLASS_ARMOR))
-			AddQualityResistMod(theitem, EXCEP);
+            var cfg:=ReadConfigFile(":combat:itemdesc");
+            var elem := FindConfigElem(cfg, theitem.objtype);
+            if (elem.parrydelay == error) //se for escudo nao aplica o resistmod
+                AddQualityResistMod(theitem, EXCEP);
+            endif
 		endif
 		theitem.quality := 1.2;
 	endif
