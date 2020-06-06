@@ -52,18 +52,6 @@ program TamedAI()
 		SpecialHab(me);
 
 		var ev := Wait_For_Event(wait_time);
-        
-        //npcs criam ovos ou outras coisas
-        //if ( (GetCooldown(me, "dropitem" ) == 0) && (CInt(npccfgfile[mytemplate].DropDelay) > 0) )
-        //   CreateItemAtLocation(me.x, me.y, me.z, CStr(npccfgfile[mytemplate].DropItem), 1, me.realm);
-        //   SetCooldown(me, "dropitem", CInt(npccfgfile[mytemplate].DropDelay));
-        //endif
-        //se for carneiro
-        if ( me.graphic == 223)
-            if (GetCooldown(me, "wool") == 0)
-                me.graphic := 207;
-            endif
-        endif
 
 		case ( ev.type )
 
