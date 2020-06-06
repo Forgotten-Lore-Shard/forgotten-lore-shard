@@ -3,7 +3,8 @@
 0x3 ank1b
 0x4 ank2a
 0x5 ank2b
-# 0x6 - 0xd unused
+0x6 escudodaalvorada lighting
+# 0x7 - 0xd unused
 0xe [n/a] lighting
 0xf [n/a] lighting
 # 0x10 - 0x19 unused
@@ -160,8 +161,7 @@
 0x3de [n/a] lighting
 # 0x3df - 0x3ed unused
 0x3ee sandstonestair stonework
-# 0x3ef - 0x41e unused
-0x41f estandarte woodworking
+# 0x3ef - 0x41f unused
 0x420 estandarte2 woodworking
 # 0x421 - 0x437 unused
 0x438 fancymarblesandstonearch stonework
@@ -426,7 +426,9 @@
 0x899 escadaorc woodworking
 # 0x89a - 0x89e unused
 0x89f escada woodworking
-# 0x8a0 - 0x914 unused
+# 0x8a0 - 0x8fc unused
+0x8fd machadosduplosthuria combat
+# 0x8fe - 0x914 unused
 0x915 stonestep stonework
 # 0x916 - 0x919 unused
 0x91a Beehive farming
@@ -601,7 +603,8 @@
 # 0xa54 - 0xa57 unused
 0xa58 bedroll1 survival
 0xa59 bedroll2 survival
-# 0xa5a - 0xa9c unused
+0xa5a oasis survival
+# 0xa5b - 0xa9c unused
 0xa9d BookShelf containers
 0xa9e BookShelf2 containers
 # 0xa9f - 0xaff unused
@@ -786,16 +789,13 @@
 0xe9c Drum musicianship
 0xe9d Tambourine musicianship
 0xe9e Tambourine2 musicianship
-0xe9f Retrato quadros
-0xea0 Quadro quadros
-0xea1 Retrato quadros
-0xea2 Retrato quadros
-# 0xea3 - 0xea4 unused
-0xea5 Retrato quadros
-0xea6 Retrato quadros
-0xea7 Retrato quadros
-0xea8 Retrato quadros
-# 0xea9 - 0xeb0 unused
+0xe9f Retrato0 quadros
+0xea0 QuadroGrande2 quadros
+0xea1 Retrato1 quadros
+# 0xea2 - 0xea5 unused
+0xea6 Retrato2 quadros
+0xea7 Retrato3 quadros
+# 0xea8 - 0xeb0 unused
 0xeb1 standingharp musicianship
 0xeb2 harp musicianship
 0xeb3 lute musicianship
@@ -807,9 +807,7 @@
 0xec2 Cleaver combat
 # 0xec3 unused
 0xec4 SkinningKnife combat
-# 0xec5 - 0xec7 unused
-0xec8 Retrato quadros
-0xec9 Retrato quadros
+# 0xec5 - 0xec9 unused
 0xeca bones9 containers
 0xecb bones8 containers
 0xecc bones7 containers
@@ -935,7 +933,8 @@
 0xfbc tongs2 metalworking
 # 0xfbd - 0xfbe unused
 0xfbf caneta e tinteiro fls_core
-# 0xfc0 - 0xfc4 unused
+0xfc0 cordaescalada traps
+# 0xfc1 - 0xfc4 unused
 0xfc5 blueshell alchemy
 # 0xfc6 - 0xfee unused
 0xfef book1 sysbook
@@ -1159,22 +1158,17 @@
 0x1385 Bestapesadasemcorda woodworking
 # 0x1386 - 0x1387 unused
 0x1388 Capuz domesticwork
-0x1389 Trajes religiosos domesticwork
-0x138a Trajes religiosos domesticwork
-0x138b CapaNobre domesticwork
-# 0x138c unused
-0x138d CapaPeles domesticwork
+# 0x1389 - 0x138d unused
 0x138e CapaSimples domesticwork
 # 0x138f unused
 0x1390 SaiaImprovisada domesticwork
 0x1391 SaiaLonga domesticwork
 0x1392 SaiaLongaNobre domesticwork
-0x1393 EspartilhoNobre domesticwork
+# 0x1393 unused
 0x1394 VestidoSimples domesticwork
 0x1395 VestidoEnfeitado domesticwork
 0x1396 VestidoModerno domesticwork
-# 0x1397 unused
-0x1398 CamisaFeminina domesticwork
+# 0x1397 - 0x1398 unused
 0x1399 TunicaNobre domesticwork
 # 0x139a - 0x13ae unused
 0x13af WarAxe combat
@@ -1213,7 +1207,12 @@
 0x13e3 smithhammer combat
 0x13e4 LightWarHammer combat
 0x13e5 luvasdosmagos combat
-# 0x13e6 - 0x13eb unused
+0x13e6 meiacapa combat
+0x13e7 botasnumajenes combat
+0x13e8 botasacolchoadas combat
+0x13e9 mantodoviajante combat
+0x13ea mantodadescobertavaniria combat
+0x13eb mantodosmagos combat
 0x13ec RingmailTunic combat
 0x13ed RingmailTunic2 combat
 0x13ee RingmailSleeves combat
@@ -1221,7 +1220,9 @@
 0x13f0 RingmailLeggings combat
 0x13f1 RingmailLeggings2 combat
 0x13f2 RingmailGloves combat
-# 0x13f3 - 0x13f5 unused
+0x13f3 capuz combat
+0x13f4 armaduracouroalimdar combat
+0x13f5 trajedememmar combat
 0x13f6 ButcherKnife combat
 # 0x13f7 - 0x13f8 unused
 0x13f9 GnarledStaff combat
@@ -1397,7 +1398,8 @@
 0x1830 beker alchemy
 # 0x1831 unused
 0x1832 balao alchemy
-# 0x1833 - 0x1848 unused
+# 0x1833 - 0x1847 unused
+0x1848 dedobesta drugs
 0x1849 heatingstand alchemy
 0x184a heatingstand2 lighting
 # 0x184b - 0x184c unused
@@ -1517,7 +1519,9 @@
 # 0x1b7c - 0x1bc2 unused
 0x1bc3 Chaosshield combat
 0x1bc4 Ordershield combat
-# 0x1bc5 - 0x1bd0 unused
+0x1bc5 escudodacavalaria combat
+0x1bc6 escudodekaljhara combat
+# 0x1bc7 - 0x1bd0 unused
 0x1bd1 feather woodworking
 # 0x1bd2 - 0x1bd3 unused
 0x1bd4 arrowshaft woodworking
@@ -1780,15 +1784,15 @@
 0x204c medlongbeard hair
 0x204d VandykeHair hair
 0x204e deathshroud
-# 0x204f - 0x240c unused
-0x240d Quadro quadros
-0x240e Quadro quadros
-0x240f Quadro quadros
-0x2410 Quadro quadros
-# 0x2411 - 0x2412 unused
-0x2413 Retrato quadros
-0x2414 Retrato quadros
-# 0x2415 - 0x2554 unused
+# 0x204f - 0x234e unused
+0x234f QuadroGrande1 quadros
+# 0x2350 - 0x240c unused
+0x240d Quadro4 quadros
+# 0x240e unused
+0x240f Quadro5 quadros
+# 0x2410 - 0x2412 unused
+0x2413 Retrato5 quadros
+# 0x2414 - 0x2554 unused
 0x2555 bighammer stonework
 # 0x2556 - 0x25ea unused
 0x25eb CheckeredShirt domesticwork
@@ -1824,16 +1828,20 @@
 0x26cd RepeatingCrossbow combat
 # 0x26ce unused
 0x26cf GreatSword combat
-# 0x26d0 - 0x278e unused
+# 0x26d0 - 0x277c unused
+0x277d cotamalhatoramril combat
+# 0x277e - 0x278e unused
 0x278f Hood domesticwork
 # 0x2790 - 0x27a4 unused
 0x27a5 ArcoYumi combat
-0x27a6 ClavadeAnfaugh combat
+0x27a6 clavadosgigantes combat
 # 0x27a7 - 0x27a8 unused
 0x27a9 CimitarrasDuplas combat
-# 0x27aa - 0x27c7 unused
-0x27c8 clavadosgigantes combat
-# 0x27c9 - 0x2803 unused
+# 0x27aa unused
+0x27ab Garras combat
+# 0x27ac - 0x27ae unused
+0x27af dualknives combat
+# 0x27b0 - 0x2803 unused
 0x2804 dardo tn
 0x2805 flute musicianship
 # 0x2806 - 0x299f unused
@@ -1846,7 +1854,16 @@
 0x29ac rusticstainedglasswind01 stonework
 # 0x29ad - 0x29b5 unused
 0x29b6 brickstainedglasswind01 stonework
-# 0x29b7 - 0x2b02 unused
+# 0x29b7 - 0x2a5c unused
+0x2a5d QuadroGrande3 quadros
+# 0x2a5e - 0x2a64 unused
+0x2a65 QuadroGrande4 quadros
+0x2a66 QuadroGrande5 quadros
+# 0x2a67 - 0x2a68 unused
+0x2a69 QuadroGrande6 quadros
+# 0x2a6a - 0x2b00 unused
+0x2b01 grandeescudoadornado combat
+# 0x2b02 unused
 0x2b03 bainhaealjavaold woodworking
 # 0x2b04 - 0x2b67 unused
 0x2b68 tanga combat
@@ -1872,9 +1889,9 @@
 0x2d2f CimitarraKuxaijkan combat
 0x2d30 MacaLaminada combat
 # 0x2d31 unused
-0x2d32 LaminasDeAiringwe combat
+0x2d32 laminasvanirias combat
 0x2d33 CimitarradeUnnam combat
-0x2d34 MachadodeBatalhaAnao combat
+0x2d34 machadodebatalhathuria combat
 0x2d35 FacaodaCaveira combat
 # 0x2d36 - 0x2de2 unused
 0x2de3 OrnateElvenChair woodworking
@@ -1896,7 +1913,7 @@
 # 0x312e unused
 0x312f humanears survival
 # 0x3130 - 0x3152 unused
-0x3153 QuitinaTunic combat
+0x3153 peitoraldequitina combat
 # 0x3154 - 0x3155 unused
 0x3156 unicornhead2 tn
 # 0x3157 - 0x3159 unused
@@ -1904,15 +1921,15 @@
 # 0x315b - 0x315c unused
 0x315d unicornhorn tn
 # 0x315e - 0x315f unused
-0x3160 QuitinaGorget combat
-0x3161 QuitinaGloves combat
-0x3162 QuitinaLeggings combat
-0x3163 QuitinaSleeves combat
+0x3160 pescoceiradequitina combat
+0x3161 luvasdequitina combat
+0x3162 calcasdequitina combat
+0x3163 bracadeirasdequitina combat
 # 0x3164 - 0x3176 unused
 0x3177 CamisaNobre domesticwork
 0x3178 CamisaFina domesticwork
 # 0x3179 - 0x317a unused
-0x317b NumajaTunic combat
+0x317b numajatunic combat
 0x317c NumajaGloves combat
 0x317d NumajaGorget combat
 0x317e NumajaSleeves combat
@@ -1966,52 +1983,23 @@
 # 0x3997 - 0x3bbc unused
 0x3bbd CamisaModerna domesticwork
 0x3bbe TunicaSimples domesticwork
-# 0x3bbf unused
-0x3bc0 numajatunic domesticwork
+# 0x3bbf - 0x3bc0 unused
 0x3bc1 TunicaModerna domesticwork
-# 0x3bc2 unused
-0x3bc3 cinto domesticwork
-# 0x3bc4 - 0x3bcd unused
-0x3bce EspartilhoSimples domesticwork
-0x3bcf cintofeminino domesticwork
-0x3bd0 cintofivela domesticwork
+# 0x3bc2 - 0x3bd0 unused
 0x3bd1 TunicaGala domesticwork
 0x3bd2 VestidodeFesta domesticwork
 0x3bd3 pistola fireweapons
 # 0x3bd4 - 0x3bd6 unused
 0x3bd7 bainhaealjava woodworking
 0x3bd8 ChapeuPirata domesticwork
-0x3bd9 cintoutilidades woodworking
-0x3bda tapaolho domesticwork
-0x3bdb EspadasDuplas combat
-# 0x3bdc - 0x3be5 unused
+# 0x3bd9 - 0x3be5 unused
 0x3be6 cachimbo tn
 0x3be7 WolfMask domesticwork
 # 0x3be8 - 0x3bea unused
 0x3beb RangerSkirt combat
 # 0x3bec - 0x3c00 unused
 0x3c01 CrystalLight lighting
-# 0x3c02 - 0x3c4e unused
-0x3c4f Paisagem quadros
-0x3c50 Paisagem quadros
-# 0x3c51 - 0x3c52 unused
-0x3c53 Paisagem quadros
-0x3c54 Paisagem quadros
-0x3c55 Paisagem quadros
-0x3c56 Paisagem quadros
-# 0x3c57 - 0x3c58 unused
-0x3c59 Retrato quadros
-0x3c5a Retrato quadros
-# 0x3c5b - 0x3c5c unused
-0x3c5d Paisagem quadros
-0x3c5e Paisagem quadros
-0x3c5f Quadro quadros
-0x3c60 Quadro quadros
-0x3c61 Quadro quadros
-0x3c62 Quadro quadros
-0x3c63 Quadro quadros
-0x3c64 Quadro quadros
-# 0x3c65 - 0x3c86 unused
+# 0x3c02 - 0x3c86 unused
 0x3c87 Morango food
 # 0x3c88 - 0x3c8f unused
 0x3c90 StoneBookShelf containers
@@ -2044,17 +2032,39 @@
 0x3d4d meatcook food
 0x3d4e leavescook food
 0x3d4f fruitcook food
-# 0x3d50 - 0x3dd7 unused
-0x3dd8 deerhead survival
-# 0x3dd9 - 0x4043 unused
+# 0x3d50 - 0x3f1c unused
+0x3f1d Quadro6 quadros
+# 0x3f1e - 0x4043 unused
 0x4044 ornamentedmirror woodworking
 # 0x4045 unused
 0x4046 floormirror woodworking
-# 0x4047 - 0x468b unused
+# 0x4047 - 0x4141 unused
+0x4142 mailbox2 containers
+# 0x4143 unused
+0x4144 mailbox containers
+# 0x4145 - 0x4202 unused
+0x4203 escudodetoramril combat
+# 0x4204 - 0x468b unused
 0x468c jellybeans food
 # 0x468d - 0x469e unused
 0x469f merrycake food
-# 0x46a0 - 0x4fff unused
+# 0x46a0 - 0x4c1f unused
+0x4c20 Quadro7 quadros
+# 0x4c21 unused
+0x4c22 QuadroGrande0 quadros
+# 0x4c23 - 0x4c25 unused
+0x4c26 Paisagem0 quadros
+# 0x4c27 unused
+0x4c28 Paisagem1 quadros
+# 0x4c29 - 0x4c5f unused
+0x4c60 Quadro0 quadros
+# 0x4c61 unused
+0x4c62 Quadro1 quadros
+# 0x4c63 unused
+0x4c64 Quadro2 quadros
+# 0x4c65 unused
+0x4c66 Quadro3 quadros
+# 0x4c67 - 0x4fff unused
 0x5000 champaltar champspawn
 0x5001 Stone stonework
 0x5002 brickstone stonework
@@ -2066,7 +2076,11 @@
 0x5103 coolingWater gathering
 # 0x5104 - 0x5106 unused
 0x5107 smeltingpot gathering
-# 0x5108 - 0x6000 unused
+# 0x5108 - 0x573c unused
+0x573d areiaceleste drugs
+# 0x573e - 0x5744 unused
+0x5745 cocarina drugs
+# 0x5746 - 0x6000 unused
 0x6001 blankmap2 cartography
 # 0x6002 unused
 0x6003 level1map cartography
@@ -2240,7 +2254,13 @@
 # 0x615b - 0x615f unused
 0x6160 lvl4hab charactercreation
 0x6161 lvl0hab charactercreation
-# 0x6162 - 0x6180 unused
+0x6162 lvl5hab charactercreation
+0x6163 lvl6hab charactercreation
+0x6164 lvl7hab charactercreation
+0x6165 lvl8hab charactercreation
+0x6166 lvl9hab charactercreation
+0x6167 lvl10hab charactercreation
+# 0x6168 - 0x6180 unused
 0x6181 largemarblehouse house
 0x6182 tent house
 0x6183 healercamp house
@@ -2262,7 +2282,8 @@
 # 0x6205 - 0x6215 unused
 0x6216 portal walkon
 0x6217 multiportal walkon
-# 0x6218 - 0x62ff unused
+0x6218 telepadmasc walkon
+# 0x6219 - 0x62ff unused
 0x6300 IronOre gathering
 0x6301 LithtanOre gathering
 0x6302 HelceOre gathering
@@ -2440,7 +2461,10 @@
 0x9934 cascokuatoa survival
 # 0x9935 - 0x9944 unused
 0x9945 Robe domesticwork
-# 0x9946 - 0x9955 unused
+0x9946 trajereligioso domesticwork
+# 0x9947 unused
+0x9948 mantoshimoriano domesticwork
+# 0x9949 - 0x9955 unused
 0x9956 basenarguile tn
 0x9957 narguile2 tn
 0x9958 ervamentolada tn
@@ -2472,25 +2496,138 @@
 # 0x998a - 0x9999 unused
 0x999a CimitarraEnferrujada combat
 0x999b escudoquebrado combat
-# 0x999c - 0x9e3f unused
+# 0x999c - 0x99a6 unused
+0x99a7 QuadroAdornado0 quadros
+# 0x99a8 unused
+0x99a9 QuadroAdornado1 quadros
+# 0x99aa unused
+0x99ab QuadroAdornado2 quadros
+# 0x99ac unused
+0x99ad QuadroAdornado3 quadros
+# 0x99ae unused
+0x99af QuadroAdornado4 quadros
+# 0x99b0 unused
+0x99b1 QuadroAdornado5 quadros
+# 0x99b2 unused
+0x99b3 QuadroAdornado6 quadros
+# 0x99b4 unused
+0x99b5 QuadroAdornado7 quadros
+# 0x99b6 unused
+0x99b7 QuadroAdornado8 quadros
+# 0x99b8 unused
+0x99b9 QuadroAdornado9 quadros
+# 0x99ba unused
+0x99bb QuadroAdornado10 quadros
+# 0x99bc unused
+0x99bd QuadroAdornado11 quadros
+# 0x99be unused
+0x99bf QuadroAdornado12 quadros
+# 0x99c0 - 0x9d52 unused
+0x9d53 Ilustracao0 quadros
+# 0x9d54 unused
+0x9d55 Ilustracao1 quadros
+# 0x9d56 unused
+0x9d57 Ilustracao2 quadros
+# 0x9d58 unused
+0x9d59 Ilustracao3 quadros
+# 0x9d5a unused
+0x9d5b Ilustracao4 quadros
+# 0x9d5c unused
+0x9d5d Ilustracao5 quadros
+# 0x9d5e - 0x9e2c unused
+0x9e2d Ilustracao6 quadros
+# 0x9e2e unused
+0x9e2f Ilustracao7 quadros
+# 0x9e30 unused
+0x9e31 Ilustracao8 quadros
+# 0x9e32 unused
+0x9e33 Ilustracao9 quadros
+# 0x9e34 - 0x9e3f unused
 0x9e40 soschest containers
-# 0x9e41 - 0xa35f unused
+# 0x9e41 - 0x9eee unused
+0x9eef vestidonoiva domesticwork
+# 0x9ef0 - 0x9ef6 unused
+0x9ef7 calcaterno domesticwork
+# 0x9ef8 unused
+0x9ef9 cartola domesticwork
+# 0x9efa unused
+0x9efb paleto domesticwork
+# 0x9efc - 0x9f3e unused
+0x9f3f veu domesticwork
+# 0x9f40 - 0xa1dd unused
+0xa1de Retrato6 quadros
+# 0xa1df unused
+0xa1e0 Retrato4 quadros
+# 0xa1e1 unused
+0xa1e2 Retrato7 quadros
+# 0xa1e3 - 0xa241 unused
+0xa242 Ilustracao10 quadros
+# 0xa243 unused
+0xa244 Ilustracao11 quadros
+# 0xa245 unused
+0xa246 Ilustracao12 quadros
+# 0xa247 unused
+0xa248 Ilustracao13 quadros
+# 0xa249 - 0xa2c7 unused
+0xa2c8 QuadroGrande7 quadros
+# 0xa2c9 - 0xa2db unused
+0xa2dc Paisagem2 quadros
+# 0xa2dd unused
+0xa2de Paisagem3 quadros
+# 0xa2df unused
+0xa2e0 Paisagem4 quadros
+# 0xa2e1 unused
+0xa2e2 Paisagem5 quadros
+# 0xa2e3 unused
+0xa2e4 Paisagem6 quadros
+# 0xa2e5 unused
+0xa2e6 Paisagem7 quadros
+# 0xa2e7 unused
+0xa2e8 Quadro8 quadros
+# 0xa2e9 unused
+0xa2ea Quadro9 quadros
+# 0xa2eb unused
+0xa2ec Quadro10 quadros
+# 0xa2ed unused
+0xa2ee Quadro11 quadros
+# 0xa2ef unused
+0xa2f0 Quadro12 quadros
+# 0xa2f1 unused
+0xa2f2 Quadro13 quadros
+# 0xa2f3 unused
+0xa2f4 Paisagem8 quadros
+# 0xa2f5 - 0xa35c unused
+0xa35d CapaPeles domesticwork
+0xa35e mantodeaquil domesticwork
+0xa35f botasalto domesticwork
 0xa360 sosbottle sosbottles
-# 0xa361 - 0xa362 unused
+0xa361 uniformemilitar domesticwork
+# 0xa362 unused
 0xa363 sosmessage sosbottles
-# 0xa364 unused
+0xa364 vestidoplebeu domesticwork
 0xa365 sostile sosbottles
-# 0xa366 - 0xa367 unused
-0xa368 magicfish1 survival
-0xa369 magicfish2 survival
-0xa36a magicfish3 survival
-0xa36b magicfish4 survival
-0xa36c magicfish5 survival
-0xa36d magicfish6 survival
-0xa36e magicfish7 survival
-0xa36f magicfish8 survival
+0xa366 tunicaturiap domesticwork
+0xa367 uniformeoficial domesticwork
+# 0xa368 unused
+0xa369 masclobo domesticwork
+0xa36a espartilhosimples domesticwork
+# 0xa36b - 0xa36f unused
 0xa370 acid acid
-# 0xa371 - 0xa400 unused
+0xa371 cintofivela domesticwork
+0xa372 tunicaturian domesticwork
+0xa373 tunicanobre domesticwork
+0xa374 deerhead survival
+0xa375 wolfhead survival
+0xa376 espartilhonobre domesticwork
+0xa377 coroadeus domesticwork
+0xa378 aljavacint woodworking
+0xa379 saiapeles domesticwork
+# 0xa37a - 0xa37f unused
+0xa380 sobretudovanm domesticwork
+0xa381 sobretudovanf domesticwork
+0xa382 camisasimples domesticwork
+0xa383 mantonumaja domesticwork
+# 0xa384 - 0xa400 unused
 0xa401 SpawnPoint spawnpoint
 # 0xa402 - 0xafef unused
 0xaff0 TintaVerdeClaro alchemy
@@ -2520,7 +2657,9 @@
 0xb011 cama woodworking
 # 0xb012 - 0xb019 unused
 0xb01a Elvenbed woodworking
-# 0xb01b - 0xba62 unused
+# 0xb01b unused
+0xb01c ElvenbedbigS woodworking
+# 0xb01d - 0xba62 unused
 0xba63 moedacobre fls_core
 0xba64 moedaprata fls_core
 0xba65 moedaouro fls_core
