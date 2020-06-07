@@ -516,8 +516,12 @@ function CalculateHitChance(attacker, defender)
 
 	if (GetCooldown(defender, "resistenciaheroica") )
 		var hostiles := ListHostiles(defender, 3);
-		if ( hostiles.size() > 1)
-			hit_chance := hit_chance  - 10;
+		if ( hostiles.size() >= 5)
+			hit_chance := hit_chance  - 15;
+        elseif ( hostiles.size() >= 3)
+            hit_chance := hit_chance  - 10;
+        elseif ( hostiles.size() >= 1)
+            hit_chance := hit_chance  - 5;
 		endif
 	endif
 
