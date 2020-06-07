@@ -69,7 +69,7 @@ program KillPlayers()
 
 				EVID_TAUNT:
 							if(ev.source)
-								wanders := 0; SpellFight(ev.opponent, spell_list);
+								wanders := 0; SpellFight(ev.opponent, spell_list, 1);
 							endif
 				EVID_FLEE:
 							if (ev.source)
