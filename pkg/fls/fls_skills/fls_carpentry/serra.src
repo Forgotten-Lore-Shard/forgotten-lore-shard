@@ -158,19 +158,18 @@ function makecabos(who, item)
 endfunction
 
 function MakeCaboSerra(who, item)
-        var cabo := 0xee71;
+    var cabo := 0xee71;
 	var characterx := who.x;
 	var charactery := who.y;
 	repeat
-                if ((item.amount) <= 0)
-                   break;
-                endif
-                MakeSerraEfect(who);
-        	CreateItemInContainer (who.backpack, cabo, 1);
-                SubtractAmount(item, 1);
-
-	until ((who.x != characterx or who.y != charactery));
-
+        if ((item.amount) <= 0)
+            return 0;
+        else
+            MakeSerraEfect(who);
+            CreateItemInContainer (who.backpack, cabo, item.amount);
+            SubtractAmount(item, item.amount);
+        endif
+    until ((who.x != characterx || who.y != charactery));
 endfunction
 
 function MakeSerraEfect(who)
