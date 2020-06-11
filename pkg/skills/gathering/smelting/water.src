@@ -130,12 +130,12 @@ function DeterminaLiga(metals, who)
            case(Cint(item))
               25353: metais.append("ferro");
               27025: metais.append("estanho");
-	      25681: metais.append("argonil");
-	      25351: metais.append("galvorn");
-	      25352: metais.append("mithril");
-	      25346: metais.append("helce");
-	      25347: metais.append("sinque");
-	      25348: metais.append("figin");	
+	      25696: metais.append("argonil");
+	      25360: metais.append("galvorn");
+	      25361: metais.append("mithril");
+	      25355: metais.append("helce");
+	      25356: metais.append("sinque");
+	      25357: metais.append("figin");	
            endcase
         endforeach
 
