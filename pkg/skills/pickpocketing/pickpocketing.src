@@ -70,12 +70,13 @@ program skill_Stealing(mobile)
 	if ( check > 0 )
         
         if (!mobile.hidden)
-            var range := 13 - CInt(AP_GetSkill(mobile, PICKPOCKETING)/7);
+            var range :=  13 - CInt(AP_GetSkill(mobile, PICKPOCKETING)/7);
+            var diff_awar := CInt(AP_GetSkill(mobile, PICKPOCKETING)) - 15;
             foreach player in ( ListMobilesInLineOfSight(targ, range) )
                 if ( player.npctemplate );
                 elseif ( player == mobile );
                 elseif ( player == targ );
-                elseif ( !IsBehind(player, targ.x, targ.y) && SkillCheck(player, AWARENESS, CInt(AP_GetSkill(mobile, PICKPOCKETING)) - 15))
+                elseif ( !IsBehind(player, targ.x, targ.y) && (SkillCheck(player, AWARENESS, diff_awar) > 0))
                     SendSysMessageEx(mobile, "Voce nota que "+player.name+" percebeu algo.", SSM_FAIL);
                     SendSysMessageEx(player, "Voce nota "+mobile.name+" tentando roubar de "+targ.name+".", SSM_INFO);
                 endif
@@ -168,12 +169,13 @@ program skill_Stealing(mobile)
 		SendSysMessageEx(targ, "Voce sentiu algo na sua bolsa.", SSM_INFO);
         
         if (!mobile.hidden)
-            var range := 13 - CInt(AP_GetSkill(mobile, PICKPOCKETING)/7);
+            var range :=  13 - CInt(AP_GetSkill(mobile, PICKPOCKETING)/7);
+            var diff_awar := CInt(AP_GetSkill(mobile, PICKPOCKETING)) - 15;
             foreach player in ( ListMobilesInLineOfSight(targ, range) )
                 if ( player.npctemplate );
                 elseif ( player == mobile );
                 elseif ( player == targ );
-                elseif ( !IsBehind(player, targ.x, targ.y) && SkillCheck(player, AWARENESS, CInt(AP_GetSkill(mobile, PICKPOCKETING)) - 15))
+                elseif ( !IsBehind(player, targ.x, targ.y) && (SkillCheck(player, AWARENESS, diff_awar) > 0))
                     SendSysMessageEx(mobile, "Voce nota que "+player.name+" percebeu algo.", SSM_FAIL);
                     SendSysMessageEx(player, "Voce nota "+mobile.name+" tentando roubar de "+targ.name+".", SSM_INFO);
                 endif
