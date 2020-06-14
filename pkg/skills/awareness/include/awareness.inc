@@ -118,6 +118,7 @@ function examinarArea(who)
 	foreach mobile in ListMobilesNearLocationEX(who.x, who.y, who.z, range, LISTEX_FLAG_HIDDEN)
 		if ( mobile == who ); // Do Nothing
 		elseif ( !mobile.npctemplate && CInt(GetObjProperty(who, "IgnoreHidden")) ); // Do Nothing
+        elseif (who.party.leader.name == mobile.party.leader.name); //se esta na mesma party nao checa
 		else
 			if ( CheckLineOfSight(who, mobile) && abs(mobile.z - who.z ) < 19  )
 
