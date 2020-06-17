@@ -20,10 +20,10 @@ DF_DEBUG_MODE := 0;
 var resources_data_file := DFOpenDataFile("MiscResources", DF_CREATE);
 
 program SandMining(who, scoop)
-	
+
 	SendSysMessageEx(who, "Onde voce quer pegar areia?", SSM_REQUEST);
 	var targ := TargetCoordinates(who);
-	
+
 	if ( CoordinateDistance(who.x, who.y, targ.x, targ.y) > 2 )
 		SendSysMessageEx(who, "Muito longe.", SSM_FAIL);
 		return;
@@ -31,15 +31,15 @@ program SandMining(who, scoop)
 		SendSysMessageEx(who, "Voce nao pode pegar areia aqui.", SSM_FAIL);
 		return;
 	endif
-	
+
 	var location_name := CStr( targ.x+"x"+targ.y );
-	
+
 	var my_x := who.x;
 	var my_y := who.y;
 	var my_facing := who.facing;
-	
+
 	while(MiningLoop(who, scoop, my_x, my_y, my_facing, location_name) )
-		
+
 		CheckToolWear(who, scoop, GATHERING);
 		//elseif ( !CheckLoop(who, scoop, my_x, my_y, my_facing))
 		//	break;
@@ -54,7 +54,7 @@ program SandMining(who, scoop)
 endprogram
 
 function MiningLoop(who, scoop, my_x, my_y, my_facing, location_name)
-	
+
 	var i;
 	for (i:=0; i < RandomDiceRoll("1d2"); i := i+1)
 		PerformAction(who, MINING_ANIMATION);
@@ -64,24 +64,44 @@ function MiningLoop(who, scoop, my_x, my_y, my_facing, location_name)
 			return 0;
 		endif
 	endfor
-	
+
 	var location_elem := DFFindElement(resources_data_file, location_name, DF_CREATE);
 	var resource_type := hex(SCOOP_OF_SAND);
-	
+
 	var resource_amount := ResourceAmount( resource_type, location_elem );
-		
+
 	if (resource_amount <= 0)
 		SendSysMessageEx(who, "Nao tem areia utilizavel por aqui.", SSM_FAIL);
 		return 0;
 	endif
-	
+
+
+
+
 	SetResource(resource_type, location_elem, resource_amount-1);
-	
+
 	var difficulty := 20;//CInt(100 - (resource_amount * 100 / MAX_RESOURCE_AMOUNT));
-	
+
+	var skill := Cint(AP_GetSkill(who, GATHERING));
+
 	if ( SkillCheck(who, GATHERING, difficulty) > 0 )
-		CreateItemInBackPack(who, SCOOP_OF_SAND, 1);
-		SendSysMessageEx(who, "Voce pegou um pouco de areia.", SSM_INFO);
+		var areiasRemovidas;
+		if (skill>100)
+			areiasRemovidas := min(CInt(resource_amount),5); //Extrai ate 5 porcoes de areia por vez
+		elseif (skill>70)
+			areiasRemovidas := min(CInt(resource_amount),3); //Extrai ate 3 porcoes de areia por vez
+		elseif (skill>40)
+			areiasRemovidas := min(CInt(resource_amount),2);  //Extrai ate 2 porcoes de areia por vez
+		else
+			areiasRemovidas := min(CInt(resource_amount),1);  //Extrai ate 1 porcoes de areia por vez
+		endif
+		if(areiasRemovidas>1)
+			SendSysMessageEx(who, "Voce pegou "+areiasRemovidas+" porcoes de areia.", SSM_INFO);
+		else
+			SendSysMessageEx(who, "Voce pegou uma porcao de areia.", SSM_INFO);
+		endif
+		SetResource(resource_type, location_elem, resource_amount-areiasRemovidas); //diminui a quantidade de areia disponivel no local
+		CreateItemInBackPack(who, SCOOP_OF_SAND, areiasRemovidas); //Coloca na mochila a quantidade de areia extraida
 		return 1;
 	else
 		SendSysMessageEx(who, "Voce e incapaz de pegar areia aqui.", SSM_FAIL);
