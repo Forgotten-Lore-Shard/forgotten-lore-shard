@@ -241,9 +241,10 @@ program MainHitScript( params )
 				if (GetObjProperty(defender, "critdelay") > 0)
 					EraseObjProperty(defender, "critdelay");
 				endif	
+				SetObjProperty(defender, "#attackbonus", 100);
 				SetObjProperty(defender, "#CriticalChance", 100);
 				defender.attack_once(attacker);
-				EraseObjProperty(defender, "#CriticalChance");
+				//EraseObjProperty(defender, "#CriticalChance");
 			endif
 			if ( temHabilidade(attacker, "Golpes Amplos"))
 				var pt := attacker.party.members;
