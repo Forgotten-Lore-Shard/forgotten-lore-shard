@@ -352,6 +352,10 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + 1.0;
 		endif
 	endif
+	
+	if (GetCooldown(who, "marcadacaca"))
+			other := other + 1.5;
+	endif
 
 	if (TemHabilidade(who, "Inimigo Predileto"))
 		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
