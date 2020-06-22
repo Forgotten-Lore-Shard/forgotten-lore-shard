@@ -52,7 +52,7 @@ program textcmd_acalmar(who)
 		return 0;
 	endif
 	
-	if( SkillCheck(who, HANDLEANIMAL, -1) > 0 )
+	if( SkillCheck(who, HANDLEANIMAL, 10, 0, ADV_DISABLE) > 0)
 		var ev := struct;
 		ev.+type;
 		ev.type := EVID_PEACEMADE; // ajetra isso
