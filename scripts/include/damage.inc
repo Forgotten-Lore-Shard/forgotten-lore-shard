@@ -422,6 +422,10 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		other := other + 0.2;
 	endif
 
+	if ( GetObjProperty(who, "armapredileta") == who.weapon.objtype )
+		other := other + 0.5;
+	endif
+
 	if (GetObjProperty(who, "#SequenciaDevastadoraAcumulada"))
 		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.4;
 	endif
