@@ -355,7 +355,29 @@ program fichaRP(who, text)
 		//endif
 
 		RecalcVitals(player);
-
+	elseif (SplitWords(text)[1] == "nota")
+		var player;
+		if (who.cmdlevel)
+			player := Target(who);
+			if (!player)
+				player := who;
+			endif
+			var novaNota := SplitWords(text)[2];
+			if(!novaNota)
+				SendSysMessage(who, "Não inseriu o valor da nova nota!");
+				return 0;
+			else
+				var velhaNota := CInt(FindAccount(player.acctname).getprop("nota"));
+				FindAccount(player.acctname).setprop("nota",novaNota);
+				SendSysMessage(who, who.acctname + " definiu nota para "+ player.acctname +": "+ velhaNota + "=>" + novaNota);
+				LogAccount(player.acctname, who.acctname + " definiu nota para "+ player.acctname +": "+ velhaNota + "=>" + novaNota);
+				return 1;
+			endif
+		else
+			SendSysMessage(who, "Voce nao tem acesso a esse comando!");
+			return 0;
+		endif
+		
 	elseif (SplitWords(text)[1] == "excluir")
 
 
