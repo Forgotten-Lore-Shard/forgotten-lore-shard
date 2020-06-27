@@ -7,11 +7,9 @@ program TimedScript_bard_contagiante(params)
 	var caster := params[2];
 	var modificador := params[3];
 	SetObjProperty(alvo, "#Bard_contagiante", modificador);
-	while (1)
+	while (GetObjProperty(alvo, "#Bard_contagiante"))
 		PerformAction(alvo, RandomInt(35), 5, 1, RandomInt(2), ACTION_NOREPEAT, 1); //o segundo parametro é o identificador da acao
-		alvo.
-		Sleepms(1500- (modificador*6));
+		Sleepms(3000-(modificador*5));
 	endwhile
-	PrintTextAbove(alvo, "Fascinado(a)",BARD_FONT,BARD_FONT_COLOR_NEUTRA);
 	return 1;
 endprogram

@@ -5,5 +5,7 @@ include ":attributes:attributes";
 include ":musicianship:bardmusic";
 
 program TimedScript_Bard_tocando_end(params)
+	var alvo := params[1];
+	EraseObjProperty(alvo, "#Bard_tocando");
 	return 1;
 endprogram
