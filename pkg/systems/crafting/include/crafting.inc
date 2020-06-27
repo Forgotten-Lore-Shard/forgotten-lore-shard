@@ -40,7 +40,7 @@ var makermark := 1;
 // was originally colored logs. The colored log objtype is stored
 // in the cprop, and is used to get it's "ResourceList" reference.
 function MaterialSelection(who, craft_skill, type, chk)
-	
+
 	SendSysMessage(who, "Escolha o "+lower(type)+" que voce deseja trabalhar.");
 	var material := Target(who);
 
@@ -49,7 +49,7 @@ function MaterialSelection(who, craft_skill, type, chk)
 		return 0;
 	endif
 	if(material.container.serial != who.backpack.serial)
-		SendSysMessage(who, "O material nao esta na sua mochila.");
+		SendSysMessageEx(who, "O material nao esta na sua mochila.", SSM_FAIL);
 		return 0;
 	endif
 	if( (!Accessible(who, material)) || (Distance(who, material) > 2)
@@ -57,7 +57,7 @@ function MaterialSelection(who, craft_skill, type, chk)
 		SendSysMessage(who, "Voce nao pode usar isto.");
 		return 0;
 	endif
-	
+
 	var materialobjtype := 0;
 	if(chk)
 		if(GetObjProperty(material, chk))
@@ -68,12 +68,12 @@ function MaterialSelection(who, craft_skill, type, chk)
 	else
 		materialobjtype := material.objtype;
 	endif
-	
+
 	if(!canUseMaterial(who, materialobjtype, craft_skill))
-		SendSysMessage(who, "Voce nao possui conhecimento suficiente para fazer algo com isso.");
+		SendSysMessageEx(who, "Voce nao possui conhecimento suficiente para fazer algo com isso.", SSM_FAIL);
 		return 0;
 	endif
-	
+
 	var rtype := lower(resource_config[materialobjtype].Type);
 	var materialchk := 0;
 	if(rtype == type)
@@ -83,7 +83,7 @@ function MaterialSelection(who, craft_skill, type, chk)
 		SendSysMessage(who, "Esse nao e o material certo.");
 		return 0;
 	endif
-	
+
 	if((material.objtype >= UOBJ_BOLT_START) && (material.objtype <= UOBJ_BOLT_END))
 		var totalcloth := material.amount * 50;
 		var cloth;
@@ -120,7 +120,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
  	craft_loops := cint(craft_loops);
 
 	var theitemElem := FindconfigElem(craft_config, objtype);
-	
+
 	var materials := GetConfigStringDictionary(theitemElem, "materials");
 	var principalMaterial := GetconfigString(theitemElem, "principalMaterial");
 
@@ -140,7 +140,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 	var targMaterials := dictionary;
 	var chosenPrincipalMaterial := 0;
 	var materialColor := 0;
-	
+
 	var counter := 0;
 	var theitems := array;
 	var initialX := who.x;
@@ -150,19 +150,19 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 	var check;
 	var ret := dictionary;
 	var hisskill;
-	
+
 	while (counter < amt)	//executa o craft o numero de vezes solicitadas ou ate acabar algum dos materiais
 		counter := counter + 1;
 		//SendSysMessage(who, "Tentativa numero " + Cstr(counter) + " de fazer o item.", 0, 133);
 		foreach thing in (materials.keys())	//Comeca a verificar se os materiais tem tipos variados (Exemplo: Barra de Ferro, Barra de Aço, etc.)
-			if (thing == "metal" || thing == "wood" || thing == "glass" 
+			if (thing == "metal" || thing == "wood" || thing == "glass"
 				|| thing == "cloth" || thing == "leather" || thing == "stone"
-				|| thing == "arrowhead")	//os materiais que tem tipos variados 
+				|| thing == "arrowhead")	//os materiais que tem tipos variados
 				if(counter == 1)	//na primeira iteração pergunta quais materiais de tipos variados serao usados.
 					ret[thing] := MaterialSelection(who, craft_skill, thing, 0); //seleciona os tipos de cada material de tipo variado, apenas na primeira iteracao.
 				endif
 				if (!ret[thing])	//quando a selecao de material falhar, exibe mensagem de erro.
-					SendSysMessageEx(who, "Voce nao possui os materiais necessarios.", SSM_FAIL);
+					SendSysMessageEx(who, "Cancelado.", SSM_FAIL);
 					return OUT_OF_MATERIALS;
 				else	//se um material valido foi escolhido, verifica se ele tem quantidade suficiente
 					//SendSysMessageEx(who, "DEBUG: " + cstr(ret[thing][1].amount) + " < " + cstr(materials[thing]) + " - BETA", SSM_FAIL);	//quando a quantidade de um material for insuficiente, exibe mensagem de erro.
@@ -184,7 +184,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 						endif
 					endif
 				endif
-			else	//os materiais que nao tem tipos variados 
+			else	//os materiais que nao tem tipos variados
 				foreach item in (EnumerateItemsInContainer(who.backpack)) //Checa os itens na mochila para contabilizar o material
 						//sendsysmessage(who, " " + item.objtype + " " + cint(thing));
 					if (item.objtype == cint(thing))	//acha os itens do tipo do material pedido
@@ -245,10 +245,10 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 			CraftLockable(who, theitem);
 
 			SendSysMessageEx(who, "Voce criou o item o colocou na mochila.", SSM_INFO);
-		
+
 			hisskill := AP_GetSkill(who, craft_skill);
 
-			if (theitem.isa(POLCLASS_WEAPON) || theitem.isa(POLCLASS_ARMOR))	
+			if (theitem.isa(POLCLASS_WEAPON) || theitem.isa(POLCLASS_ARMOR))
 				SetObjProperty(theitem,"reparos",(hisskill/2));
 			endif
 
@@ -274,7 +274,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 		sleepms(100);
 	endwhile
 
-	return theitems;	
+	return theitems;
 
 endfunction
 
@@ -305,14 +305,14 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 
 	if (!principalMaterial)
 		return;
-	endif	
+	endif
 
 	var elem  := FindConfigElem(resource_config, principalMaterial);
 	if((craft_config[theitem.objtype].retain == 1))
 		if(resource_config[principalMaterial].Color)
 			theitem.color := resource_config[principalMaterial].Color;
 		else
-		
+
 			theitem.color := materialColor;
 		endif
 	endif
@@ -324,7 +324,7 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 	ResistMods := SplitWords(ResistMods);
     var hpmod := GetConfigInt(elem, "hpmod"); //modificador de durabilidade do item pelo material
 
-    
+
 	if(theitem.isA(POLCLASS_WEAPON))
         var cfg:=ReadConfigFile(":combat:itemdesc");
         var elem := FindConfigElem(cfg, theitem.objtype);
@@ -340,9 +340,9 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
         var elem := FindConfigElem(cfg, theitem.objtype);
         if (elem.parrydelay == error) //se for escudo nao aplica o resitmod
             theitem.resist_physical_mod := Cint(ResistMods[1]);
-            theitem.resist_fire_mod := Cint(ResistMods[2]);	
+            theitem.resist_fire_mod := Cint(ResistMods[2]);
             theitem.resist_cold_mod := Cint(ResistMods[3]);
-            theitem.resist_poison_mod := Cint(ResistMods[4]);	
+            theitem.resist_poison_mod := Cint(ResistMods[4]);
             theitem.resist_energy_mod := Cint(ResistMods[5]);
         endif
 	//flechas e virotes de guerra
@@ -350,7 +350,7 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 		SetObjProperty(theitem, "dmgmods", DmgMods);
 	endif
     //aplica o modificador de durabilidade do material
-    theitem.maxhp_mod := Cint(hpmod * Cint(theitem.maxhp) /100.0); 
+    theitem.maxhp_mod := Cint(hpmod * Cint(theitem.maxhp) /100.0);
     theitem.hp := theitem.maxhp_mod + theitem.hp;
 endfunction
 
@@ -419,7 +419,7 @@ function SubtractMaterial(who, targMaterials, amountMod)
 			endif
 
 	endforeach
-  
+
 	return 1;
 endfunction
 
