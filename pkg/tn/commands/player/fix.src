@@ -51,24 +51,23 @@ program fix(who, param)
 			elseif (who.serial != fixer)
 				SendSysMessageEx(who, "Esse item precisa ser transferido para voce antes de usar esse comando.", SSM_FAIL);
 				return 0;
-			else
-				if (alvo.movable == 1)
-					alvo.movable := 0;
-					PrintTextAbove(alvo, who.name +" fixou "+alvo.name+".");
-					SendSysMessageEx(who, "O item esta protegido contra decay.", SSM_INFO);
-				else
-					if (who.hidden)
-						PrintTextAbove(who, who.name +" tenta desfixar "+alvo.name+" e saiu do esconderijo.");
-						who.hidden := 1;
-					else
-						PrintTextAbove(who, who.name +" tenta desfixar "+alvo.name+".");
-					endif
-					Sleep(2);
-					alvo.movable := 1;
-					PrintTextAbove(alvo, who.name +" soltou "+alvo.name+".");
-				endif
-				return 1;
 			endif
+			if (alvo.movable == 1)
+				alvo.movable := 0;
+				PrintTextAbove(alvo, who.name +" fixou "+alvo.name+".");
+				SendSysMessageEx(who, "O item esta protegido contra decay.", SSM_INFO);
+			else
+				if (who.hidden)
+					PrintTextAbove(who, who.name +" tenta desfixar "+alvo.name+" e saiu do esconderijo.");
+					who.hidden := 1;
+				else
+					PrintTextAbove(who, who.name +" tenta desfixar "+alvo.name+".");
+				endif
+				Sleep(2);
+				alvo.movable := 1;
+				PrintTextAbove(alvo, who.name +" soltou "+alvo.name+".");
+			endif
+			return 1;
 		endif
 	elseif (param == "transferir")
 		if (who.serial != fixer)
