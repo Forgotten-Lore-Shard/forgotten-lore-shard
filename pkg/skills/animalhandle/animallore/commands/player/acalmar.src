@@ -14,7 +14,7 @@ include "include/sysEvent";
 program textcmd_acalmar(who)
 	SendSysMessageEx(who, "Selecione a criatura que você deseja acalmar.", SSM_REQUEST);
 	var creature := Target(who, TGTOPT_CHECK_LOS);
-	
+
 	var delay := GetObjProperty(who, "delayskill");
 	SetObjProperty(who, "delayskill", ReadGameClock() + 5);
 	if(delay)
@@ -23,7 +23,6 @@ program textcmd_acalmar(who)
 			return;
 		endif
 	endif
-	
 	if( GetObjProperty(creature, "Blocked") || creature.frozen )
 		SendSysMessage(who, "O raciocinio por tras da sua analise esta incorreto.");
 		return 0;
@@ -39,27 +38,37 @@ program textcmd_acalmar(who)
 		return 0;
 	endif
 
-	if( (creature.graphic == 0x190) or (creature.graphic == 0x191) or (creature.graphic == 309) or (creature.graphic == 307) or (creature.graphic == 14) )
+	if( (creature.graphic == 0x190) || (creature.graphic == 0x191) || (creature.graphic == 309) || (creature.graphic == 307) || (creature.graphic == 14) )
 		SendSysMessage(who, "Esse nao pode ser um alvo valido.");
 		return 0;
 	endif
-	
+
 	var category := lower(getnpccategory( ParseTemplateName(creature.npctemplate).template ));
-	
+
 	if ( (category == "animal") || ( category == "evilanimal") || ( category == "giantanimal") || ( category == "mount") || ( category == "snow") )
 	else
 		SendSysMessage(who, "Esse nao pode ser um alvo valido.");
 		return 0;
 	endif
-	
-	if( SkillCheck(who, HANDLEANIMAL, 10, 0, ADV_DISABLE) > 0)
+	//verifica a skill de combate do NPC
+
+	var advance_flags;
+	if(creature.script := ":ghaia:tamed")
+		advance_flags := ADV_DISABLE;
+	else
+		advance_flags := ADV_SKILL;
+	endif
+
+	var npcDificuldade := CInt(AP_GetSkill(creature, "Wrestling"));
+
+	if( SkillCheck(who, HANDLEANIMAL, npcDificuldade, npcDificuldade-10, advance_flags) > 0)
 		var ev := struct;
 		ev.+type;
 		ev.type := EVID_PEACEMADE; // ajetra isso
 		ev.+source;
 		ev.source := who;
 		sendEvent( creature, ev);
-		SetCooldown(creature, "peacemade", cint(AP_GetSkill(who, HANDLEANIMAL)*5)); 
+		SetCooldown(creature, "peacemade", cint(AP_GetSkill(who, HANDLEANIMAL)*5));
 		PrintTextAbovePrivate(creature, "A criatura foi acalmada.", who);
 	else
 		PrintTextAbovePrivate(creature, "Voce falha em acalmar o animal.", who);
