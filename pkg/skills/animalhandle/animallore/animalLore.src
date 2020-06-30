@@ -50,7 +50,7 @@ program skill_animal_lore( who )
 
 
     var advance_flags;
-    if(creature.script := ":ghaia:tamed")
+    if(creature.script == ":ghaia:tamed")
         advance_flags := ADV_DISABLE;
     else
         advance_flags := ADV_SKILL;
