@@ -68,7 +68,7 @@ program textcmd_acalmar(who)
 		ev.+source;
 		ev.source := who;
 		sendEvent( creature, ev);
-		SetCooldown(creature, "peacemade", cint(AP_GetSkill(who, HANDLEANIMAL)*5));
+		SetCooldown(creature, "peacemade", cint(AP_GetSkill(who, HANDLEANIMAL)));
 		PrintTextAbovePrivate(creature, "A criatura foi acalmada.", who);
 	else
 		PrintTextAbovePrivate(creature, "Voce falha em acalmar o animal.", who);
