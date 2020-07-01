@@ -59,7 +59,7 @@ program SpellScript(params)
 		elseif (Distance(who, targ) >= 16)
 			time:=10;
 			SendSysMessageEx(who, "O alvo se distanciou muito.", SSM_FAIL);
-		elseif(AP_GetVital(npc, HITS)<=0)
+		elseif(AP_GetVital(targ, HITS)<=0)
 			time:=10;
 		else
 			PlayMovingEffectEx(targ, who, 3982, 255, 1, 2117);
