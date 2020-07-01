@@ -70,5 +70,6 @@ program SpellScript(params)
 			sleep(1);
 		endif
 	endwhile
+	who.frozen := 0;
 	return 1;
 endprogram
