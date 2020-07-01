@@ -236,7 +236,7 @@ program MainHitScript( params )
 			elseif ( isBloodied(attacker) && temhabilidade(attacker, "Trespassar Critico") )
 				Trespassar(attacker, defender);
 			endif
-			if ( temHabilidade(defender, "Furia da Derrota"))
+			if ( temHabilidade(defender, "Furia da Derrota") && IsRaging(defender))
 			PrintText(defender, "*Furia da Derrota*");
 				if (GetObjProperty(defender, "critdelay") > 0)
 					EraseObjProperty(defender, "critdelay");

@@ -7,7 +7,7 @@ include "include/damage";
 
 program manobra(attacker)
 
-	if (isBloodied(attacker))
+	if (IsRaging(attacker))
 		TS_StartTimer(attacker, "recuperacaoaligera", 60);
 	endif
 

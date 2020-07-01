@@ -148,7 +148,7 @@ function CalculateDamage(defender, type, dmg)
 		endcase
 	endif
 
-			if (isBloodied(defender) && TemHabilidade(defender, "Pele de Rocha"))
+			if (IsRaging(defender) && TemHabilidade(defender, "Pele de Rocha"))
 			if (resist < 0.5)
 				resist := 0.5;
 			endif
@@ -161,7 +161,7 @@ function CalculateDamage(defender, type, dmg)
 		if (TemHabilidade(defender, "Especialista em Escudos") && (defender.shield).IsA(POLCLASS_ARMOR) ) // Se tiver a hab e usar escudo
 			resist := resist + (AP_GetTrueSkill(defender,PARRY)/1000); // Ganha até +10% de bonus
 		endif
-		if (isBloodied(defender) && TemHabilidade(defender, "Pele de Rocha"))
+		if (IsRaging(defender) && TemHabilidade(defender, "Pele de Rocha"))
 			if (resist < 0.5)
 				resist := 0.5;
 			endif
@@ -388,11 +388,11 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	if ( isBloodied(who))
-		if (temHabilidade(who, "Furia") || GetObjProperty(who, "NpcFuria"))
+		if ((temHabilidade(who, "Furia") && IsRaging(who)) || GetObjProperty(who, "NpcFuria"))
 			other:= other + 1.0;
 			PrintText(who, "*enfurecido*");
 		endif
-		if (temHabilidade(who, "Furia Primitiva"))
+		if (temHabilidade(who, "Furia Primitiva") && IsRaging(who))
 			if (GetObjProperty(who, "metamorfose") != error)
 				other:= other + 1.0;
 				PrintText(who, "*enfurecido*");

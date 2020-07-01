@@ -255,7 +255,7 @@ var anim := wpn_a_elem.Anim;
 		endif
 
 		if (GetCooldown(defender, "FerocidadeEnsanguentada"))
-			if (isBloodied(defender))
+			if (IsRaging(defender))
                 if (GetObjProperty(defender, "#contraatacando") == error)
                     SetObjProperty(defender, "#contraatacando", 1);
                     printtext(defender, "*contra ataque*");

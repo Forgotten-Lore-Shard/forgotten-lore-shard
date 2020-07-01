@@ -10,7 +10,7 @@ include ":tn:cooldown";
 
 program doubleattack(who)
 
-	if (isBloodied(who))
+	if (IsRaging(who))
 		SendSysMessageEx(who, "Voce esta cego de violencia.", SSM_INFO);
 		SetCooldown(who, "VontadeIndomavel", 60);
 	endif

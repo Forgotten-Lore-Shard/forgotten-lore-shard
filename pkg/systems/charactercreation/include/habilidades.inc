@@ -72,11 +72,16 @@ endfunction
 
 function IsBloodied(mobile)
 
-	if (mobile.npctemplate)
-		if (AP_GetVital(mobile, HITS) < CInt(AP_GetVitalMaximumValue(mobile, HITS)/2))
-			return 1;
-		endif
-	elseif ( AP_GetVital(mobile, HITS) < GetHP(mobile) )
+	if (AP_GetVital(mobile, HITS) < CInt(AP_GetVitalMaximumValue(mobile, HITS)/2))
+		return 1;
+	endif
+
+	return 0;
+
+endfunction
+
+function IsRaging(mobile)
+	if (!mobile.npctemplate && AP_GetVital(mobile, HITS) < GetHP(mobile))
 		return 1;
 	endif
 
