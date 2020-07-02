@@ -13,7 +13,7 @@ include ":tn:cooldown";
 
 set_script_option(SCRIPTOPT_CAN_ACCESS_OFFLINE_MOBILES, 1);
 
-var pack_animals := array(291, 292); 
+var pack_animals := array(291, 292);
 var mountables := array(200, 204, 226, 228);
 var me := self();
 var wait_time := 120;
@@ -65,7 +65,7 @@ program TamedAI()
                 me.graphic := 207;
             endif
         endif
-        
+
 		case ( ev.type )
 
 //			EVID_FLEE:
@@ -326,7 +326,7 @@ function ProcessSpeech(ev)
 
 	elseif( text[name+" livre"] || text["todos livres"] )
 
-		if (GetObjProperty(me, "summon") == 1)
+		if (GetObjProperty(me, "summoned"))
 			SendSysMessage(owner, "Criaturas invocadas nao podem ser libertadas normalmente.");
 			return;
 		endif
@@ -335,7 +335,7 @@ function ProcessSpeech(ev)
 			SendSysMessage(owner, "Seu companheiro animal nao quer deixar voce.");
 			return;
 		endif
-		
+
 		EraseObjProperty(me, "anchor");
 		UnTame();
 	endif
@@ -376,7 +376,7 @@ function TakeItem(ev)
 		//endif
 	else
 		SendSysMessage(ev.source, "Nao pode dar esse item!");
-	endif	
+	endif
 
 endfunction
 
@@ -534,7 +534,7 @@ function Transfer(targ)
 		return;
 	endif
 
-	 if ( (GetNumPets(targ) + GetPetCost(me)) > GetMaxPets(targ) ) 
+	 if ( (GetNumPets(targ) + GetPetCost(me)) > GetMaxPets(targ) )
 		Say("*" + me.name+ " nao aceita " + targ.name + "como dono.");
 		return;
 	endif
@@ -632,7 +632,7 @@ function ProcessDoubleClick(ev)
 		elseif (targ.mobile)
 			var gump := GFCreateGump(220, 70);
 			//GFGumpPic(gump, 0, 0, 0x254E);
-			GFResizePic(gump, 0, 0, 0x254E, 100, 100);	
+			GFResizePic(gump, 0, 0, 0x254E, 100, 100);
 			GFTextLine(gump, 30, 15, 2100, "Guarda ");
 			GFTextLine(gump, 30, 35, 2100, "Segue ");
 			if (targ.mobile.serial != owner.serial)
@@ -652,7 +652,7 @@ function ProcessDoubleClick(ev)
 			elseif (input == 30)
 				opponent := targ.mobile;
 			endif
-				
+
 		elseif (!Cint(targ.mobile))//se nao for nem item nem mobile anda ate la
 			if (!Cint(targ.item))
 				following := 0;
