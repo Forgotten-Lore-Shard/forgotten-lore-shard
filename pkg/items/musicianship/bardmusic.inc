@@ -116,7 +116,7 @@ CONST NOTA_C2 := 25;    //C2
 CONST NOTA_CS2 := 26;   //Cs2
 CONST NOTA_D2 := 27;    //D2
 CONST NOTA_DS2 := 28;   //Ds2
-CONST NOTA_E2 := 28;    //E2
+CONST NOTA_E2 := 29;    //E2
 CONST NOTA_F2 := 30;    //F2
 CONST NOTA_FS2 := 31;   //Fs2
 CONST NOTA_G2 := 32;    //G2
@@ -730,6 +730,7 @@ function partituraSom(byref who,byref instrumento,byref partitura)
 	endif
 
 	//Toca os efeitos sonoros da partitura
+	Set_Critical(1);
 	foreach delay in tempo
 		case (todasNotas[_delay_iter])
 			"C":
@@ -819,7 +820,7 @@ function partituraSom(byref who,byref instrumento,byref partitura)
 		endcase
 		sleepms(delay); //intervalo entre as notas
 	endforeach
-
+	Set_Critical(0);
 	return 1;
 endfunction
 
