@@ -32,11 +32,6 @@ exported function GetHitsMaximumValue(mobile)
 		vital_points := GetNPCVitalSetting(mobile, "HITS") + (Cint(GetObjProperty(mobile, "hitsmod")) + Cint(GetObjProperty(mobile, "#hitsmod"))) * 100;
 		vital_points := vital_points * 2;
 	else // no getHP ja pega o hitsmod dos players
-		// TODO APAGAR
-		if(mobile.acctname)
-			SysLog("GetHP: "+GetHP(mobile));
-			SysLog("GetPH: "+GetPH(mobile));
-		endif
 		vital_points := (GetHP(mobile) + GetPH(mobile)) * 100;
 	endif
 

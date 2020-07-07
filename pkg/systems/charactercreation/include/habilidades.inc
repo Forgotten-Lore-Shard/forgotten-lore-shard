@@ -80,6 +80,7 @@ function IsBloodied(mobile)
 endfunction
 
 function IsRaging(mobile)
+	//Bonus da habilidde baixo limiar de furia
 	var bonus_limiar_furia_hp := 0;
 	if (TemHabilidade(mobile, "Baixo Limiar de Furia"))
 		bonus_limiar_furia_hp := bonus_limiar_furia_hp + 100;
