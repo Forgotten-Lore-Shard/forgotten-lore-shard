@@ -161,7 +161,10 @@ program SpellStarter(params)
 
 		var orig_hp := AP_GetVital(mobile, "Hits");
 		var delay := spellinfo.delay + Cint(GetObjProperty(mobile, "#delayspell"));
-		var moveCheck_script := Start_Script(":fls_magery:moveCheck/moveCheck", array{mobile, Getpid()});
+		var moveCheck_script;
+		if(!TemHabilidade(mobile, "Meditacao em Combate"))
+			moveCheck_script := Start_Script(":fls_magery:moveCheck/moveCheck", array{mobile, Getpid()});
+		endif
 
 		var cycles := spellinfo.cycles;
 		if (cycles < 1)
@@ -256,7 +259,9 @@ program SpellStarter(params)
 
 		endwhile
 
-		moveCheck_script.kill();
+		if (moveCheck_script)
+			moveCheck_script.kill();
+		endif
 
 		var attribute;
 		attribute := MAGERY;
@@ -349,6 +354,6 @@ program SpellStarter(params)
 	//MS_SpellDebug(mobile, "Spell starter completed.");
 	EraseObjProperty(mobile, "#magiasilenciosa");
 	EraseObjProperty(mobile, "#Casting");
-	
+
 	return 1;
 endprogram

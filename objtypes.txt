@@ -1844,7 +1844,9 @@
 # 0x27b0 - 0x2803 unused
 0x2804 dardo tn
 0x2805 flute musicianship
-# 0x2806 - 0x299f unused
+# 0x2806 unused
+0x2807 flute2 musicianship
+# 0x2808 - 0x299f unused
 0x29a0 fancystainedglasswind01 stonework
 # 0x29a1 - 0x29a3 unused
 0x29a4 cavestainedglasswind01 stonework

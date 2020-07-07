@@ -68,14 +68,14 @@ program summontotem(params)
 	endif
 
 
-	var duracao := GetSpellDuration(AP_GetSkill(who, MAGICLORE))/2;
+	var duracao := CInt(AP_GetSkill(who, MAGICLORE))*3 + 180;
 
 	if (temHabilidade(who, "Invocacao Duradoura"))
 		duracao := duracao*2;
 	endif
 
 	TS_StartTimer(undead, "summon", duracao );
-	
+
 	return 1;
 
 endprogram

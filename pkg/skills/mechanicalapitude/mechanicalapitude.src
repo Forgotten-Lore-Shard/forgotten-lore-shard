@@ -36,7 +36,11 @@ program skillremoveTrap(who)
 	if( GetObjProperty(item, "TrapList") != error )
 
 		var spotedTrap := Cint(GetObjProperty(item, "trapSpoted"));
-		if (!spotedTrap)
+		var acharamArmadilha := array;
+		if(GetObjProperty(item, "acharamArmadilha"))
+			acharamArmadilha := GetObjProperty(item, "acharamArmadilha"); //Lista de pessoas que revelaram a armadilha só para si
+		endif
+		if (!spotedTrap && !(who.serial in acharamArmadilha))
 			SendSysMessageEx(who, "Nao tem armadilhas aqui.", SSM_INFO);
 			return;
 		endif
@@ -63,7 +67,7 @@ program skillremoveTrap(who)
 			4: dif := 86;
 			5: dif := 90;
 			6: dif := 110;
-			default: dif := 40; 
+			default: dif := 40;
 		endcase
 		var check := SkillCheck( who, MECHANICALAPITUDE, dif);
 		if( check > 0 )

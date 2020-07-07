@@ -324,7 +324,6 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 	ResistMods := SplitWords(ResistMods);
     var hpmod := GetConfigInt(elem, "hpmod"); //modificador de durabilidade do item pelo material
 
-
 	if(theitem.isA(POLCLASS_WEAPON))
         var cfg:=ReadConfigFile(":combat:itemdesc");
         var elem := FindConfigElem(cfg, theitem.objtype);
@@ -338,18 +337,21 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
 	elseif(theitem.isA(POLCLASS_ARMOR))
         var cfg:=ReadConfigFile(":combat:itemdesc");
         var elem := FindConfigElem(cfg, theitem.objtype);
-        if (elem.parrydelay == error) //se for escudo nao aplica o resitmod
+        theitem.resist_fire_mod := Cint(ResistMods[2]);
+        theitem.resist_cold_mod := Cint(ResistMods[3]);
+        theitem.resist_poison_mod := Cint(ResistMods[4]);
+        theitem.resist_energy_mod := Cint(ResistMods[5]);
+        if (elem.parrydelay == error) //se for escudo nao aplica o resitmod fisico dos metais
             theitem.resist_physical_mod := Cint(ResistMods[1]);
-            theitem.resist_fire_mod := Cint(ResistMods[2]);
-            theitem.resist_cold_mod := Cint(ResistMods[3]);
-            theitem.resist_poison_mod := Cint(ResistMods[4]);
-            theitem.resist_energy_mod := Cint(ResistMods[5]);
         endif
 	//flechas e virotes de guerra
 	elseif (theitem.objtype == 0x9088 || theitem.objtype == 0x9098)
 		SetObjProperty(theitem, "dmgmods", DmgMods);
 	endif
     //aplica o modificador de durabilidade do material
+    if (elem.parrydelay != error) //se for escudo aumenta o buff de durabilidade do material significativamente
+        hpmod :=  hpmod*5;
+    endif
     theitem.maxhp_mod := Cint(hpmod * Cint(theitem.maxhp) /100.0);
     theitem.hp := theitem.maxhp_mod + theitem.hp;
 endfunction

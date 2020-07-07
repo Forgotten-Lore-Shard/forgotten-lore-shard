@@ -41,7 +41,7 @@ program TamingSkill(who)
 	GFClosable(yn_gump, 1);
 	GFResizePic(yn_gump, 0, 0, GFCfgConst("Defaults", "BackGround"), 300, 280); //205);
 	GFResizePic(yn_gump, 15, 15, GFCfgConst("Defaults", "ForeGround"), 270, 250); //175);
-	
+
 	var y_pos := 20;
 	GFTextLine(yn_gump, 20, 20, 1153, "Menu de HandleAnimal.");
 
@@ -51,15 +51,17 @@ program TamingSkill(who)
 	GFAddButton(yn_gump, 20, (83), 2117, 2118, GF_CLOSE_BTN, 2);
 	GFTextLine(yn_gump, 40, 80, 1153, "Informações sobre o animal.");
 
-	GFTextLine(yn_gump, 40, 100, 1153, "Libertar Animal:");
+	GFTextLine(yn_gump, 20, 120, 1153, "Libertar Animal:");
 
-	var y := 120;
+	var y := 150;
 	var i := 1;
 	var pets := GetObjProperty(who, "TamedPets");
 	foreach serial in pets
 		var pet := SystemFindObjectBySerial(serial);
 		GFTextLine(yn_gump, 40, y, 1153, "" + pet.name);
-		GFAddButton(yn_gump, 20, y+3, 2117, 2118, GF_CLOSE_BTN, (100+i));
+		if (!GetObjProperty(pet, "summoned"))
+			GFAddButton(yn_gump, 20, y+3, 2117, 2118, GF_CLOSE_BTN, (100+i));
+		endif
 		i := i + 1;
 		y := y + 20;
 	endforeach
@@ -351,12 +353,12 @@ function BuildDetails(targ, byref gump, cmd_name, byref y_pos)
 	GFTextLine(gump, 192, 67, 0, "Ensinar");
 
 	GFAddButton(gump, 211, y_pos+3, 1209, 1210, GF_CLOSE_BTN, btn_maxId);
-	
+
 	var desc := GetConfigStringArray(cfg_elem, "Desc");
 	if ( desc.Size() < 1 )
 		return 0;
 	endif
-	
+
 	foreach line in desc
 		GFTextLine(gump, 24, y_pos, 1890, line);
 		y_pos := y_pos+20;
@@ -372,7 +374,7 @@ function BuildDetails(targ, byref gump, cmd_name, byref y_pos)
 		frase := "Comando Individual:";
 	endif
 	GFTextLine(gump, 24, y_pos, 1890, frase);
-	
+
 	lines.+singular := GFTextEntry(gump, 24 + GFTextWidth(frase), y_pos, 75, 20, 1418, ini_text:="aqui");
 
 	y_pos := y_pos+20;
@@ -385,7 +387,7 @@ function BuildDetails(targ, byref gump, cmd_name, byref y_pos)
 
 	lines.+cmd_name := cmd_name;
 	entries_list.insert(cmd_name, lines);
-		
+
 	det_page := det_page + 1;
 	btn_maxId := btn_maxId + 1;
 	y_pos := START_Y;
@@ -408,7 +410,7 @@ function TeachNow(who, tamed, cmd, input)
 		SendSysMessage(who, "Este animal ja conhece o truque.");
 		return;
 	endif
-	
+
 	var singular := input[ entries_list[cmd].singular ];
 	var plural :=   input[ entries_list[cmd].plural ];
 	singular := singular[find(singular, " ", 1)+1, len(singular)];
@@ -420,7 +422,7 @@ function TeachNow(who, tamed, cmd, input)
 	if(plural)
 		new_cmd.+plural := plural;
 	endif
-		
+
 	if( (cmd == "All") || (cmd == "Group") )
 		SetObjProperty(tamed, cmd, singular);
 	else

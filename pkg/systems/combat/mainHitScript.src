@@ -885,7 +885,7 @@ function ParryCheck(attacker, defender, byref rawdamage)
 	if (wallChance > parry_chance)
 		parry_chance := wallChance;
 	endif
-	if (attacker.weapon.graphic == 0x26C4) // foices
+	if ((attacker.weapon.graphic == 0x26C4) || (attacker.weapon.graphic == 0x26C5)) // foice grande e foice pequena
 		parry_chance := parry_chance - parry_chance*0.3; //diminui 30% da chance
 	endif
 
