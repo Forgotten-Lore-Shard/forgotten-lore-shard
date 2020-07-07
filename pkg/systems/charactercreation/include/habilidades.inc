@@ -71,7 +71,6 @@ function TemHabilidade(who, habilidade)
 endfunction
 
 function IsBloodied(mobile)
-
 	if (AP_GetVital(mobile, HITS) < CInt(AP_GetVitalMaximumValue(mobile, HITS)/2))
 		return 1;
 	endif
@@ -81,7 +80,12 @@ function IsBloodied(mobile)
 endfunction
 
 function IsRaging(mobile)
-	if (!mobile.npctemplate && AP_GetVital(mobile, HITS) < GetHP(mobile))
+	var bonus_limiar_furia_hp := 0;
+	if (TemHabilidade(mobile, "Baixo Limiar de Furia"))
+		bonus_limiar_furia_hp := bonus_limiar_furia_hp + 100;
+	endif
+
+	if (!mobile.npctemplate && AP_GetVital(mobile, HITS) < (GetHP(mobile) + bonus_limiar_furia_hp))
 		return 1;
 	endif
 
