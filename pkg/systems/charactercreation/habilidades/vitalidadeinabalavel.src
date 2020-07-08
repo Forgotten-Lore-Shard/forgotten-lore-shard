@@ -12,6 +12,18 @@ program manobra(attacker)
 	SendSysMessageEx(attacker, "Nada abala voce.", SSM_INFO);
 
 	SetCooldown(attacker, "vitalidadeinabalavel", cint(AP_GetSkill(attacker, TACTICS)));
+    SetObjProperty(attacker, "#vitalidadeinabalavel",1);
+    
+    detach();
+    while(GetObjProperty(attacker, "#vitalidadeinabalavel") != error)
+        if (GetCooldown(attacker, "vitalidadeinabalavel") > 0);//do nothing
+        else
+            SendSysMessageEx(attacker, "Sua vontade inabalavel cessou.", SSM_INFO);
+            EraseObjProperty(attacker, "#vitalidadeinabalavel");
+            return;
+        endif     
+        sleep(1);
+    endwhile
 
 endprogram 
 
