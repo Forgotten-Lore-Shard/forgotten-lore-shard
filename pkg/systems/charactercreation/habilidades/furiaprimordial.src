@@ -12,5 +12,7 @@ program doubleattack(who)
 	if (IsRaging(who))
 		SendSysMessageEx(who, "Sua Furia esta indomavel.", SSM_INFO);
 		SetCooldown(who, "FuriaPrimordial", 60);
+	else
+        SendSysMessageEx(who, "Voce precisa estar em furia.", SSM_INFO);
 	endif
 endprogram

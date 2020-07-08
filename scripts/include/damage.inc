@@ -149,8 +149,8 @@ function CalculateDamage(defender, type, dmg)
 	endif
 
 			if (IsRaging(defender) && TemHabilidade(defender, "Pele de Rocha"))
-			if (resist < 0.5)
-				resist := 0.5;
+				if (resist < 0.5)
+					resist := 0.5;
 			endif
 		endif
 

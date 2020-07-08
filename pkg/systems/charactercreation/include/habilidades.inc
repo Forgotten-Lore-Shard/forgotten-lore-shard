@@ -86,7 +86,7 @@ function IsRaging(mobile)
 		bonus_limiar_furia_hp := bonus_limiar_furia_hp + 100;
 	endif
 
-	if (!mobile.npctemplate && AP_GetVital(mobile, HITS) < (GetHP(mobile) + bonus_limiar_furia_hp))
+	if (!mobile.npctemplate && AP_GetVital(mobile, HITS) <= (GetHP(mobile) + bonus_limiar_furia_hp))
 		return 1;
 	endif
 

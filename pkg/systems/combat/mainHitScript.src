@@ -237,7 +237,7 @@ program MainHitScript( params )
 				Trespassar(attacker, defender);
 			endif
 			if ( temHabilidade(defender, "Furia da Derrota") && IsRaging(defender))
-			PrintText(defender, "*Furia da Derrota*");
+				PrintText(defender, "*Furia da Derrota*");
 				if (GetObjProperty(defender, "critdelay") > 0)
 					EraseObjProperty(defender, "critdelay");
 				endif	
