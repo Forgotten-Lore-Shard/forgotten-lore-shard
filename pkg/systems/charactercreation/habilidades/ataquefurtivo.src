@@ -20,7 +20,7 @@ include "include/packets";
 
 
 program backstab(who)
-	
+
 	var weapon := who.weapon;
 	var weaponBow := 0;
 	if (lower(weapon.attribute) == "rangedcombat")
@@ -30,7 +30,7 @@ program backstab(who)
 	if ( !CanBackStab(who, weapon) )
 		return;
 	endif
-	
+
 	SendSysMessage(who, "Quem voce deseja atacar?");
 	var targ := target(who, TGTOPT_HARMFUL+TGTOPT_CHECK_LOS);
 	if ( !targ.ISA(POLCLASS_MOBILE) )
@@ -64,8 +64,7 @@ program backstab(who)
 
 
 			SetObjProperty(who, "backstab", 1);
-			var rawdamage := CalculateRawDamage(who, weapon);
-			rawdamage := rawdamage*2;
+			var rawdamage := CInt(CalculateRawDamage(who, weapon)*(AP_GetSkill(who, TACTICS)/20));
 			if (rawdamage < 1)
 				rawdamage := 1;
 			endif
@@ -150,5 +149,5 @@ function AmmoCheck(attacker, defender)
 	else
 		return 0;
 	endif
-	
+
 endfunction
