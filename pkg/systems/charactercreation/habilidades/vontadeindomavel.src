@@ -10,10 +10,12 @@ include ":tn:cooldown";
 
 program doubleattack(who)
 
-	if (isBloodied(who))
+	if (IsRaging(who))
 		SendSysMessageEx(who, "Sua vontade e indomavel.", SSM_INFO);
 		SetCooldown(who, "VontadeIndomavel", cint(AP_GetSkill(who, TACTICS)));
         SetObjProperty(who,"#vontadeindomavel",1);
+    else
+        SendSysMessageEx(who, "Voce precisa estar em furia.", SSM_INFO);
 	endif
     
     detach();

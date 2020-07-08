@@ -226,10 +226,6 @@ function GetHP(who)
 		hp := hp + 35;
 	endif
 
-	if (TemHabilidade(who, "Baixo Limiar de Furia"))
-		hp := hp + 100;
-	endif
-
 	hp := hp + Cint(GetObjProperty(who, "hitsmod")) + Cint(GetObjProperty(who, "#hitsmod"));
 
 	return hp;
@@ -250,11 +246,6 @@ function GetPH(who)
 	if (TemHabilidade(who, "Grande Fortitude"))
 		ph := ph + 25;
 	endif
-
-	if (TemHabilidade(who, "Baixo Limiar de Furia"))
-		ph := ph - 100;
-	endif
-
 
 	ph := ph + Cint(GetObjProperty(who, "phmod")) + Cint(GetObjProperty(who, "#phmod")) +  CInt(AP_GetTrueStat(who, "Strength"))/2;
 

@@ -7,9 +7,12 @@ include "include/damage";
 
 program manobra(attacker)
 
-	if (isBloodied(attacker))
-        SendSysMessageEx(attacker, "Voce sente seus sangramentos diminuirem.", SSM_INFO);
+
+	if (IsRaging(attacker))
+    	SendSysMessageEx(attacker, "Voce sente seus sangramentos diminuirem.", SSM_INFO);
 		TS_StartTimer(attacker, "recuperacaoaligera", 60);
+	else
+        SendSysMessageEx(attacker, "Voce precisa estar em furia.", SSM_INFO);
 	endif
 
 
