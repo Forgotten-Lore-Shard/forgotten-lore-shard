@@ -297,6 +297,7 @@ function CreateItem(who, objtype, more:=0)
 	else
 		theitem := CreateItemInBackpack(who, objtype, 1+more);
 	endif
+	MoveItemToContainer(theitem, who.backpack, -1, -1, 2); //Empilha quando já tem algum
 	return theitem;
 endfunction
 
