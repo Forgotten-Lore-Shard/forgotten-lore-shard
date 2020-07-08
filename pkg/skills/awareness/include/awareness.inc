@@ -29,16 +29,22 @@ function examinarAlvo(who)
 			if (last_name)
 				name := name+" "+last_name;
 			endif
+			sleep(1);
 			SendSysMessageEx(who, "Voce descobriu disfarce de "+name+" em "+targ.name+".", SSM_INFO);
 			SendSysMessageEx(who, "ATENCAO: Se voce nao conhece esse personagem, ignore o fato de saber o nome dele.", SSM_INFO);
 		endif
 		return 0;
 	elseif ( GetObjProperty(targ, "TrapList") )
+		sleep(1);
 		if(!ReserveItem(targ)) //Apenas um personagem examina o bau por vez.
 	  		SendSysMessage(who, "Alguem ja esta examinando "+targ.name+".");
 	  		return 0;
 	  	else
-	  		PrintTextAbove(who, "*Examinando "+targ.name+"*");
+	  		if(who.hidden)
+				SendSysMessage(who, "*Examinando "+targ.name+"*");
+			else
+				PrintTextAbove(who, "*Examinando "+targ.name+"*");
+			endif
 	  		sleep(1);
 		endif
 		if(GetObjProperty(targ, "trapSpoted"))
@@ -49,8 +55,9 @@ function examinarAlvo(who)
 		endif
 		if ((!armadilhaRevelada) && (who.serial in acharamArmadilha)) //Quando você achou ela mas não revelou pra todos
 			SendSysMessageEx(who, "Armadilha ja foi encontrada e esta obvia para voce.", SSM_INFO);
-			if (YesNo(who, "Deseja revelar a armadilha para todos?", "Sim.", "Nao, deixa so pra mim."))
-				PrintText(targ, "*armadilha revelada para todo por "+who.name+"*");
+			if (YesNo(who, "Revelar a armadilha para todos? (", "Sim.", "Nao, deixa so pra mim."))
+				PrintTextAbove(who, "*Aponta para "+targ.name+"*");
+				PrintTextAbove(targ, "*!*");
 				TrapFound(targ, who);
 			endif
 			return 1;
@@ -69,10 +76,11 @@ function examinarAlvo(who)
 				6: diff := 110;
 				default: diff := 40;
 			endcase
+			sleep(1);
 			if ( SkillCheck(who, AWARENESS, diff) > 0 )
 				acharamArmadilha.Append(who.serial);
 				SetObjProperty(targ, "acharamArmadilha", acharamArmadilha);
-				SendSysMessage(who,"Armadilha revelada em "+targ.name+".");
+				SendSysMessage(who,"Armadilha encontrada em "+targ.name+".");
 				return 1;
 			else
 				SendSysMessageEx(who, "Voce nao encontrou nada de diferente.", SSM_INFO);

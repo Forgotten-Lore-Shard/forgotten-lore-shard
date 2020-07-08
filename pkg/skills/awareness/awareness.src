@@ -24,7 +24,11 @@ program skill_Alertness(who)
 	if (menu == 1)
 		return examinarAlvo(who);
 	elseif (menu == 2)
-		PrintText(who, "*Parece procurar algo*");
+		if(who.hidden)
+			SendSysMessage(who, "*Procurando algo*");
+		else
+			PrintTextAbove(who, "*Procurando algo*");
+		endif
 		return examinarArea(who);
 	else
 		var ignore := GetObjProperty(who, "IgnoreHidden");

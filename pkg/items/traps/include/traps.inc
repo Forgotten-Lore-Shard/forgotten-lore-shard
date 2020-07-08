@@ -28,14 +28,14 @@ function GetTrapInfo(trap_name)
 		SysLog(temp.errortext);
 		return temp;
 	endif
-	
+
 	var trap_elem := trap_cfg[trap_name];
 	if ( trap_elem.errortext )
 		var temp := error{"errortext":="GetTrapInfo()::Could not find elem ["+trap_name+"] -> "+trap_elem.errortext};
 		SysLog(temp.errortext);
 		return temp;
 	endif
-	
+
 	return trap_elem;
 endfunction
 
@@ -71,16 +71,16 @@ endfunction
  */
 function AddTrap(object, trap_name, strength, count:=0)
 	var trap_list := GetObjProperty(object, "TrapList");
-	
+
 	if ( Lower(TypeOf(trap_list)) != "array" )
 		trap_list := array{};
 	endif
-	
+
 	var trap_elem := GetTrapInfo(trap_name);
 	if ( trap_elem.errortext )
 		return trap_elem; // Contains an error
 	endif
-		
+
 	if ( !count )
 		count := trap_elem.Count;
 		if ( !count )
@@ -91,17 +91,17 @@ function AddTrap(object, trap_name, strength, count:=0)
 			count := CInt(cstr(trap_elem.Count));
 		endif
 	endif
-	
+
 	var trap := struct;
 	trap.+Name := trap_name;
 	trap.+strength := strength;
 	// trap.+danger := danger;
 	trap.+Count := count;
-	
+
 	trap_list.Append(trap);
-	
+
 	SetObjProperty(object, "TrapList", trap_list);
-	
+
 	return 1;
 endfunction
 
@@ -124,16 +124,22 @@ function RemoveTrap(object, index)
 	var trap_list := GetObjProperty(object, "TrapList");
 	if ( trap_list == error )
 		return error{"errortext":="Object has no traps."};
-	endif
-	
-	trap_list.Erase(index);
-	
-	if ( trap_list.Size() > 0 )
-		SetObjProperty(object, "TrapList", trap_list);
 	else
-		EraseObjProperty(object, "TrapList");
+		trap_list.Erase(index); //remove uma das armadilhas
+		if ( trap_list.Size() > 0 )
+			SetObjProperty(object, "TrapList", trap_list);
+		else
+			EraseObjProperty(object, "TrapList");
+			object.usescript := "";
+			var name := object.desc;
+			if(name[" [!]"])
+				name[" [!]"] := " [O]";
+			else
+				name := name + " [O]";
+				SetName(object, name);
+			endif
+		endif
 	endif
-	
 	return 1;
 endfunction
 
@@ -156,26 +162,26 @@ function RunTraps(object, mobile)
 	if ( trap_list == error )
 		return 0;
 	endif
-	
+
 	foreach trap_info in ( trap_list )
 		var cfg_info := GetTrapInfo(trap_info.name);
-		
+
 		var result := start_script(cfg_info.Script, {mobile, object, trap_info, _trap_info_iter});
 		if ( result.errortext )
 			PrintTextAbove(object, result.errortext);
 			continue;
 		endif
-		
+
 		//if ( trap_info.Count > 0 ) // -1 = permanent trap
 		//	trap_info.Count := trap_info.Count - 1;
-		//	
+		//
 		//	if ( trap_info.count == 0 )
 		///		RemoveTrap(object, _trap_info_iter);
 		//	endif
 		//endif
 		sleepms(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
@@ -184,28 +190,28 @@ function RunTrapEffect(trap_list, mobile)
 	if ( trap_list == error )
 		return 1;
 	endif
-	
+
 	foreach trap_info in ( trap_list )
 		var cfg_info := GetTrapInfo(trap_info.name);
-		
+
 		var result := start_script(cfg_info.Script, {mobile, mobile, trap_info, _trap_info_iter});
-		
+
 		//if ( trap_info.Count > 0 ) // -1 = permanent trap
 		//	trap_info.Count := trap_info.Count - 1;
-		//	
+		//
 		//	if ( trap_info.count == 0 )
 		///		RemoveTrap(object, _trap_info_iter);
 		//	endif
 		//endif
 		sleepms(2);
 	endforeach
-	
+
 	return 1;
 endfunction
 
 function TrapFound(object, founder)
 	SetObjProperty(object, "trapSpoted", founder.serial);
-   SetName(object, object.desc);
+	SetName(object, object.desc+ " [!]");
 endfunction
 
 function getTrapDamage(strength, danger)
@@ -215,7 +221,7 @@ function getTrapDamage(strength, danger)
    case (danger)
       3:
          power := 250;
-      2: 
+      2:
          power := 140;
    endcase
 
