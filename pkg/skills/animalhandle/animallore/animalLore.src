@@ -57,7 +57,8 @@ program skill_animal_lore( who )
     endif
 
     var npcDificuldade := CInt(AP_GetSkill(creature, "Wrestling"));
-
+    PrintTextAbove(who,"*Analisando "+ creature.name + "*");
+    Sleep(1);
     if( SkillCheck(who, HANDLEANIMAL, npcDificuldade, npcDificuldade-10, advance_flags) > 0)
                 // If the player succeeds, send the gump.
                 // Create the Gump

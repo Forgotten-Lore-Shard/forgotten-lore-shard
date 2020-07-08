@@ -60,7 +60,8 @@ program textcmd_acalmar(who)
 	endif
 
 	var npcDificuldade := CInt(AP_GetSkill(creature, "Wrestling"));
-
+	PrintTextAbove(who,"*Tenta acalmar "+ creature.name + "*");
+	Sleep(1);
 	if( SkillCheck(who, HANDLEANIMAL, npcDificuldade, npcDificuldade-10, advance_flags) > 0)
 		var ev := struct;
 		ev.+type;
@@ -70,7 +71,9 @@ program textcmd_acalmar(who)
 		sendEvent( creature, ev);
 		SetCooldown(creature, "peacemade", cint(AP_GetSkill(who, HANDLEANIMAL)));
 		PrintTextAbovePrivate(creature, "A criatura foi acalmada.", who);
+		return 1;
 	else
 		PrintTextAbovePrivate(creature, "Voce falha em acalmar o animal.", who);
+		return 0;
 	endif
 endprogram
