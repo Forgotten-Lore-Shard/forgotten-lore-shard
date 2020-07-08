@@ -35,25 +35,32 @@ program book(who, book)
 	var result := GFSendGump(who, book_gump);
 
 	if (result[0] > 900)
-		
+
 
 		var spell := result[0] - 900;
-	
+
 		var spells := GetObjProperty(book, "spells");
 		//sendsysmessage(who, " " + bookopt);
-	 
+
 		if (spells[spell])
 			copyrecipe(who, spells[spell]);
 		endif
 	else
 
 		var spell := result[0] - 100;
-	
+
 		var spells := GetObjProperty(book, "spells");
 		//sendsysmessage(who, " " + bookopt);
 		var donoGrimorio := GetObjProperty(book, "marked");
 		if (donoGrimorio != error)
-			if ( donoGrimorio != (who.name + " - " + who.acctname))
+			//verifica o nome verdadeiro do dono do livro no chardata
+			var char := GetObjProperty(who, "chardata");
+			var name := char.FirstName;
+			var last_name := char.LastName;
+			if (last_name)
+				name := name+" "+last_name;
+			endif
+			if ( donoGrimorio != (name + " - " + who.acctname))
 				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
 				return 1;
 			endif
@@ -81,7 +88,7 @@ function copyrecipe(who, recipe)
 	//sendsysmessage(who, " " + spellinfo + " " + recipe + "  " + cint(recipe));
 	if (ConsumeSubstance(who.backpack, OBJ_BLANK_SCROLL, 1))
 		if ((SkillCheck(who, MAGERY, cint(recipe.Difficulty), 0) > 0))
-			if  (!AP_ConsumeVital(who, MANA, recipe.mana)) 
+			if  (!AP_ConsumeVital(who, MANA, recipe.mana))
 				SendSysMessageEx(who, "Voce esta sem mana.", SSM_FAIL);
 				return 1;
 			endif
@@ -236,7 +243,7 @@ function CreateBookGump(book, who)
 
 				//GFHTMLArea(book_gump, 160, 15, 100, 18, rune_entry.name);
 				GFTextCrop(book_gump, 160,  15, 100, 18, 995, rune_entry.name);
-				if ( TemHabilidade(who, "Escrever Pergaminhos") )  
+				if ( TemHabilidade(who, "Escrever Pergaminhos") )
 					GFTextCrop(book_gump, 180, 35, 100, 18, 995, "Copiar");
 					GFAddButton(book_gump, 160, 38, 2103, 2104,  GF_CLOSE_BTN, 900+rune_pos);
 				endif
@@ -268,10 +275,10 @@ function CreateBookGump(book, who)
 				GFPage(book_gump, 1);
 				GFTextCrop(book_gump, pOX,  pOY, 115, 17, 995, rune_entry.name);
 				GFPage(book_gump, i);
-				
+
 				//GFHTMLArea(book_gump, 300, 15, 100, 18, rune_entry.name);
 				GFTextCrop(book_gump, 300,  15, 115, 17, 995, rune_entry.name);
-				if ( TemHabilidade(who, "Escrever Pergaminhos")) 
+				if ( TemHabilidade(who, "Escrever Pergaminhos"))
 					GFTextCrop(book_gump, 320, 35, 150, 17, 995, "Copiar");
 					GFAddButton(book_gump, 300, 38,  2103, 2104,  GF_CLOSE_BTN, 900+rune_pos);
 				endif
