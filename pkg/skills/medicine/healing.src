@@ -35,91 +35,98 @@ program UseBandage(mobile, bandage)
 
 	SendSysMessageEx(mobile, "Onde voce deseja usar as ataduras?", SSM_REQUEST);
 	var targ := Target(mobile, TGTOPT_CHECK_LOS+TGTOPT_HELPFUL);
-	
+
 	var heal_skill := AP_GetSkill(mobile, MEDICINE);
+	var quantidade := min( max(1, CInt((heal_skill-60)/4)), min(targ.amount, bandage.amount));
+	var bandagem_especial;
 	if (targ.objtype == 0xF85 && heal_skill >= 70  ) //se for ginseng
-		if (targ.amount != bandage.amount)
-			SendSysMessageEx(mobile, "Voce precisa da mesma quantidade de ginseng.", SSM_FAIL);
-			return;
-		endif
 		if ( SkillCheck(mobile, MEDICINE, 70) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de ginseng nas ataduras.", SSM_INFO);
-			SetObjProperty(bandage, "ginseng", 1);
-			bandage.color := 2007;
-			DestroyItem(targ);
+			Set_Critical(1);
+			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
+			SetObjProperty(bandagem_especial, "ginseng", 1);
+			bandagem_especial.color := 2007;
+			SubtractAmount(bandage,quantidade);
+			SubtractAmount(targ, quantidade);
+			MoveItemToContainer(bandagem_especial, mobile.backpack, -1, -1, 2); //Empilha quando já tem algum
+			Set_Critical(1);
 			return;
 		else
 			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
-			SubtractAmount(bandage, cint(bandage.amount*0.7));
-			SubtractAmount(targ, cint(targ.amount*0.7));
+			SubtractAmount(bandage, quantidade);
+			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0xF84 && heal_skill >= 70  ) //se for garlic
-		if (targ.amount != bandage.amount)
-			SendSysMessageEx(mobile, "Voce precisa da mesma quantidade de alho.", SSM_FAIL);
-			return;
-		endif
 		if ( SkillCheck(mobile, MEDICINE, 70) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de alho nas ataduras.", SSM_INFO);
+			Set_Critical(1);
+			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "garlic", 1);
-			DestroyItem(targ);
-			bandage.color := 2001;
+			bandagem_especial.color := 2001;
+			SubtractAmount(bandage,quantidade);
+			SubtractAmount(targ, quantidade);
+			MoveItemToContainer(bandagem_especial, mobile.backpack, -1, -1, 2); //Empilha quando já tem algum
+			Set_Critical(1);
 			return;
 		else
 			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
-			SubtractAmount(bandage, cint(bandage.amount*0.7));
-			SubtractAmount(targ, cint(targ.amount*0.7));
+			SubtractAmount(bandage, quantidade);
+			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0x26b7 && heal_skill >= 85  ) //se for cogumelo
-		if (targ.amount != bandage.amount)
-			SendSysMessageEx(mobile, "Voce precisa da mesma quantidade de cogumelos.", SSM_FAIL);
-			return;
-		endif
 		if ( SkillCheck(mobile, MEDICINE, 85) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de cogumelos nas ataduras.", SSM_INFO);
+			Set_Critical(1);
+			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "cogumelo", 1);
-			DestroyITem(targ);
-			bandage.color := 2220;
+			bandagem_especial.color := 2220;
+			SubtractAmount(bandage,quantidade);
+			SubtractAmount(targ, quantidade);
+			MoveItemToContainer(bandagem_especial, mobile.backpack, -1, -1, 2); //Empilha quando já tem algum
+			Set_Critical(1);
 			return;
 		else
 			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
-			SubtractAmount(bandage, cint(bandage.amount*0.7));
-			SubtractAmount(targ, cint(targ.amount*0.7));
+			SubtractAmount(bandage, quantidade);
+			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0xF83 && heal_skill >= 90  ) //se for cogumelo
-		if (targ.amount != bandage.amount)
-			SendSysMessageEx(mobile, "Voce precisa da mesma quantidade de cogumelos.", SSM_FAIL);
-			return;
-		endif
 		if ( SkillCheck(mobile, MEDICINE, 100) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de cogumelos nas ataduras.", SSM_INFO);
+			Set_Critical(1);
+			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "cap", 1);
-			DestroyITem(targ);
-			bandage.color := 972;
+			bandagem_especial.color := 972;
+			SubtractAmount(bandage,quantidade);
+			SubtractAmount(targ, quantidade);
+			MoveItemToContainer(bandagem_especial, mobile.backpack, -1, -1, 2); //Empilha quando já tem algum
+			Set_Critical(1);
 			return;
 		else
 			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
-			SubtractAmount(bandage, cint(bandage.amount*0.7));
-			SubtractAmount(targ, cint(targ.amount*0.7));
+			SubtractAmount(bandage, quantidade);
+			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0xF7B && heal_skill >= 60  ) //se for cogumelo
-		if (targ.amount != bandage.amount)
-			SendSysMessageEx(mobile, "Voce precisa da mesma quantidade de fungos.", SSM_FAIL);
-			return;
-		endif
 		if ( SkillCheck(mobile, MEDICINE, 60) > 0)
-			SendSysMessageEx(mobile, "Voce passou o extrato de fungos nas ataduras.", SSM_INFO);
+			SendSysMessageEx(mobile, "Voce passou o extrato de musgo nas ataduras.", SSM_INFO);
+			Set_Critical(1);
+			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "blood", 1);
-			DestroyITem(targ);
-			bandage.color := 1229;
+			bandagem_especial.color := 1229;
+			SubtractAmount(bandage,quantidade);
+			SubtractAmount(targ, quantidade);
+			MoveItemToContainer(bandagem_especial, mobile.backpack, -1, -1, 2); //Empilha quando já tem algum
+			Set_Critical(1);
 			return;
 		else
 			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
-			SubtractAmount(bandage, cint(bandage.amount*0.7));
-			SubtractAmount(targ, cint(targ.amount*0.7));
+			SubtractAmount(bandage, quantidade);
+			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	endif
@@ -134,14 +141,14 @@ program UseBandage(mobile, bandage)
 
 	if(GetObjProperty(targ, "CannotHeal"))
 		SendSysMessageEx(mobile, "Nao ha nada que voce possa fazer pelo alvo nas atuais circunstacias", 3, SSM_FAIL);
-		return 0;	
+		return 0;
 	endif
-	
+
 	if ( targ.warmode )
 		SendSysMessageEx(mobile, "Voce nao pode tratar um alvo que esta muito agitado", SSM_INFO);
 		return 0;
 	endif
-	
+
 	if ( GetObjProperty(targ, "curando") > ReadGameClock() )
 		SendSysMessageEx(mobile, "O alvo ja esta enfaixado", SSM_INFO);
 		return 0;
@@ -149,7 +156,7 @@ program UseBandage(mobile, bandage)
 		EraseObjProperty(targ, "curando");
 	endif
 
-	
+
 	var aux_skill := MEDICINE;
 	var elem := NPC_GetNPCConfig(targ.npctemplate);
 	var npcdesc := ReadConfigFile(":brainAI:npcdesc");
@@ -184,7 +191,7 @@ program UseBandage(mobile, bandage)
 
 		SubtractAmount(bandage, 5);
 		if ( !GetObjProperty(targ, "npctemplate"))
-			
+
 			HealCorpse(mobile, targ, aux_skill, restauraDP);
 		else
 			if ( !GetObjProperty(targ, "owner") )
@@ -210,7 +217,7 @@ program UseBandage(mobile, bandage)
 			SendSysMessageEx(mobile, "Voce nao tem conhecimento suficiente para curar "+targ.name+".", SSM_FAIL);
 			return 0;
 		endif
-			
+
 
 		var bonus := 0;
 		var poison := 0;
@@ -317,7 +324,7 @@ function HealPatient(mobile, targ, heal_skill, aux_skill, bonus, poison)
 			TS_CurePoison(targ, 10000, "P", 10);
 		endif
 	elseif(   (poison == 2))
-		if (SkillCheck(mobile, MEDICINE,70) > 0) 
+		if (SkillCheck(mobile, MEDICINE,70) > 0)
 			TS_LowerDuration(targ, "bleed", -1);
 		endif
 	endif
