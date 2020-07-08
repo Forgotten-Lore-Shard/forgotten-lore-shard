@@ -48,7 +48,15 @@ program skill_lockpicking( me, lockpick )
 	endif
 
 	if (GetObjProperty(chest,"level"))
-		PrintText(me, "*arrombando a fechadura*");
+		if(valorInicial(me, AWARENESS) >= 40)
+			if(me.hidden)
+				SendSysMessageEx(me, "*Arrombando a fechadura*", SSM_INFO);
+			else
+				PrintTextAbove(me, "*Arrombando a fechadura*");
+			endif
+		else
+			PrintTextAbove(me, "*Arrombando a fechadura*");
+		endif
 		if (!Wait(me, 5))
 			SendSysMessageEx(me, "Voce interrompeu o processo.", SSM_FAIL);
 			return;
@@ -63,14 +71,23 @@ endprogram
 
 function PickTreasureChest(me, lockpick, chest)
 
-  var lvl := CInt(GetObjProperty(chest,"level"));
-  if (!chest.locked)
-	SendSysMessageEx(me,"O alvo nao parece estar tracado.", SSM_INFO);
-	return;
-  endif
-  PlaySoundEffect(chest, 0x0242);
-  sleepms(250);
-  var diff;
+	var lvl := CInt(GetObjProperty(chest,"level"));
+	if (!chest.locked)
+		SendSysMessageEx(me,"O alvo nao parece estar tracado.", SSM_INFO);
+		return;
+	endif
+	if(valorInicial(me, AWARENESS) >= 40)
+		if(me.hidden)
+			SendSysMessageEx(me, "*Arrombando a fechadura silenciosamente*", SSM_INFO);
+		else
+			PrintTextAbove(me, "*Arrombando a fechadura silenciosamente*");
+		endif
+	else
+		PrintTextAbove(me, "*Arrombando a fechadura*");
+		PlaySoundEffect(chest, 0x0242);
+	endif
+	sleepms(250);
+	var diff;
 	case (lvl)
 		1: diff := 15;
 		2: diff := 40;
@@ -78,7 +95,7 @@ function PickTreasureChest(me, lockpick, chest)
 		4: diff := 86;
 		5: diff := 90;
 		6: diff := 110;
-		default: diff := 40; 
+		default: diff := 40;
 	endcase
   var diffmod := Cint(GetObjProperty(me, "conhecimentosobrefechaduras"))*5;
   diff := diff - diffmod;
@@ -86,16 +103,25 @@ function PickTreasureChest(me, lockpick, chest)
 	diff := 5;
   endif
   var check := SkillCheck(me, MECHANICALAPITUDE, diff);
+
   if ( check > 0 )
-	PlaySoundEffect(chest, 0x0200);
-	PrintTextAbovePrivate(chest,"*Destrancado!*",me);
+	if(valorInicial(me, AWARENESS) >= 40)
+		SendSysMessageEx(me, "*Destrancou silenciosamente*", SSM_INFO);
+		PrintTextAbovePrivate(chest, "*$*", me);
+	else
+		PrintTextAbove(me, "*Destrancou*");
+		PlaySoundEffect(chest, 0x0200);
+	endif
+	set_critical(1);
 	SetObjProperty(chest, "arrombado", "" + me.name);
 	SetObjProperty(chest, "locktime", ReadGameClock());
-  	set_critical(1);
   	chest.locked := 0;
   	set_critical(0);
   else
-	SendSysMessageEx(me, "Voce falhou em arrombar a fechadura.", SSM_FAIL);
+  	if(me.hidden)
+  		me.hidden := 0;
+  	endif
+  	PrintTextAbove(me, "*Falhou em arrombar*");
 	if (!temHabilidade(me, "Especialista em Invasoes") && check < -20)
   		PlaySoundEffect(chest,0xef);
 		SendSysMessageEx(me,"Sua gazua quebrou!", SSM_FAIL);
