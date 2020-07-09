@@ -22,21 +22,28 @@ program book(who, book)
 		endif
 	endif
 	//
-	var donoGrimorio := GetObjProperty(book, "marked");
-	if (donoGrimorio != error)
-		if ( donoGrimorio != (who.name + " - " + who.acctname))
-			SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
-			return 1;
+		var donoGrimorio := GetObjProperty(book, "marked");
+		if (donoGrimorio != error)
+			//verifica o nome verdadeiro do dono do livro no chardata
+			var char := GetObjProperty(who, "chardata");
+			var name := char.FirstName;
+			var last_name := char.LastName;
+			if (last_name)
+				name := name+" "+last_name;
+			endif
+			if ( donoGrimorio != (name + " - " + who.acctname))
+				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
+				return 1;
+			endif
 		endif
-	endif
 
 	var book_gump := CreateRunebookGump(book, who);
 	var result := GFSendGump(who, book_gump);
 
 	var spell := result[0] - 100;
-	
+
 	var spells := GetObjProperty(book, "recipes");
-	
+
 	if (spells[spell])
 			MakePotion ( spells[spell].id,  who);
 			//Start_Script("cast_spell", {who, spells[spell], 0});
@@ -115,9 +122,9 @@ function MakePotion ( pot, who)
 		sleep(1);
 		loop := loop + 1;
 	endwhile
-      
-    
-	if(SkillCheck(who, ALCHEMY, difficulty) > 0) 
+
+
+	if(SkillCheck(who, ALCHEMY, difficulty) > 0)
 		var hasbottle:= 0;
 		set_critical(1);
 		foreach item in EnumerateItemsInContainer(who.backpack)
@@ -153,12 +160,12 @@ function MakePotion ( pot, who)
 			PlaySoundEffect(who, SOUND_EFFECT_POUR);
 			SendSysMessageEx(who, "Voce fez a pocao e a guardou na sua mochila.", SSM_INFO);
 			return;
-        
+
 		else
 			SendSysMessageEx(who, "Voce nao tem frascos.", SSM_FAIL);
 			return;
 		endif
-      
+
 	else
 		PlaySoundEffect(who, SOUND_EFFECT_POUR);
 		SendSysMessageEx(who, "Voce nao conseguiu fazer nada com isso.", SSM_FAIL);
@@ -316,7 +323,7 @@ function CreateRunebookGump(book, who)
 				GFPage(book_gump, 1);
 				GFTextCrop(book_gump, pOX,  pOY, 115, 17, 995, rune_entry.name);
 				GFPage(book_gump, i);
-				
+
 				//GFHTMLArea(book_gump, 300, 15, 100, 18, rune_entry.name);
 				GFTextCrop(book_gump, 300,  15, 115, 17, 995, rune_entry.name);
 				GFHTMLArea(book_gump, 300, 60, 120,  130, cstr(rune_entry.description), 0, 1);
