@@ -9,7 +9,7 @@ program magia(who, spellname)
 
 	SendSysMessage(who, "Iniciando magia");
 	var cfg := ReadConfigFile(":spells:allspells");
-	
+
 	var elem;
 	var id := 1;
 	var achou := 0;
@@ -35,8 +35,16 @@ program magia(who, spellname)
 		if ( item.objtype == 24832)
 			var serialid := GetObjProperty(item, "serialid");
 			var marked := GetObjProperty(item, "marked");
+
+			var char := GetObjProperty(who, "chardata");
+			var name := char.FirstName;
+			var last_name := char.LastName;
+			if (last_name)
+				name := name+" "+last_name;
+			endif
+
 			if ((serialid && (serialid == who.serial)) || (!serialid) )
-				if ( (marked && (marked == who.name + " - " + who.acctname)) || (!marked) )
+				if ( (marked == (name + " - " + who.acctname)) || (!marked) )
 					var spells := GetObjProperty(item, "spells");
 					foreach s in spells
 						if ( s.id == id)
@@ -54,7 +62,7 @@ program magia(who, spellname)
 		SendSysMessageEx(who, "Voce nao possui a magia " + spellname + " nos seu grimorio.", SSM_FAIL);
 		return;
 	endif
-		
+
 
 	var spellinfo := struct;
 	spellinfo.+id := id;
@@ -62,8 +70,8 @@ program magia(who, spellname)
         if ( script.errortext )
                          SendSysMessage(who, "Error - Could not start spell starter ->"+script.errortext);
 	                 return 0;
-	endif   
-	
+	endif
+
 
 
 endprogram
