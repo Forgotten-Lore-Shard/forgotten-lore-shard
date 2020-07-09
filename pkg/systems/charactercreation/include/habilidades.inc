@@ -38,7 +38,7 @@ function TemRequisito(who, habilidade, msg := 1)
 	endforeach
 
 	return 1;
-	
+
 
 endfunction
 
@@ -52,7 +52,7 @@ function retornaRequisitos( habilidade)
 
 	return requisitos;
 
-endfunction 
+endfunction
 
 function TemHabilidade(who, habilidade)
 
@@ -71,12 +71,14 @@ function TemHabilidade(who, habilidade)
 endfunction
 
 function IsBloodied(mobile)
-	if (AP_GetVital(mobile, HITS) < CInt(AP_GetVitalMaximumValue(mobile, HITS)/2))
+	if (mobile.npctemplate)
+		if (AP_GetVital(mobile, HITS) < CInt(AP_GetVitalMaximumValue(mobile, HITS)/2))
+			return 1;
+		endif
+	elseif (AP_GetVital(mobile, HITS) < GetHP(mobile))
 		return 1;
 	endif
-
 	return 0;
-
 endfunction
 
 function IsRaging(mobile)
@@ -90,8 +92,14 @@ function IsRaging(mobile)
 		return 1;
 	endif
 
+	if (mobile.npctemplate)
+		if (AP_GetVital(mobile, HITS) < ( CInt(AP_GetVitalMaximumValue(mobile, HITS)/2) + bonus_limiar_furia_hp))
+			return 1;
+		endif
+	elseif (AP_GetVital(mobile, HITS) < GetHP(mobile) + bonus_limiar_furia_hp)
+		return 1;
+	endif
 	return 0;
-
 endfunction
 
 function HabilidadesPorNivel(who, classe, lvl)
