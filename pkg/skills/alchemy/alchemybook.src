@@ -27,6 +27,9 @@ program book(who, book)
 			//verifica o nome verdadeiro do dono do livro no chardata
 			var char := SystemFindObjectBySerial(who.serial);
 			var charname := char.name;
+			if (charname == "Desconhecido")
+				charname := GetObjProperty(char, "realname");
+			endif
 			if ( donoGrimorio != (charname + " - " + who.acctname))
 				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
 				return 1;
