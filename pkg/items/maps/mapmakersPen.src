@@ -80,6 +80,7 @@ program use_MapmakersPen(who, tool)
 	elseif (targ.isBook())
 		if (!targ.isWritable() )
 			var content := targ.ExtractInfo();
+			var linguagem := GetObjProperty(targ, "lingua");
 			if ( content.Contents.size() > 1)
 				SendSysMessageEx(who, "Escolha outro livro para copiar.", SSM_REQUEST);
 				var copy := target(who);
@@ -90,6 +91,16 @@ program use_MapmakersPen(who, tool)
 				if ( !copy.isWritable() )
 					SendSysMessageEx(who, "Voce nao pode escrever neste livro.", SSM_FAIL);
 					return;
+				elseif (linguagem != error)
+					if (!temHabilidade(who, "Arqueologo"))
+						SendSysMessageEx(who, "Voce nao conhece essa lingua para copiar o livro.");
+						return;
+					else
+						var traduzir := YesNo(who, "Traduzir ou copiar o livro?" , "Traduzir", "Copiar");
+						if (!traduzir)
+							SetObjProperty(copy, "lingua", linguagem);
+						endif
+					endif
 				endif
 
 				PrintText(who, "*copiando um livro*");
@@ -102,7 +113,9 @@ program use_MapmakersPen(who, tool)
 
 				SendSysMessageEx(who, "Voce terminou de copiar o livro.", SSM_INFO);
 				return 1;
-				
+			else
+				SendSysMessageEx(who, "Nao tem conteudo no livro para ser copiado.", SSM_INFO);
+				return;
 			endif
 		else
 			var yes := YesNo(who, "Deseja lacrar o livro?");
