@@ -18,6 +18,9 @@ data
 config/animxlate.cfg
 config/boats.cfg
 config/extobj.cfg
+config/servers.cfg
+leftovers.txt
+objtypes.txt
 core-changes.txt
 packethooks.txt
 packets.zip
