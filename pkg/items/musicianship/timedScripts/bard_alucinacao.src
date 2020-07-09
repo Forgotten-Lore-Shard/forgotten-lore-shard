@@ -25,7 +25,34 @@ program TimedScript_bard_alucinacao(params)
 endprogram
 
 function Hallucinate(who)
-	var graphicarray := {51, 42, 39, 31, 29, 28, 6, 5, 48, 7, 33, 30, 26, 24, 21, 17, 22, 18, 16, 15, 14, 13, 8, 47, 12, 10, 9, 5, 4, 3, 1, 2, 400, 401};
+	var graphicarray;
+	var chardata := GetObjProperty(who, "chardata");
+	var povo := chardata.povo;
+	case (povo)
+		"Asanita":
+			graphicarray := {102,306,311,174}; //DEMONIO, IMPALADOR, CAVALEIRO SOMBRIO, SUCUBBUS.
+			break;
+		"Thuriao":
+			graphicarray := {1,2,49,55}; //OGRO, ETTIN, DRAGÃO WYRM, TROLL DO GELO.
+			break;
+		"Zharkiano":
+			graphicarray := {3,7,17,26}; //ZUMBI, GOBLIN CAPITÃO, ORC, GHOUL.
+			break;
+		"Aquilrano":
+			graphicarray := {59,281,788,787}; //DRAGÃO, MINOTAURO, ESFINGE, LEÃO FORMIGA.
+			break;
+		"Numajene":
+			graphicarray := {72,87,250,271}; //TERATHAN, OPHIDIAN, LOBISOMEM DE 3 CABEÇAS, SATIRO.
+			break;
+		"Vanirio":
+			graphicarray := {38,69,76,77}; //DEMONIO DA SANGRIA, GAZER, TITAN, KRAKEN.
+			break;
+		default:
+			graphicarray := {3,7,17,26}; //ZUMBI, GOBLIN CAPITÃO, ORC, GHOUL.
+			break;
+		break;
+	endcase
+
 	var graphic := graphicarray[RandomInt(len(graphicarray)) + 1];
 	var color := RandomInt(99) + 2;
 	DrawGamePlayer(who, graphic, color);
