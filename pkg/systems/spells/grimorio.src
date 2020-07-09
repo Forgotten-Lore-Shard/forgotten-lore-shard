@@ -54,13 +54,9 @@ program book(who, book)
 		var donoGrimorio := GetObjProperty(book, "marked");
 		if (donoGrimorio != error)
 			//verifica o nome verdadeiro do dono do livro no chardata
-			var char := GetObjProperty(who, "chardata");
-			var name := char.FirstName;
-			var last_name := char.LastName;
-			if (last_name)
-				name := name+" "+last_name;
-			endif
-			if ( donoGrimorio != (name + " - " + who.acctname))
+			var char := SystemFindObjectBySerial(who.serial);
+			var charname := char.name;
+			if ( donoGrimorio != (charname + " - " + who.acctname))
 				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
 				return 1;
 			endif
