@@ -283,13 +283,13 @@ function CreateItem(who, objtype, more:=0)
 	var cfg:=ReadConfigFile(":crafting:stackingitens");
 	var elem := FindConfigElem(cfg, "stacks");
 	var stackingitens:=ListConfigElemProps( elem );
-	if(cstr(objtype) in stackingitens)
+	if(objtype in stackingitens)
 		var stacknow := GetAmount(objtype);
 		if (objtype == 7124 || objtype == 0x9087)
 			more := more + 4;
 		endif
 		if (stacknow > 0)
-			AddAmount (stacknow, 1+more);
+			AddAmount(stacknow, 1+more);
 			theitem := stacknow;
 		else
 			theitem := CreateItemInBackpack(who, objtype, 1+more);
@@ -297,7 +297,6 @@ function CreateItem(who, objtype, more:=0)
 	else
 		theitem := CreateItemInBackpack(who, objtype, 1+more);
 	endif
-	MoveItemToContainer(theitem, who.backpack, -1, -1, 2); //Empilha quando já tem algum
 	return theitem;
 endfunction
 
