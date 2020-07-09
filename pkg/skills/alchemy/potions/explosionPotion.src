@@ -23,10 +23,7 @@ program use_explosion(who, potion)
 
 	var bomba;
 	if(potion.amount > 1 )
-		Set_Critical(1);
 		bomba := potion.splitStackInto(who.backpack, 1);
-		ReserveItem(bomba);
-		Set_Critical(0);
 	else
 		bomba := potion;
 	endif
@@ -48,14 +45,13 @@ program use_explosion(who, potion)
 	endif
 	PrintText(who, "*joga um frasco*");
 	if(!CheckLosAt(who, cast_on.x, cast_on.y, cast_on.z))
-		MoveObjectToLocation(bomba, who.x, who.y, who.z, who.realm, MOVEOBJECT_FORCELOCATION );
 		SendSysMessage(who, "Voce nao consegue ver o alvo!");
+		MoveObjectToLocation(bomba, who.x, who.y, who.z, who.realm, MOVEOBJECT_FORCELOCATION);
 		return;
 	endif
 	if(!bomba)
 		return;
 	endif
-	ReleaseItem(bomba);
 	Detach();
 	PlayMovingEffectXYZ( who.x, who.y, who.z+15, cast_on.x, cast_on.y, cast_on.z, 0x0f09, 8, 0, 0 );
 	if(!bomba)
