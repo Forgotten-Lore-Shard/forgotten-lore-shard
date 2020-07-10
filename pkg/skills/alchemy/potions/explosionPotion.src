@@ -22,8 +22,12 @@ program use_explosion(who, potion)
 	who.hidden := 0;
 
 	var bomba;
-	if(potion.amount > 1 )
-		bomba := potion.splitStackInto(who.backpack, 1);
+	if(potion.amount > 1)
+		Set_Critical(1);
+		bomba := CreateItemCopyAtLocation(who.x, who.y, who.z, potion);
+		SubtractAmount(bomba, potion.amount-1);
+		SubtractAmount(potion, 1);
+		Set_Critical(0);
 	else
 		bomba := potion;
 	endif
@@ -33,9 +37,10 @@ program use_explosion(who, potion)
 		var parms := {};
 		parms[1] := bomba;
 		parms[2] := who;
-		var t := start_script("bombas/explosionTimer", parms);
+		var t := start_script("potions/explosionTimer", parms);
 	endif
 	SetObjProperty(bomba, "#bomb", 1);
+	MoveItemToContainer(bomba, who.backpack);
 	var cast_on := TargetCoordinates( who );
 	if(!cast_on)
 		return;
