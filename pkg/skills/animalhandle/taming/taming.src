@@ -31,7 +31,7 @@ program TamingSkill(who)
 	if ( GetObjProperty(who, "#medding") )
 		SendSysMessageEx(who, "Voce nao pode adestrar nada agora.", SSM_FAIL);
 		return;
-	elseif ( CInt(GetObjProperty(who, "#tamewait")) > ReadGameClock() )
+	elseif (GetObjProperty(who, "#tamewait") > ReadGameClock() )
 		SendSysMessage(who, "Voce precisa esperar para usar esta skill denovo.", SSM_FAIL);
 		return;
 	endif
@@ -140,8 +140,7 @@ function taming(who)
 	info.+y := who.y;
 	info.+facing := who.facing;
 	info.+difficulty := cfg.TameDifficulty;
-
-	if (CInt(info.difficulty) > CInt(skill + 15))
+	if (info.difficulty > (skill + 15))
 		SendSysMessageEx(who, "Voce nao pode tentar adestrar "+targ.name+" ainda.");
 		return 0;
 	//elseif (GetSkill(who, HANDLEANIMAL) < CInt(info.difficulty))
@@ -151,14 +150,14 @@ function taming(who)
 
 	cfg := 0;
 
-	SetObjProperty(who, "#tamewait", ReadGameClock()+15);
+	SetObjProperty(who, "#tamewait", ReadGameClock()+5);
 
 
 	while( TameLoop(who, targ, info) )
-			SetObjProperty(who, "#tamewait", ReadGameClock()+15);
+			SetObjProperty(who, "#tamewait", ReadGameClock()+5);
 
 			sleep(3);
-			if ( SkillCheck(who, HANDLEANIMAL, info.difficulty) > 0 )
+			if ( SkillCheck(who, HANDLEANIMAL, CInt(info.difficulty)) > 0 )
 				SendSysMessageEx(who, "Voce ganhou a confianca de "+targ.name+".", SSM_INFO);
 				targ.SetMaster(who);
 
@@ -214,13 +213,13 @@ function TameLoop(who, targ, byref info)
 
 	PrintText(who, "*tentando adestrar " + targ.name + "*");
 
-	var check := SkillCheck(who, HANDLEANIMAL, info.difficulty, ADV_DISABLE);
+	var check := SkillCheck(who, HANDLEANIMAL, info.difficulty);
 	if ( check > 0 )
 		SendSysMessageEx(who, ""+targ.name+" parece ser seu amigo.", SSM_INFO);
 		AI_MoveXY(targ, info.x, NEMOVE_TOWARD, NEMOVE_WALK, WAKEUP, 1);
 
 		return 1;
-	else//if (check > -25 )
+	elseif (check < -15 )
 		var dist := Distance(who, targ);
 		SetObjProperty(targ, "#ForceFlee", 1);
 		AI_Move(targ, who, NEMOVE_AWAY, NEMOVE_RUN, NOWAKE, 100);
