@@ -31,29 +31,19 @@ program magia(who, spellname)
 
 	var spellbook := 0;
 	var booktype;
+	var donoGrimorio;
 	foreach item in ( EnumerateItemsInContainer(who.backpack) )
 		if ( item.objtype == 24832)
-			var serialid := GetObjProperty(item, "serialid");
-			var marked := GetObjProperty(item, "marked");
-
-			var char := GetObjProperty(who, "chardata");
-			var name := char.FirstName;
-			var last_name := char.LastName;
-			if (last_name)
-				name := name+" "+last_name;
-			endif
-
-			if ((serialid && (serialid == who.serial)) || (!serialid) )
-				if ( (marked == (name + " - " + who.acctname)) || (!marked) )
-					var spells := GetObjProperty(item, "spells");
-					foreach s in spells
-						if ( s.id == id)
-							spellbook := 1;
-							booktype := GetBookType(item);
-							break;
-						endif
-					endforeach
-				endif
+			donoGrimorio := GetObjProperty(item, "serialDono");
+			if (donoGrimorio == who.serial)
+				var spells := GetObjProperty(item, "spells");
+				foreach s in spells
+					if ( s.id == id)
+						spellbook := 1;
+						booktype := GetBookType(item);
+						break;
+					endif
+				endforeach
 			endif
 		endif
 	endforeach

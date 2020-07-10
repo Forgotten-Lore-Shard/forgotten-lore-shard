@@ -13,29 +13,15 @@ include ":containers:containers";
 
 program book(who, book)
 
-	//Edmond - 15/02/2012
-	var serialid := GetObjProperty(book, "serialid");
-	if (serialid != error)
-		if (serialid != who.serial)
+	var donoGrimorio := GetObjProperty(book, "serialDono");
+	if (donoGrimorio)
+		if (donoGrimorio != who.serial)
 			SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
-			return 1;
+			return 0;
 		endif
+	else
+		SetObjProperty(book, "serialDono", who.serial);
 	endif
-	//
-		var donoGrimorio := GetObjProperty(book, "marked");
-		if (donoGrimorio != error)
-			//verifica o nome verdadeiro do dono do livro no chardata
-			var char := GetObjProperty(who, "chardata");
-			var name := char.FirstName;
-			var last_name := char.LastName;
-			if (last_name)
-				name := name+" "+last_name;
-			endif
-			if ( donoGrimorio != (name + " - " + who.acctname))
-				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
-				return 1;
-			endif
-		endif
 
 	var book_gump := CreateRunebookGump(book, who);
 	var result := GFSendGump(who, book_gump);

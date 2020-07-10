@@ -31,6 +31,16 @@ program book(who, book)
 		return 1;
 	endif
 
+	var donoGrimorio := GetObjProperty(book, "serialDono");
+	if (donoGrimorio)
+		if (donoGrimorio != who.serial)
+			SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
+			return 0;
+		endif
+	else
+		SetObjProperty(book, "serialDono", who.serial);
+	endif
+
 	var book_gump := CreateBookGump(book, who);
 	var result := GFSendGump(who, book_gump);
 
@@ -51,27 +61,7 @@ program book(who, book)
 
 		var spells := GetObjProperty(book, "spells");
 		//sendsysmessage(who, " " + bookopt);
-		var donoGrimorio := GetObjProperty(book, "marked");
-		if (donoGrimorio != error)
-			//verifica o nome verdadeiro do dono do livro no chardata
-			var char := GetObjProperty(who, "chardata");
-			var name := char.FirstName;
-			var last_name := char.LastName;
-			if (last_name)
-				name := name+" "+last_name;
-			endif
-			if ( donoGrimorio != (name + " - " + who.acctname))
-				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
-				return 1;
-			endif
-		endif
-		var serialid:= GetObjProperty(book, "serialid");
-		if (serialid != error)
-			if (serialid != who.serial);
-				SendSysMessageEx(who, "Voce nao entende esse livro.", SSM_FAIL);
-				return 1;
-			endif
-		endif
+
 		if (spells[spell])
 			//sendsysmessage(who, "chamando castspell");
 			Start_Script("cast_spell", {who, spells[spell], 0});
