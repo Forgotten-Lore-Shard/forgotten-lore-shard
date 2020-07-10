@@ -279,25 +279,22 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 endfunction
 
 function CreateItem(who, objtype, more:=0)
-	var theitem := 0;
-	var cfg:=ReadConfigFile(":crafting:stackingitens");
-	var elem := FindConfigElem(cfg, "stacks");
-	var stackingitens:=ListConfigElemProps( elem );
-	if(objtype in stackingitens)
-		var stacknow := GetAmount(objtype);
-		if (objtype == 7124 || objtype == 0x9087)
-			more := more + 4;
-		endif
-		if (stacknow > 0)
-			AddAmount(stacknow, 1+more);
-			theitem := stacknow;
-		else
-			theitem := CreateItemInBackpack(who, objtype, 1+more);
-		endif
-	else
-		theitem := CreateItemInBackpack(who, objtype, 1+more);
+	var theitem;
+	var extra := more;
+	if (objtype == 0x1BD4 || objtype == 0xf3f || objtype == 0x1bfb)
+		extra := extra + 4;
 	endif
-	return theitem;
+	var item;
+	var empilhou:=0;
+	foreach item in (EnumerateItemsInContainer(who.backpack))
+		if(item.objtype == objtype)
+			empilhou := AddAmount(item,extra);
+			if(empilhou)
+				return empilhou;
+			endif
+		endif
+	endforeach
+	return CreateItemInBackpack(who, objtype, extra);
 endfunction
 
 

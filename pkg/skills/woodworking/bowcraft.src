@@ -47,7 +47,8 @@ program use_FletchTool(who, tool)
 		repair_this(who, craft_skill);
 		return 0;
 	endif
-	makeBowcraftItems(who, the_objtype, amt, tool);
+	makeBowcraftItems(who, the_objtype, amt, tool);
+
 endprogram
 
 function makeBowcraftItems(who, what, amt, tool)
@@ -71,6 +72,5 @@ function makeBowcraftItems(who, what, amt, tool)
 		DestroyItem(item);
 		item := CraftItem(who, "BowcraftFletching", tool, what, amt, 0, 0);
 	endif
-	return 1;
 endfunction
 
