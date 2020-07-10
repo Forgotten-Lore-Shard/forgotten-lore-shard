@@ -9,19 +9,15 @@ program TimedScript_bard_alucinacao(params)
 	var alvo := params[1];
 	var caster := params[2];
 	var modificador := params[3];
-
 	if (alvo.client)
+		SetObjProperty(alvo, "#Alucinado", 1);
 		PrintTextAbovePrivate(alvo, "*Alucinado*", caster, BARD_FONT, BARD_FONT_COLOR_BAD);
-	endif
-	while (1)
-		if (!alvo.client)
-			return 0;
-		else
+		while (GetObjProperty(alvo, "#Alucinado"))
 			Hallucinate(alvo);
-    		Sleepms(1500 - (modificador*6));
-    	endif
-  	endwhile
-  return 1;
+    		Sleepms(3000-(modificador*5));
+	  	endwhile
+	endif
+	return 1;
 endprogram
 
 function Hallucinate(who)
