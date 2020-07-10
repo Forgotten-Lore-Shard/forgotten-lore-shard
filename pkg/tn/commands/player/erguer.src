@@ -6,7 +6,7 @@ use math;
 include "include/say";
 CONST CIMA :=1;
 CONST BAIXO :=0;
-CONST ALTURA_MAX := 9;
+CONST ALTURA_MAX := 18;
 CONST ALTURA_MIN := 0;
 
 program erguer(who,param)
@@ -45,39 +45,41 @@ program erguer(who,param)
 		return 0;
 	endif
 
-	var alturaRelativaDesejada := Min(ALTURA_MAX, Max(ALTURA_MIN, CInt(param))); //garante que o valor está entre 0 e 9
+	var alturaDesejada := who.z + Min(ALTURA_MAX, Max(ALTURA_MIN, CInt(param))); //garante que o valor está entre 0 e 9
 	var direcao;
-	var alturaRelativaAtual := (alvo.z - who.z);
-	if (alturaRelativaDesejada == alturaRelativaAtual)
+	var altura := alvo.z;
+	if (altura == alturaDesejada)
 		SendSysMessageEx(who, "Esse item ja esta na altura desejada.", SSM_FAIL);
 		return 0;
-	elseif (alturaRelativaDesejada > (alvo.z - who.z))
+	elseif (altura > alturaDesejada)
 		direcao := BAIXO;
 	else
 		direcao := CIMA;
 	endif
 
 	PrintTextAbove(who, "*Ajustando a altura de "+alvo.name+"*");
-	while(alturaRelativaDesejada != alturaRelativaAtual)
+	while(altura != alturaDesejada)
 		if (direcao == CIMA)
 			PrintTextAbove(alvo, "*^*");
 			MoveObjectToLocation(alvo, alvo.x, alvo.y, alvo.z+1, alvo.realm, MOVEOBJECT_FORCELOCATION);
-			if (!Accessible(who, alvo,2))
+			if (!Accessible(who, alvo,1))
 				PrintTextAbove(alvo, "*Nao consegue erguer mais que isso*");
 				MoveObjectToLocation(alvo, alvo.x, alvo.y, alvo.z-1, alvo.realm, MOVEOBJECT_FORCELOCATION);
 				SendSysMessageEx(who, "Parou de ajustar a altura do item.", SSM_FAIL);
 				return 0;
 			endif
+			altura := altura+1;
 			Sleepms(500);
 		elseif (direcao == BAIXO)
 			PrintTextAbove(alvo, "*v*");
 			MoveObjectToLocation(alvo, alvo.x, alvo.y, alvo.z-1, alvo.realm, MOVEOBJECT_FORCELOCATION);
-			if (!Accessible(who, alvo,2))
+			if (!Accessible(who, alvo,1))
 				PrintTextAbove(alvo, "*Nao consegue abaixar mais que isso*");
 				MoveObjectToLocation(alvo, alvo.x, alvo.y, alvo.z+1, alvo.realm, MOVEOBJECT_FORCELOCATION);
 				SendSysMessageEx(who, "Parou de ajustar a altura do item.", SSM_FAIL);
 				return 0;
 			endif
+			altura := altura+-1;
 			Sleepms(500);
 		endif
 	endwhile
