@@ -294,7 +294,7 @@ function CreateItem(who, objtype, more:=0)
 			endif
 		endif
 	endforeach
-	return CreateItemInBackpack(who, objtype, extra);
+	return CreateItemInBackpack(who, objtype, 1);
 endfunction
 
 
