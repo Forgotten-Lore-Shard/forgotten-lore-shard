@@ -1,5 +1,5 @@
 /* $Id$
- * 
+ *
  * Purpose
  * Handles damages and resistances to damage types
  *
@@ -61,7 +61,7 @@ function getNewDamageList(attacker)
 		list[DMG_POISON] := Cdbl(cfg[npctemplate.template].PoisonDamage/100.0);
 		list[DMG_ENERGY] := Cdbl(cfg[npctemplate.template].EnergyDamage/100.0);
 		//printtextabove(attacker, " " + list);
-		return list;		
+		return list;
 
 	else
 
@@ -75,7 +75,7 @@ function getNewDamageList(attacker)
 		if (elemental != error)
 			list[elemental.type] := list[elemental.type] + elemental.bonus;
 		endif
-		
+
 		var ammo := GetObjProperty(attacker.weapon, "ammo");
 		if (ammo)
 			var cfg:=ReadConfigFile(":woodworking:itemdesc");
@@ -89,7 +89,7 @@ function getNewDamageList(attacker)
 					endif
 				endforeach
 			endif
-			
+
 		endif
 
 		return list;
@@ -120,14 +120,14 @@ function CalculateDamage(defender, type, dmg)
 //	endif
 
 	var resist;
-	
+
 	if (defender.npctemplate)
 		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
 		var cfg := ReadConfigFile(":brainai:npcdesc");
 
 		case(type)
 			DMG_FIRE: resist := cdbl( cfg[npctemplate.template].FireResist/100.0) + cdbl( defender.resist_fire_mod/100.0);
-			DMG_COLD: resist := cdbl( cfg[npctemplate.template].ColdResist/100.0 ) + cdbl( defender.resist_cold_mod/100.0); 
+			DMG_COLD: resist := cdbl( cfg[npctemplate.template].ColdResist/100.0 ) + cdbl( defender.resist_cold_mod/100.0);
 			DMG_ENERGY: resist := cdbl( cfg[npctemplate.template].EnergyResist/100.0 ) + cdbl( defender.resist_energy_mod/100.0);
 			DMG_PHYSICAL: resist := cdbl( cfg[npctemplate.template].PhysicalResist /100.0 ) + cdbl( defender.resist_physical_mod/100.0);
 			DMG_POISON: resist := cdbl( cfg[npctemplate.template].PoisonResist/100.0 ) + cdbl( defender.resist_poison_mod/100.0);
@@ -135,9 +135,9 @@ function CalculateDamage(defender, type, dmg)
 	else
 		//printtextabove( defender, "player " + type);
 		case(type)
-			DMG_FIRE: resist := cdbl( defender.resist_fire/100.0); 
+			DMG_FIRE: resist := cdbl( defender.resist_fire/100.0);
 				  resistMod := cdbl( defender.resist_fire_mod/100.0);
-			DMG_COLD: resist := cdbl( defender.resist_cold/100.0 ); 
+			DMG_COLD: resist := cdbl( defender.resist_cold/100.0 );
 				  resistMod := cdbl( defender.resist_cold_mod/100.0);
 			DMG_ENERGY: resist := cdbl( defender.resist_energy/100.0 );
 				    resistMod := cdbl( defender.resist_energy_mod/100.0);
@@ -148,11 +148,11 @@ function CalculateDamage(defender, type, dmg)
 		endcase
 	endif
 
-			if (IsRaging(defender) && TemHabilidade(defender, "Pele de Rocha"))
-				if (resist < 0.5)
-					resist := 0.5;
-			endif
+	if (IsRaging(defender) && TemHabilidade(defender, "Pele de Rocha"))
+		if (resist < 0.5)
+			resist := 0.5;
 		endif
+	endif
 
 	if (type == DMG_PHYSICAL)
 		if (TemHabilidade(defender, "Exoesqueleto"))
@@ -352,7 +352,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + 1.0;
 		endif
 	endif
-	
+
 	if (GetCooldown(who, "marcadacaca"))
 			other := other + 1.5;
 	endif
@@ -387,12 +387,12 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		endif
 	endif
 
-	if ( isBloodied(who))
-		if ((temHabilidade(who, "Furia") && IsRaging(who)) || GetObjProperty(who, "NpcFuria"))
+	if ( IsRaging(who))
+		if (temHabilidade(who, "Furia") || GetObjProperty(who, "NpcFuria"))
 			other:= other + 1.0;
 			PrintText(who, "*enfurecido*");
 		endif
-		if (temHabilidade(who, "Furia Primitiva") && IsRaging(who))
+		if (temHabilidade(who, "Furia Primitiva"))
 			if (GetObjProperty(who, "metamorfose") != error)
 				other:= other + 1.0;
 				PrintText(who, "*enfurecido*");
@@ -412,7 +412,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	if (GetObjProperty(who, "#backstab") == 2)
 		EraseObjProperty(who, "#backstab");
 		other := other + 0.2;
-	endif    
+	endif
 
 	if (GetObjProperty(who, "twohanded") == 1)
 		other := other + 0.2;
@@ -431,15 +431,15 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	var mod := dmg * (tatics + str + weapon + other);
-    
+
 	//printtextabove(who,  " d " + dmg + " t " + tatics + " s " + str + " w " + weapon + " o " + other + " dt " + mod );
-    
+
 	dmg := dmg + mod;
 	if (dmg < 1)
 		dmg := 1;
 	endif
 	return dmg;
-    
+
 endfunction
 
 function DamageFLS(defender, dmg, type := DMG_FORCED, source := 0)
