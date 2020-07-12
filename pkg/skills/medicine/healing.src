@@ -40,10 +40,13 @@ program UseBandage(mobile, bandage)
 	var quantidade := min( max(1, CInt((heal_skill-60)/4)), min(targ.amount, bandage.amount));
 	var bandagem_especial;
 	if (targ.objtype == 0xF85 && heal_skill >= 70  ) //se for ginseng
+		SendSysMessageEx(mobile, "Tentando passar o extrato de ginseng nas ataduras.", SSM_INFO);
+		PlaySoundEffectPrivate(mobile, 0x1C9, mobile);
+		Sleep(1);
 		if ( SkillCheck(mobile, MEDICINE, 70) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de ginseng nas ataduras.", SSM_INFO);
 			Set_Critical(1);
-			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
+			bandagem_especial := CreateItemAtLocation(mobile.x, mobile.y, mobile.z+5, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandagem_especial, "ginseng", 1);
 			bandagem_especial.color := 2007;
 			SubtractAmount(bandage,quantidade);
@@ -52,16 +55,19 @@ program UseBandage(mobile, bandage)
 			Set_Critical(1);
 			return;
 		else
-			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
+			SendSysMessageEx(mobile, "Voce estragou os materiais utilizados.", SSM_INFO);
 			SubtractAmount(bandage, quantidade);
 			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0xF84 && heal_skill >= 70  ) //se for garlic
+		SendSysMessageEx(mobile, "Tentando passar o extrato de alho nas ataduras.", SSM_INFO);
+		PlaySoundEffectPrivate(mobile, 0x1C9, mobile);
+		Sleep(1);
 		if ( SkillCheck(mobile, MEDICINE, 70) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de alho nas ataduras.", SSM_INFO);
 			Set_Critical(1);
-			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
+			bandagem_especial := CreateItemAtLocation(mobile.x, mobile.y, mobile.z+5, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "garlic", 1);
 			bandagem_especial.color := 2001;
 			SubtractAmount(bandage,quantidade);
@@ -70,16 +76,19 @@ program UseBandage(mobile, bandage)
 			Set_Critical(1);
 			return;
 		else
-			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
+			SendSysMessageEx(mobile, "Voce estragou os materiais.", SSM_INFO);
 			SubtractAmount(bandage, quantidade);
 			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0x26b7 && heal_skill >= 85  ) //se for cogumelo
+		SendSysMessageEx(mobile, "Tentando passar o extrato de cogumelos nas ataduras.", SSM_INFO);
+		PlaySoundEffectPrivate(mobile, 0x1C9, mobile);
+		Sleep(1);
 		if ( SkillCheck(mobile, MEDICINE, 85) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de cogumelos nas ataduras.", SSM_INFO);
 			Set_Critical(1);
-			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
+			bandagem_especial := CreateItemAtLocation(mobile.x, mobile.y, mobile.z+5, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "cogumelo", 1);
 			bandagem_especial.color := 2220;
 			SubtractAmount(bandage,quantidade);
@@ -88,16 +97,19 @@ program UseBandage(mobile, bandage)
 			Set_Critical(1);
 			return;
 		else
-			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
+			SendSysMessageEx(mobile, "Voce estragou os materiais utilizados.", SSM_INFO);
 			SubtractAmount(bandage, quantidade);
 			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0xF83 && heal_skill >= 90  ) //se for cogumelo
+		SendSysMessageEx(mobile, "Tentando passar o extrato de cogumelos nas ataduras.", SSM_INFO);
+		PlaySoundEffectPrivate(mobile, 0x1C9, mobile);
+		Sleep(1);
 		if ( SkillCheck(mobile, MEDICINE, 100) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de cogumelos nas ataduras.", SSM_INFO);
 			Set_Critical(1);
-			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
+			bandagem_especial := CreateItemAtLocation(mobile.x, mobile.y, mobile.z+5, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "cap", 1);
 			bandagem_especial.color := 972;
 			SubtractAmount(bandage,quantidade);
@@ -106,16 +118,19 @@ program UseBandage(mobile, bandage)
 			Set_Critical(1);
 			return;
 		else
-			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
+			SendSysMessageEx(mobile, "Voce estragou os materiais utilizados.", SSM_INFO);
 			SubtractAmount(bandage, quantidade);
 			SubtractAmount(targ, quantidade);
 			return;
 		endif
 	elseif (targ.objtype == 0xF7B && heal_skill >= 60  ) //se for cogumelo
+		SendSysMessageEx(mobile, "Tentando passar o extrato de musgo nas ataduras.", SSM_INFO);
+		PlaySoundEffectPrivate(mobile, 0x1C9, mobile);
+		Sleep(1);
 		if ( SkillCheck(mobile, MEDICINE, 60) > 0)
 			SendSysMessageEx(mobile, "Voce passou o extrato de musgo nas ataduras.", SSM_INFO);
 			Set_Critical(1);
-			bandagem_especial := CreateItemInBackpack(mobile, "bandages", quantidade); //cria as bandagens especiais
+			bandagem_especial := CreateItemAtLocation(mobile.x, mobile.y, mobile.z+5, "bandages", quantidade); //cria as bandagens especiais
 			SetObjProperty(bandage, "blood", 1);
 			bandagem_especial.color := 1229;
 			SubtractAmount(bandage,quantidade);
@@ -124,7 +139,7 @@ program UseBandage(mobile, bandage)
 			Set_Critical(1);
 			return;
 		else
-			SendSysMessageEx(mobile, "Voce estragou algumas ataduras.", SSM_INFO);
+			SendSysMessageEx(mobile, "Voce estragou os materiais utilizados.", SSM_INFO);
 			SubtractAmount(bandage, quantidade);
 			SubtractAmount(targ, quantidade);
 			return;
