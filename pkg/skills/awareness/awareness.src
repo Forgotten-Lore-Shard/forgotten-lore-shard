@@ -25,9 +25,10 @@ program skill_Alertness(who)
 		return examinarAlvo(who);
 	elseif (menu == 2)
 		if(who.hidden)
-			SendSysMessage(who, "*Procurando algo*");
+			SendSysMessageEx(who, "Procurando algo. [furtivamente]", SSM_INFO);
 		else
 			PrintTextAbove(who, "*Procurando algo*");
+			SendSysMessageEx(who, "Procurando algo.", SSM_INFO);
 		endif
 		return examinarArea(who);
 	else

@@ -37,13 +37,14 @@ function examinarAlvo(who)
 	elseif ( GetObjProperty(targ, "TrapList") )
 		sleep(1);
 		if(!ReserveItem(targ)) //Apenas um personagem examina o bau por vez.
-	  		SendSysMessage(who, "Alguem ja esta examinando "+targ.name+".");
+			SendSysMessageEx(who, "Alguem ja esta examinando "+targ.name+".", SSM_FAIL);
 	  		return 0;
 	  	else
 	  		if(who.hidden)
-				SendSysMessage(who, "*Examinando "+targ.name+"*");
+	  			SendSysMessageEx(who, "Examinando "+targ.name+".", SSM_INFO);
 			else
 				PrintTextAbove(who, "*Examinando "+targ.name+"*");
+				SendSysMessageEx(who, "Examinando "+targ.name+".", SSM_INFO);
 			endif
 	  		sleep(1);
 		endif
@@ -56,6 +57,7 @@ function examinarAlvo(who)
 		if ((!armadilhaRevelada) && (who.serial in acharamArmadilha)) //Quando você achou ela mas não revelou pra todos
 			SendSysMessageEx(who, "Armadilha ja foi encontrada e esta obvia para voce.", SSM_INFO);
 			if (YesNo(who, "Revelar a armadilha para todos? (", "Sim.", "Nao, deixa so pra mim."))
+				who.hidden := 0;
 				PrintTextAbove(who, "*Aponta para "+targ.name+"*");
 				PrintTextAbove(targ, "*!*");
 				TrapFound(targ, who);
@@ -80,10 +82,10 @@ function examinarAlvo(who)
 			if ( SkillCheck(who, AWARENESS, diff) > 0 )
 				acharamArmadilha.Append(who.serial);
 				SetObjProperty(targ, "acharamArmadilha", acharamArmadilha);
-				SendSysMessage(who,"Armadilha encontrada em "+targ.name+".");
+				SendSysMessageEx(who, "Armadilha encontrada em "+targ.name+".", SSM_INFO);
 				return 1;
 			else
-				SendSysMessageEx(who, "Voce nao encontrou nada de diferente.", SSM_INFO);
+				SendSysMessageEx(who, "Voce nao encontrou nada de diferente.", SSM_FAIL);
 				return 0;
 			endif
 		endif
@@ -152,21 +154,37 @@ function examinarArea(who)
 	var diff;
 	var lvl;
 	var found := 0;
+	var difficulty;
 	foreach mobile in ListMobilesNearLocationEX(who.x, who.y, who.z, range, LISTEX_FLAG_HIDDEN)
-		if ( mobile == who ); // Do Nothing
-		elseif (!mobile.npctemplate && CInt(GetObjProperty(who, "IgnoreHidden"))); // Do Nothing
-        elseif (who.party && (who.party.leader.name == mobile.party.leader.name)); //se esta na mesma party nao checa
-		elseif ( CheckLineOfSight(who, mobile) && abs(mobile.z - who.z ) < 19 )
-			var difficulty := CalculateDHDiff(who, mobile);
-			if ( SkillCheck(who, AWARENESS, difficulty) > 0 )
-				found := found+1;
-				mobile.hidden := 0;
-				PrintText(mobile, "*aparece*");
-				SendSysMessageEx(who, "Voce encontrou "+mobile.name+".", SSM_INFO);
-				SendSysMessageEx(mobile, who.name+" te encontrou!", SSM_FAIL);
+		if ( CheckLineOfSight(who, mobile) && abs(mobile.z - who.z ) < 19 )
+			difficulty := CalculateDHDiff(who, mobile);
+			if ( mobile == who ); // Do Nothing
+	        elseif (who.party && (who.party.leader.name == mobile.party.leader.name))
+	        	if ( SkillCheck(who, AWARENESS, difficulty, 0,ADV_DISABLE) > 0 )  //Não upa
+		        	exibeCharEscondido(who,mobile,258);
+		        	PrintTextAbovePrivate(mobile, "!", who,_DEFAULT_TEXT_FONT,258); //Se esta na mesma party nao revela
+	        	endif
+	        elseif (!mobile.npctemplate && CInt(GetObjProperty(who, "IgnoreHidden"))) //mostra PJ escondidos sem revelar
+	        	if ( SkillCheck(who, AWARENESS, difficulty, 0,ADV_DISABLE) > 0 )  //Não upa
+		        	exibeCharEscondido(who,mobile,36);
+					PrintTextAbovePrivate(mobile, "!", who,_DEFAULT_TEXT_FONT,36);
+				endif
+	        elseif (mobile.npctemplate && CInt(GetObjProperty(who, "IgnoreHidden"))) //mostra NPC escondidos sem revelar
+	        	if ( SkillCheck(who, AWARENESS, difficulty, 0,ADV_DISABLE) > 0 )  //Não upa
+		        	exibeCharEscondido(who,mobile,37);
+					PrintTextAbovePrivate(mobile, "!", who,_DEFAULT_TEXT_FONT,37);
+				endif
+			else //Revela todo mundo que deveria
+				if ( SkillCheck(who, AWARENESS, difficulty) > 0 )
+					found := found+1;
+					mobile.hidden := 0;
+					PrintText(mobile, "*Revelado por "+who.name+"*");
+					SendSysMessageEx(who, "Voce encontrou "+mobile.name+".", SSM_INFO);
+					SendSysMessageEx(mobile, who.name+" te encontrou!", SSM_FAIL);
+				endif
 			endif
+			sleepms(1);
 		endif
-		sleepms(2);
 	endforeach
 
 	foreach item in ListItemsNearLocation(who.x, who.y, who.z, range)
@@ -203,4 +221,66 @@ function examinarArea(who)
 		sleepms(2);
 	endforeach
 	return found;
+endfunction
+
+function exibeCharEscondido(who, escondido, cor)
+	DeleteObject(who, escondido);
+	DrawObject(who, escondido, escondido.graphic, cor);
+endfunction
+
+// the following functions have been pasted from SendPacket.inc
+
+function ConvertIntToHex(astring, alength)
+	astring := Hex(astring);
+	astring := CStr(astring);
+	if (astring["0x"])
+		astring := astring[3, len(astring)];
+	endif
+	if (len(astring) > alength * 2)
+		return;
+	endif
+	while (len(astring) < alength * 2)
+		astring := "0"+ astring;
+	endwhile
+	return astring;
+endfunction
+
+function DrawGamePlayer(who, jgraphic, jcolor)
+	var PacketHexString := "20"+ ConvertIntToHex(who.serial, 4);
+	PacketHexString := PacketHexString + ConvertIntToHex(jgraphic, 2);
+	PacketHexString := PacketHexString +"00";
+	PacketHexString := PacketHexString + ConvertIntToHex(jcolor, 2);
+	PacketHexString := PacketHexString +"00";
+	PacketHexString := PacketHexString + ConvertIntToHex(who.x, 2);
+	PacketHexString := PacketHexString + ConvertIntToHex(who.y, 2);
+	PacketHexString := PacketHexString +"0000";
+	PacketHexString := PacketHexString + ConvertIntToHex(who.facing, 1);
+	PacketHexString := PacketHexString + ConvertIntToHex(who.z, 1);
+	SendPacket(who, PacketHexString);
+endfunction
+
+function DrawObject(ktowhom, kobj, kgraphic, kcolor)
+	var PacketHexStringPart1 := "78";
+	var PacketHexStringPart2 := ConvertIntToHex(kobj.serial, 4) + ConvertIntToHex(kgraphic, 2);
+	PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(kobj.x, 2);
+	PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(kobj.y, 2);
+	PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(kobj.z, 1);
+	PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(kobj.facing, 1);
+	PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(kcolor, 2);
+	PacketHexStringPart2 := PacketHexStringPart2 +"0000";
+	foreach item in ListEquippedItems(kobj)
+		PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(item.serial, 4);
+		PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(item.graphic, 2);
+		PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(item.layer, 1);
+		PacketHexStringPart2 := PacketHexStringPart2 + ConvertIntToHex(kcolor, 2);
+	endforeach
+	PacketHexStringPart2 := PacketHexStringPart2 +"00000000";
+	var FullPacketHexStringLength := (len(PacketHexStringPart1) + len(PacketHexStringPart2)) / 2 + 2;
+	var FullPacketHexString := PacketHexStringPart1 + ConvertIntToHex(FullPacketHexStringLength, 2) + PacketHexStringPart2;
+	SendPacket(ktowhom, FullPacketHexString);
+endfunction
+
+function DeleteObject(who, lobj)
+	var PacketHexString := "1D"+ ConvertIntToHex(lobj.serial, 4);
+	SendPacket(who, PacketHexString);
 endfunction
