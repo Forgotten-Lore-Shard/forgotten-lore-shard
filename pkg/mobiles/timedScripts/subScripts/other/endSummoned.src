@@ -16,7 +16,7 @@ program cureScript(params)
 		endif
 	endif
 	sleep(5);
-	while ((AP_GetVital(mobile, HITS)<=0))
+	while ((AP_GetVital(mobile, HITS)>=0))
 		ApplyRawDamage(mobile, 200);
 		sleepms(500);
 	endwhile
