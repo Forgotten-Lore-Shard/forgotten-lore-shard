@@ -340,15 +340,15 @@ function AddMaterialMod(who, theitem, principalMaterial, materialColor)
         theitem.resist_energy_mod := Cint(ResistMods[5]);
         if (elem.parrydelay == error) //se for escudo nao aplica o resitmod fisico dos metais
             theitem.resist_physical_mod := Cint(ResistMods[1]);
+        else
+            //aplica o modificador de durabilidade do material nos escudos
+            hpmod :=  hpmod*5;
         endif
 	//flechas e virotes de guerra
 	elseif (theitem.objtype == 0x9088 || theitem.objtype == 0x9098)
 		SetObjProperty(theitem, "dmgmods", DmgMods);
 	endif
-    //aplica o modificador de durabilidade do material
-    if (elem.parrydelay != error) //se for escudo aumenta o buff de durabilidade do material significativamente
-        hpmod :=  hpmod*5;
-    endif
+
     theitem.maxhp_mod := Cint(hpmod * Cint(theitem.maxhp) /100.0);
     theitem.hp := theitem.maxhp_mod + theitem.hp;
 endfunction
