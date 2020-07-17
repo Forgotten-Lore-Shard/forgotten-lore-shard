@@ -32,6 +32,11 @@ program skill_lockpicking( me, lockpick )
 	if (!ReserveItem(lockpick))
 		return 0;
 	endif
+
+	if (GetObjProperty(me, "escondido"))
+		me.hidden := 1;
+	endif
+
 	SendSysMessageEx(me, "O que voce deseja fazer com isto?", SSM_REQUEST);
 	var chest := Target(me);
 	if (!chest)

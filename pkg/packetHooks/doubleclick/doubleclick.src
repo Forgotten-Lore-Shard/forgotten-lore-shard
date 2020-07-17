@@ -12,9 +12,12 @@ endprogram
 
 
 exported function HandleDoubleClick( who, byref packet )
+	CONST KIT_DISFARCE := "kit de disfarce";
+	CONST LOCKPICK := "lockpick%s%";
+	CONST LOCKPICKS := "lockpicks";
 
 	var defender := SystemFindObjectBySerial(packet.GetInt32(BYTE_DEFENDER));
-
+	var escondido := who.hidden;
 
 	//nao sei como, mas as vezes vem sem, entao deixa o pol tratar
 	if (!defender)
@@ -26,6 +29,9 @@ exported function HandleDoubleClick( who, byref packet )
 	endif
 
 	if (defender.container == who.backpack)
+		if (escondido && (defender.name == KIT_DISFARCE || defender.name == LOCKPICK || defender.name == LOCKPICKS))
+			SetObjProperty(who,"escondido", 1);
+		endif
 		return 0;
 	endif
 
@@ -50,6 +56,11 @@ exported function HandleDoubleClick( who, byref packet )
 	if(!CheckLineOfSight(who, defender))
 		SendSysMessageEx(who, "Voce nao enxerga o alvo.", SSM_FAIL);
 		return 1;
+	endif
+
+	//Caso o item nao esteja na backpack, ele vai tratar aqui
+	if (escondido && (defender.name == KIT_DISFARCE || defender.name == LOCKPICK || defender.name == LOCKPICKS))
+		SetObjProperty(who,"escondido", 1);
 	endif
 
 	return 0;
