@@ -24,6 +24,7 @@ program disguise(who, kit)
 
 	if (GetObjProperty(who, "escondido"))
 		who.hidden := 1;
+		SetObjProperty(who,"escondido", 0);
 	endif
 
 	var disfarce := struct;

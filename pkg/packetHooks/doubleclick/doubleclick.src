@@ -29,6 +29,7 @@ exported function HandleDoubleClick( who, byref packet )
 	endif
 
 	if (defender.container == who.backpack)
+		//Caso o player esteja escondido e tente usar lockpick ou o kit de disfarce, ele vai setar uma prop para manter escondido
 		if (escondido && (defender.name == KIT_DISFARCE || defender.name == LOCKPICK || defender.name == LOCKPICKS))
 			SetObjProperty(who,"escondido", 1);
 		endif
@@ -58,6 +59,7 @@ exported function HandleDoubleClick( who, byref packet )
 		return 1;
 	endif
 
+	//Caso o player esteja escondido e tente usar lockpick ou o kit de disfarce, ele vai setar uma prop para manter escondido
 	//Caso o item nao esteja na backpack, ele vai tratar aqui
 	if (escondido && (defender.name == KIT_DISFARCE || defender.name == LOCKPICK || defender.name == LOCKPICKS))
 		SetObjProperty(who,"escondido", 1);
