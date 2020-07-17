@@ -13,6 +13,11 @@ program SpellScript(params)
 	var targ := params[2];
 	params := 0; // No longer needed
 
+	if ( !Attach(who) )
+		SendSysMessage(who, "You are already doing something.");
+		return 0;
+	endif
+
 	Corromper(who, 30, targ);
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
