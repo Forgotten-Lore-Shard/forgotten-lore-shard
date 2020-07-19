@@ -11,13 +11,13 @@ program default_poison(params)
 	var attacker := params[2];
 	var level := CInt(params[3]);
 
-	while( IsRaging(who) )
+	while( IsBloodied(who) )
 
 		if (who.dead)
 			break;
 		endif
 		HealFLS(who, 5);
-		
+
 		sleep(2);
 	endwhile
 	var script := GetProcess(GetPid());
