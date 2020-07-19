@@ -16,7 +16,7 @@ program SpellScript(params)
 		SendSysMessageEx(who, "Isto nao pode ser alvejado por essa magia.", SSM_FAIL);
 		return;
 	endif
-
+	SetObjProperty(who, "#Casting",1);
 
 	PlaySoundEffect(targ, SFX_SPELL_WEAKEN);
 
@@ -41,6 +41,7 @@ program SpellScript(params)
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			//who.frozen := 0;
+			EraseObjProperty(who, "#Casting");
 			return;
 		endif
 	else
@@ -48,6 +49,7 @@ program SpellScript(params)
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			//who.frozen := 0;
+			EraseObjProperty(who, "#Casting");
 			return;
 		endif
 	endif
@@ -71,5 +73,6 @@ program SpellScript(params)
 		endif
 	endwhile
 	//who.frozen := 0;
+	EraseObjProperty(who, "#Casting");
 	return 1;
 endprogram

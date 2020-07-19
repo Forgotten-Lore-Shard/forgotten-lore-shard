@@ -17,6 +17,7 @@ program SpellScript(params)
 		return;
 	endif
 
+	GetObjProperty(who, "#Casting");
 
 	PlaySoundEffect(targ, SFX_SPELL_WEAKEN);
 
@@ -40,6 +41,7 @@ program SpellScript(params)
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			who.frozen := 0;
+			EraseObjProperty(who, "#Casting");
 			return;
 		endif
 	else
@@ -48,6 +50,7 @@ program SpellScript(params)
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			who.frozen := 0;
+			EraseObjProperty(who, "#Casting");
 			return;
 		endif
 	endif
@@ -84,13 +87,13 @@ program SpellScript(params)
 
 		AP_SetVital(who, MANA, mymana);
 
-		PlayMovingEffectEx(targ, who, 3982, 255, 1, 2119);	
+		PlayMovingEffectEx(targ, who, 3982, 255, 1, 2119);
 		time := time + 1;
 		PerformAction(who, ANIM_CAST_AREA);
 		sleep(1);
 	endwhile
 
 	who.frozen := 0;
-	
+	EraseObjProperty(who, "#Casting");
 	return 1;
-endprogram 
+endprogram

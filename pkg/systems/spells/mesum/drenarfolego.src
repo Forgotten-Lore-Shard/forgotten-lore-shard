@@ -16,7 +16,7 @@ program SpellScript(params)
 		SendSysMessageEx(who, "Isto nao pode ser alvejado por essa magia.", SSM_FAIL);
 		return;
 	endif
-
+	GetObjProperty(who, "#Casting");
 
 	PlaySoundEffect(targ, SFX_SPELL_WEAKEN);
 
@@ -85,13 +85,13 @@ program SpellScript(params)
 
 		AP_SetVital(who, STAMINA, mymana);
 
-		PlayMovingEffect(targ, who, 3982, 255, 1);	
+		PlayMovingEffect(targ, who, 3982, 255, 1);
 		time := time + 1;
 		PerformAction(who, ANIM_CAST_AREA);
 		sleep(1);
 	endwhile
 
 	who.frozen := 0;
-	
+	EraseObjProperty(who, "#Casting");
 	return 1;
-endprogram 
+endprogram
