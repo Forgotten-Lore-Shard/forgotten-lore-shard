@@ -16,7 +16,7 @@ program SpellScript(params)
 		SendSysMessageEx(who, "Isto nao pode ser alvejado por essa magia.", SSM_FAIL);
 		return;
 	endif
-	GetObjProperty(who, "#Casting");
+	SetObjProperty(who, "#Casting",1);
 
 	PlaySoundEffect(targ, SFX_SPELL_WEAKEN);
 

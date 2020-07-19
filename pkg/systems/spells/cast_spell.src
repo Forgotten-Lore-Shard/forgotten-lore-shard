@@ -58,7 +58,7 @@ program SpellStarter(params)
 	// Already casting?
 	if ( GetObjProperty(mobile, "#Casting") )
 		SendSysMessageEx(mobile, "Voce nao pode invocar um encanto agora.", SSM_FAIL);
-		FailSpell(mobile);
+//		FailSpell(mobile);
 		return 0;
 	else
 		if ( mobile.frozen )

@@ -17,7 +17,7 @@ program SpellScript(params)
 		return;
 	endif
 
-	GetObjProperty(who, "#Casting");
+	SetObjProperty(who, "#Casting",1);
 
 	PlaySoundEffect(targ, SFX_SPELL_WEAKEN);
 
