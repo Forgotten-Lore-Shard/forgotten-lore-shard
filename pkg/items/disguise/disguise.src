@@ -22,6 +22,11 @@ program disguise(who, kit)
 		SendSysMessageEx(who, "Caso deseje remover o disfarce digite .removerdisfarce", SSM_INFO);
 	endif
 
+	if (GetObjProperty(who, "escondido"))
+		who.hidden := 1;
+		SetObjProperty(who,"escondido", 0);
+	endif
+
 	var disfarce := struct;
 	disfarce.+barba := "";
 	disfarce.+cabelo := "";
