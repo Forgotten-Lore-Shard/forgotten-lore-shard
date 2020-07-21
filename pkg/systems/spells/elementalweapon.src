@@ -8,6 +8,7 @@ program armasagrada(param)
 	var arma := param[1];
 	var time := param[2];
 	var type := param[3];
+	var who := param[4];
 
 	var sleeptime := cint( time/10 );
 
@@ -34,15 +35,21 @@ program armasagrada(param)
 		sleep(sleeptime);
 		arcoiris(arma, type);
 		i := i + 1;
+
+		if (ReadGameClock() > elemental.endtime)
+			SendSysMessageEx(who, "Sua arma nao esta mais encantada.", SSM_INFO);
+			break;
+		endif
 	endwhile
+
 
 	arma.color := originalColor;
 endprogram
- 
+
 function arcoiris(arma, type)
 
 	var k := 0;
-	
+
 	for (k := 1; k < 5; k := k + 1)
 		var initcolor := arma.color;
 		var i := 1;

@@ -1,4 +1,4 @@
- 
+
  use uo;
 use os;
 
@@ -23,7 +23,7 @@ program SpellScript(params)
 	endif
 
 	var time := AP_GetSkill(who, MAGICLORE)*10 + 180;
-	
+
 	if (targ.isA(POLCLASS_WEAPON))
 
 		var encantada := GetObjProperty(targ, "#elementalweapon");
@@ -50,13 +50,13 @@ program SpellScript(params)
 
 		SetObjProperty(targ, "#elementalweapon", dmg);
 
-		start_script( ":spells:elementalweapon", {targ, time, DMG_COLD} );
-        	PlaySoundEffect(targ, SFX_BLESS);
+		start_script( ":spells:elementalweapon", {targ, time, DMG_COLD, who} );
+        PlaySoundEffect(targ, SFX_BLESS);
 		SendSysMessageEx(who, "Uma fina camada de gelo cobre a arma.", SSM_INFO);
-	
+
 		return 1;
 	endif
 
 	SendSysMessageEx(who, "Alvo invalido.", SSM_INFO);
 
-endprogram 
+endprogram
