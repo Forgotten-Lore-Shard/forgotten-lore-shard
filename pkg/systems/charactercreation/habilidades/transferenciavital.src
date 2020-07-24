@@ -26,28 +26,28 @@ program manobra(mobile)
 	var oldy := mobile.y;
 
 	mobile.frozen := 1;
-	
+
 	var amt := 10;
 
 	Corromper(mobile, 9, targ);
-	
+
 	if(TemHabilidade(mobile, "Vontade Esmagadora"))
-	
-		if (CheckResist(targ, VONTADE, 65+cint(AP_GetSkill(mobile, MAGICLORE))))
+
+		if (CheckResist(mobile, VONTADE, 70, -CInt(AP_GetSkill(mobile, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			SendSysMessageEx(mobile, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			mobile.frozen := 0;
 			return;
 		endif
 	else
-		if (CheckResist(targ, VONTADE, 40+cint(AP_GetSkill(mobile, MAGICLORE))))
+		if (CheckResist(mobile, VONTADE, 30, -CInt(AP_GetSkill(mobile, MAGICLORE)/2.5)))
 			SendSysMessageEx(mobile, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			mobile.frozen := 0;
 			return;
 		endif
 	endif
-	
+
 	while  (time < 10)
 
 		if ( (mobile.x != oldx) || (mobile.y != oldy))
@@ -67,7 +67,7 @@ program manobra(mobile)
 		//ApplyRawDamage( targ, 10, 0, DAMAGE_SHOW );
 		ApplyRawDamage( targ, amt );
 		HealDamage( who, amt);
-		
+
 		if(targ.dead)
 			break;
 		endif
@@ -79,6 +79,6 @@ program manobra(mobile)
 	endwhile
 
 	mobile.frozen := 0;
-	
+
 	return 1;
-endprogram 
+endprogram

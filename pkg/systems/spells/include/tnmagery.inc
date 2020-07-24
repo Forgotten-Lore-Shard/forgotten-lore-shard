@@ -13,12 +13,12 @@ include ":charactercreation:habilidades";
 function spelllearn(who)
 
 	var spell := GetObjProperty(who, "spellcraft");
-	
+
 	if (spell == error)
 		SendSysMessage(who, "Voce nao esta pesquisando nenhuma magia para aprende-la agora.");
 		return;
 	endif
-	
+
 	var hoje := Cint(GetGlobalProperty("daynumber"));
 	var ano := GetGlobalProperty("current_year");
 	if (spell.year == ano)
@@ -36,38 +36,38 @@ function spelllearn(who)
 			CopyToSpellbook(who);
 		else
 			SendSysMessage(who, "Ainda faltam " + (spell.end - diaspassados) + " dias para aprender esse encantamento.");
-			return;		
+			return;
 		endif
 	endif
-	
+
 
 endfunction
 
 function CopyToSpellbook(who)
 
 	var targ := Target(who);
-	
+
 	if (!targ)
 		SendSysMessage(who, "Cancelado.");
 		return;
 	endif
-    
+
 	if (targ.objtype != 0x6100)
 		SendSysMessage(who, "Isto nao e um grimorio.");
 		return;
 	endif
-    
+
 	var spells := GetObjProperty(targ, "spells");
-	
+
 	if (!spells)
 		spells := array;
 	endif
 
 	spells.append( GetObjProperty(who, "spellcraft") );
 	setobjproperty(targ, "spells", spells);
-	
+
 	EraseObjProperty(who, "spellcraft");
-	
+
 	SendSysMessage(who, "Voce escreveu o encantamento no seu grimorio.");
 
 
@@ -100,15 +100,15 @@ function spellcraft(who)
 		SendSysMessage(who, "Cancelado.");
 		return;
 	endif
-	
+
 	spellinfo.+powerwords := powerwords;
-	
+
 	WriteSpellDescription(who, spellinfo);
-	
+
 	//escolhe o tipo: enfraquecer,  fortalecer,  destruir, curar, invocar, controlar
 	var type := RadioGump(who, 400, 380, "Escolha o tipo de encantamento.", {"Enfraquecer", "Fortalecer", "Destruir", "Curar"/*,  "Controlar", "Entender"*/});
 	spellinfo.+type := type;
-	
+
 	var alvo := RadioGump(who, 400, 205, "Escolha se o encantamento tera efeito sobre um unico alvo ou todos ao redor do feiticeiro.", {"Unico", "Area"});
 	if (alvo == "Unico")
 		var range := RadioGump(who, 400, 205, "Escolha o alcance do encantamento.", {"Distancia", "Toque"});
@@ -117,7 +117,7 @@ function spellcraft(who)
 	var targtype := "Animados";
 	spellinfo.+targ := alvo;
 	spellinfo.+targtype := "Animados";
-  
+
 	if (  type == "Fortalecer")
 		targtype := RadioGump(who, 400, 205, "Escolha se o alvo do encantamento sao seres vivos ou inanimados.", {"Animados", "Inanimados"});
 		spellinfo.targtype := targtype;
@@ -172,7 +172,7 @@ function spellcraft(who)
 	elseif (Cint(spellinfo.power) == 5 )
 		spellinfo.+difficulty := 70;
 	endif
-	
+
 	var aprender := YesNo(who, "Voce deseja pesquisar este encantamento? Ele vai requerer " + spellinfo.end + " dias de estudo. ", "Sim", "Nao");
 	if (aprender)
 		spellinfo.+start := GetGlobalProperty("daynumber");
@@ -188,12 +188,12 @@ function spellcraft(who)
 		SendSysMessage(who, "Cancelado.");
 		return;
 	endif
-endfunction 
+endfunction
 
 function CalculateResearchTime(byref spellinfo)
 
 	var basictime := 0;
-		
+
 	if (spellinfo.targtype == "Animados")
 		basictime := basictime + 4;
 	else
@@ -203,7 +203,7 @@ function CalculateResearchTime(byref spellinfo)
 	if (spellinfo.range == "Distancia")
 		basictime := basictime + 2;
 	endif
-	
+
 	if (spellinfo.targ == "Area")
 		basictime := basictime + 4;
 	endif
@@ -234,11 +234,11 @@ function CalculateResearchTime(byref spellinfo)
 	else
 		basictime := basictime + 1;
 	endif
-  
+
 	spellinfo.+end := (basictime*cint(spellinfo.power))*2;
 
-endfunction 
-  
+endfunction
+
 function CastSpell(mobile, spellinfo, targ)
 
 	//sendsysmessage(mobile, " " + spellinfo.script);
@@ -249,10 +249,10 @@ function CastSpell(mobile, spellinfo, targ)
 		return;
 	else
 		SendSysMessage(mobile, " " + spellinfo);
-	endif  
+	endif
 
 	var alvos := array;
-  
+
 	if (spellinfo.targ == "Unico")
 		SendSysMessage(mobile, "Escolha o alvo.");
 		var targ := Target(mobile, TGTOPT_CHECK_LOS);
@@ -298,10 +298,10 @@ function CastSpell(mobile, spellinfo, targ)
 				if (mob.serial != mobile.serial)
 					alvos.append(mob);
 				endif
-			endforeach        
+			endforeach
 		endif
 	endif
-    
+
 	if (spellinfo.type == "Fortalecer")
 		EncantoFortalecer(mobile, alvos, spellinfo);
 	elseif (spellinfo.type == "Destruir")
@@ -316,7 +316,7 @@ function CastSpell(mobile, spellinfo, targ)
          //endif
       endif
 
-  
+
 endfunction
 
 function EncantoCurar(mobile, alvos, spellinfo)
@@ -361,7 +361,7 @@ endfunction
 function EncantoDestruir(mobile, alvos, spellinfo)
 
 	var dmgtype := dictionary;
-  
+
 	if (spellinfo.dmgtype == "Fogo")
 		dmgtype[DMG_FIRE] := 1.0;
 	elseif (spellinfo.dmgtype == "Gelo")
@@ -402,9 +402,9 @@ function EncantoDestruir(mobile, alvos, spellinfo)
 endfunction
 
 function EncantoFortalecer(mobile, byref alvos, byref spellinfo)
-  
+
 	if (spellinfo.targtype == "Animados")
-  
+
 		foreach mob in alvos
 			foreach att in (spellinfo.atributo)
 				if (att == "Forca")
@@ -430,17 +430,17 @@ function EncantoFortalecer(mobile, byref alvos, byref spellinfo)
 				endif
 			endforeach
 			PlaySoundEffect(mob, SFX_SPELL_BLESS);
-			PlayObjectCenteredEffect(mob, GFX_BLUE_SPARKLES, 7, 7);	
+			PlayObjectCenteredEffect(mob, GFX_BLUE_SPARKLES, 7, 7);
 		endforeach
-      
+
 	else
-      
+
 		foreach mob in alvos
 			if ( spellinfo.inanimado == "Armas")
 				if (mob.isa(POLCLASS_WEAPON ))
 					SetObjProperty(mob, "armaafiada", (CINT(AP_GetSkill(mobile, MAGERY)/10)+1) );
 					PlaySoundEffect(mob, SFX_SPELL_BLESS);
-					PlayStationaryEffect(mob.x, mob.y, mob.z, GFX_BLUE_SPARKLES, 7, 7);	
+					PlayStationaryEffect(mob.x, mob.y, mob.z, GFX_BLUE_SPARKLES, 7, 7);
 				endif
 			elseif (spellinfo.inanimado == "Curativos")
 				if (mob.objtype  == 0xe21 )
@@ -460,13 +460,13 @@ function EncantoFortalecer(mobile, byref alvos, byref spellinfo)
 				endif
 			endif
 		endforeach
-    
+
 	endif
-    
+
 endfunction
 
 function EncantoEnfraquecer(mobile, byref alvos, byref spellinfo)
-    
+
 	foreach mob in alvos
 		foreach att in (spellinfo.atributo)
 			if (att == "Forca")
@@ -492,18 +492,18 @@ function EncantoEnfraquecer(mobile, byref alvos, byref spellinfo)
 			endif
 		endforeach
 		PlaySoundEffect(mob, SFX_WEAKEN);
-		PlayObjectCenteredEffect(mob, GFX_RED_SPARKLES, 7, 7);	
+		PlayObjectCenteredEffect(mob, GFX_RED_SPARKLES, 7, 7);
 	endforeach
-    
+
 endfunction
 
 function CalculateSpellDamage(mobile, power)
 
 	var magery := CINT(AP_GetSkill(mobile, MAGERY));
 	magery := magery/3;
-  
+
 	var dmg := magery;
-  
+
 	if (power == 1)
 		dmg := dmg + RandomDiceRoll("1d6") + 10;
 	elseif ( power == 2)
@@ -515,7 +515,7 @@ function CalculateSpellDamage(mobile, power)
 	elseif (power == 5 )
 		dmg := dmg + RandomDiceRoll("4d6") + 50;
 	endif
-  
+
 	return dmg;
 
 endfunction
@@ -550,7 +550,7 @@ function TNCheckReagents(who, byref spellinfo, scroll)
 		reagent_costs["NightShade"] := custo;
 	elseif ( spellinfo.type == "Controlar")
 		reagent_costs["BloodMoss"] := custo;
-		reagent_costs["SpiderSilk"] := custo; 
+		reagent_costs["SpiderSilk"] := custo;
 	elseif ( spellinfo.type == "Entender" )
 		reagent_costs["MandrakeRoot"] := 1;
 	elseif ( spellinfo.type == "Outro")
@@ -618,13 +618,13 @@ function GetSpellDuration(skill)
 endfunction
 
 function WritespellInfo(who, byref spellinfo)
-	var cfg;	
+	var cfg;
 
 	//scrolls mesmo
 	cfg := ReadConfigFile(":spells:config/allspells");
-	
+
 	//sendsysmessage(who, "cfg" + cfg + " " + spellinfo.id);
-	
+
 	if (!cfg)
 //		SendSysMessageEx(who, "spell.cfg nao encontrado", SSM_FAIL);
 		return;
@@ -668,7 +668,7 @@ function WriteSpelldescription(who, byref spellinfo)
 
 	var gump := GFCreateGump();
 	GFResizePic(gump, 15, 50, 2620, 310, 380);
-	
+
 	var num_lines := 19;
 	var msg_array := array;
 	var y_pos := 55;
@@ -698,7 +698,7 @@ function WriteSpelldescription(who, byref spellinfo)
 				msg_array[i] := "";
 			endif
 		endfor
-	
+
 		//Clear off empty lines.
 		for ( i:=msg_array.Size(); i>=1; i:=i-1 )
 			if ( Len(msg_array[i]) <= 0 )
@@ -706,23 +706,23 @@ function WriteSpelldescription(who, byref spellinfo)
 			endif
 			SleepMS(2);
 		endfor
-		
+
 		var text := "";
 		for ( i:=1; i<msg_array.Size(); i:=i+1 )
 			text := text + msg_array[i];
 			SleepMS(2);
 		endfor
-		
+
 		spellinfo.+description := text;
 	endif
-endfunction 
+endfunction
 
 function Spell_Target(who, opts)
 	var targ := Target(who, opts);
 	if (Distance(targ, who) > 8)
 		SendSysMessageEx(who, "O alvo esta muito distante.", SSM_FAIL);
 		return 0;
-	endif		
+	endif
 	if (!targ)
 		SendSysMessageEx(who, "Cancelado.", SSM_FAIL);
 		return 0;
@@ -734,18 +734,18 @@ function MantainSpell(byref info)
 
 	//sendsysmessage(info.mage, " " + info);
 
-	
+
 	if (info.mage.connected)
-		start_script( ":spells:mantainSpell", { info.mage, info.mobserial, info.name, info.duration, info.level  }  ); 
+		start_script( ":spells:mantainSpell", { info.mage, info.mobserial, info.name, info.duration, info.level  }  );
 	endif
 
 endfunction
 
 //////////////////////////////////////////////////////////////
 //////// Corromper(jogador, alvo, mana, circulo) - By Duttones
-//////// 
-//////// 
-//////// 
+////////
+////////
+////////
 //////////////////////////////////////////////////////////////
 function Corromper(who, spell, targ)
 	if (GetObjProperty(who, "corruption") == 20000) //se o jogador tiver atingido o maximo de corrupcao, ele nem inicia o script
@@ -760,24 +760,24 @@ function Corromper(who, spell, targ)
 	spellinfo.+cycles := GetConfigInt( elem, "Circle" );
 	spellinfo.+corruption := GetConfigInt( elem, "Corruption" );
 	var variavel; var corrupcao;
-	
+
 	//testa resistencia de vontade
 	if (temHabilidade(who, "Pacto com Shimoria"))
-		if (CheckResist(who, VONTADE, 16*spellinfo.cycles))
+		if (CheckResist(who, VONTADE, 20*spellinfo.cycles))
 		return 0;
 		endif
-	elseif (CheckResist(who, VONTADE, 20*spellinfo.cycles))
+	elseif (CheckResist(who, VONTADE, 30*spellinfo.cycles))
 		return 0;
 	endif
-	
+
 	SendSysMessageEx(who, "Voce falhou em resistir a corrupcao e Asan se apoderou mais um pouco de sua alma.", SSM_FAIL);
 	//fim de checagem
-	
+
 	//checa se e magia banida e define a variavel
 	if (spellinfo.corruption != 1)
 		variavel := spellinfo.corruption/10;
 	endif
-	
+
 	//checa se é player
 	if (targ)
 		if (targ.acctname)
@@ -785,37 +785,37 @@ function Corromper(who, spell, targ)
 				variavel := variavel + 0.8;
 			else
 				variavel := variavel + 0.3;
-			endif		
+			endif
 		endif
 	endif
 	//fim de checagem
-	
-	
+
+
 	//calculo de corrupcao
 	corrupcao := (spellinfo.mana) /5 * spellinfo.cycles;
 	variavel := corrupcao * variavel;
 	corrupcao := Cint(corrupcao + variavel);
-	
+
 	if (temHabilidade(who, "Alma Forte"))
 		corrupcao := corrupcao /2;
 	endif
 	//fim do calculo de corrupcao
-	
+
 	//adiciona corrupcao no personagem
 	if (GetObjProperty(who, "corruption"))
 		corrupcao := corrupcao + GetObjProperty(who, "corruption");
 	endif
-	
+
 	if (corrupcao > 20000)
 		corrupcao := 20000;
 	endif
-	
+
 	SetObjProperty(who, "corruption", corrupcao);
 	//fim
 	if (GetObjProperty(who, "corruptionalert") == error)
 		SetObjProperty(who, "corruptionalert", 0);
 	endif
-	
+
 	//checa se o nivel de corrupcao aumentou, avisa o jogador e adiciona os efeitos
 	if ((corrupcao >= 5000) && (corrupcao < 9999) )
 		if (GetObjProperty(who, "corruptionalert") < 1)
@@ -833,7 +833,7 @@ function Corromper(who, spell, targ)
 			SendSysMessageEx(who, "Sua corrupcao agora aumentou de 'razoavel' para 'alta'.", SSM_FAIL);
 			SendSysMessageEx(who, "Voce esta ficando insano.", SSM_INFO);
 			SetObjProperty(who, "corruptionalert", 3);
-			
+
 			var originalcorruptionbody := struct;
 			var mybeard := GetEquipmentByLayer(who, LAYER_BEARD);
 			var myhair := GetEquipmentByLayer(who, LAYER_HAIR);
@@ -841,7 +841,7 @@ function Corromper(who, spell, targ)
 			originalcorruptionbody.+corbarba := mybeard.color;
 			originalcorruptionbody.+corpele := who.color;
 			SetObjProperty(who, "originalcorruptionbody", originalcorruptionbody);
-			
+
 			case ( RandomIntMinMax(1,3) )
 				1:
 					who.color := 1873;
@@ -851,7 +851,7 @@ function Corromper(who, spell, targ)
 					myhair.color := 0;
 					SendSysMessageEx(who, "Seus cabelos perderam a cor!!", SSM_FAIL);
 			endcase
-			
+
 		endif
 	elseif (corrupcao >= 20000)
 		if (GetObjProperty(who, "corruptionalert") < 4)
@@ -871,7 +871,7 @@ function Corromper(who, spell, targ)
 					SendSysMessageEx(who, "As veias por baixo de sua pele parece estar mais escuras!!", SSM_FAIL);
 			endcase
 		endif
-	endif 
+	endif
 	//fim da checagem
 
 endfunction

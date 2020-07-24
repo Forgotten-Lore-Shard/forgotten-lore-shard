@@ -30,22 +30,21 @@ program SpellScript(params)
 
 	if (temHabilidade(who, "Maldicao do Sangue de Asan"))
 		if (isBloodied(who))
-			amt := 15;
+			amt := Cint(amt*1.5);
 		endif
 	endif
 
 	Corromper(who, 10, targ);
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
-		if (CheckResist(targ, VONTADE, 65+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 70, -CInt(AP_GetSkill(who, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			who.frozen := 0;
 			return;
 		endif
 	else
-
-		if (CheckResist(targ, VONTADE, 40+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 			who.frozen := 0;
@@ -75,6 +74,7 @@ program SpellScript(params)
 		endif
 
 		AP_SetVital(targ, STAMINA, (targmana-amt));
+		PrintTextAbovePrivate(targ, "-"+amt + " Stamina", who, 3, 38); // vermelho
 
 		var mymana := AP_GetVital(who, STAMINA) + amt;
 		var maxmana := AP_GetVitalMaximumValue(who, STAMINA);
@@ -84,6 +84,7 @@ program SpellScript(params)
 		endif
 
 		AP_SetVital(who, STAMINA, mymana);
+		PrintTextAbovePrivate(who, "+"+amt + " Stamina", who, 3, 568); // verde
 
 		PlayMovingEffect(targ, who, 3982, 255, 1);
 		time := time + 1;

@@ -24,26 +24,26 @@ program SpellScript(params)
 	var dmg := AP_GetSkill(who, MAGICLORE)*0.75;
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
-		if (CheckResist(targ, VONTADE, 105+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 70, -CInt(AP_GetSkill(who, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			dmg := dmg/2;
 		endif
 	else
-		if (CheckResist(targ, VONTADE, 80+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 			dmg := dmg/2;
 		endif
 	endif
 
 	if (temHabilidade(who, "Maldicao do Sangue de Asan"))
 		if (isBloodied(who))
-			dmg := cint(dmg*0.3);
+			dmg := CInt(dmg*1.5);
 		endif
 	endif
-
 	DamageFLS(targ, dmg, DMG_FORCED, who);
+	PrintTextAbovePrivate(targ, "-"+dmg + " Vida", who, 3, 38); // vermelho
 
 	PlaySoundEffect(who, 385);
 	SendSysMessageEx(who, "O alvo esta tendo sonhos terriveis.", SSM_INFO);
 	Corromper(who, 31, targ);
-	
+
 	return 1;
-endprogram 
+endprogram

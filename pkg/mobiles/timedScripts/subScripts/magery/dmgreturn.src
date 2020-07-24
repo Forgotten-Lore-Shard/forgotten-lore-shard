@@ -1,4 +1,4 @@
- 
+
 use uo;
 use os;
 
@@ -12,7 +12,7 @@ program TimedScript_Clumsy(params)
 	params := 0; // Not needed anymore.
 
 	params := 0; // Not needed anymore.
-	
+
 	var armorscript := GetObjProperty(mobile, "ArmorHitScripts");
 	if (!armorscript)
 		armorscript := array;
@@ -21,8 +21,9 @@ program TimedScript_Clumsy(params)
 	armorscript.append(":combat:armorHitScripts/rawdmgreturn");
 	setobjproperty(mobile, "dmgreturn", level);
 	SetObjProperty(mobile, "ArmorHitScripts", armorscript);
-	
+	SendSysMessageEx(mobile, "...Dente por dente", SSM_INFO);
+
 	return 1;
 endprogram
- 
- 
+
+

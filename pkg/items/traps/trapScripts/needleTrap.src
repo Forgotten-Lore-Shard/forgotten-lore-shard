@@ -28,7 +28,7 @@ program trapScript(params)
 	var range := trap_info.Strength;
 	if (range < 1)
 		range := 1;
-	endif 
+	endif
 	range := range*3;
 
 	var mobiles := ListMobilesNearLocationEx(object.x, object.y, object.z, range, LISTEX_FLAG_HIDDEN + LISTEX_FLAG_NORMAL, object.realm);
@@ -37,27 +37,27 @@ program trapScript(params)
 		if (!mobile.npctemplate)
 			SendSysMessageEx(mobile, "Voce foi atingido por uma armadilha de dardos.", SSM_FAIL);
 
-			if (CheckResist(mobile, REFLEXOS, CInt(25+25*dmg)))
+			if (CheckResist(mobile, REFLEXOS, 30,-15*dmg))
 				if (temHabilidade(mobile, "Evasao"))
-					SendSysMessageEx(mobile, "Voce escapou completamente da armadilha.", SSM_INFO);
+					SendSysMessageEx(mobile, "Voce escapou completamente da armadilha de dardos.", SSM_INFO);
 					mobile.hidden := 0;
 					continue;
 				else
-					SendSysMessageEx(mobile, "Voce evitou parte do dano da armadilha.", SSM_INFO);
+					SendSysMessageEx(mobile, "Voce evitou parte do dano da armadilha de dardos.", SSM_INFO);
 					dmgfinal := CInt(dmgfinal * 0.5);
 				endif
 			else
 				if (temHabilidade(mobile, "Evasao Aprimorada"))
-					SendSysMessageEx(mobile, "Por instinto voce se livrou um pouco da armadilha.", SSM_INFO);
+					SendSysMessageEx(mobile, "Por instinto voce se livrou um pouco da armadilha de dardos.", SSM_INFO);
 					dmgfinal := CInt(dmgfinal * 0.5);
 				endif
-			endif	
+			endif
 
 			PerformAction(mobile, ANIM_HIT);
 			DamageFLS(mobile, dmgfinal);
 			mobile.hidden := 0;
 		endif
 	endforeach
-	
+
 	return 1;
 endprogram

@@ -5,109 +5,141 @@ include ":charactercreation:habilidades";
 const FORTITUDE := "Fortitude";
 const REFLEXOS := "Reflexos";
 const VONTADE := "Vontade";
+//const VALOR_REFERENCIA := 10;
+
+//------------------------------------------------------
+//DIFICULDADES REFERÊNCIA PARA OS TESTES DE RESISTÊNCIA
+//
+//Fácil 				30
+//Médio 				45
+//Difícil 				60
+//Muito Difícil 		75
+//Extremamente Difícil 	90
+//Quase Impossível 		105
+//
+//------------------------------------------------------
+
 
 function GetResist(who, resist)
+	// Coleta informações da ficha do personagem
 	var chardata := GetObjProperty(who, "chardata");
 	var classe := chardata.classe;
 	var vantagem := chardata.vantagemracial;
 	var kit := chardata.kit;
 
-	var valor;
+	var valor := 0;
 
-	if (resist == VONTADE)
-		if (GetCooldown(who, "desviarmente") > 0) // Se tiver usado habilidade Desviar Mente
-			resist := REFLEXOS;
+ 	// Faz a resistência de Vontade para utilizar o valor de Reflexos quanto usando a habilidade "Desviar Mente"
+	if (resist == VONTADE && (GetCooldown(who, "desviarmente") > 0))
+		resist := REFLEXOS;
+	endif
+
+	// Aplica os bonus e redutores dos Kits
+	if (kit == "Fortitude do Urso")
+		if (resist == FORTITUDE)
+			valor := valor + 20; // +200% do VALOR_REFERENCIA
+		else
+			valor := valor - 10; // -100% do VALOR_REFERENCIA
+		endif
+	elseif (kit == "Reflexos de Pantera")
+		if (resist == REFLEXOS)
+			valor := valor + 20; // +200% do VALOR_REFERENCIA
+		else
+			valor := valor - 10; // -100% do VALOR_REFERENCIA
+		endif
+	elseif (kit == "Vontade da Aguia")
+		if (resist == VONTADE)
+			valor := valor + 20; // +200% do VALOR_REFERENCIA
+		else
+			valor := valor - 10; // -100% do VALOR_REFERENCIA
 		endif
 	endif
 
 	if (resist == FORTITUDE)
+
+		// Aplica os bonus base do Caminho para a resistência
 		if (classe == "Guerreiro")
-			valor := 30;
+			valor := valor + 30; // +300% do VALOR_REFERENCIA
 		else
-			valor := 15;
+			valor := valor + 15; // +150% do VALOR_REFERENCIA
 		endif
 
-		valor := valor + CInt(AP_GetTrueStat(who, STRENGTH)/10);
+		// Aplica bonus de Atributo atual para a resistência
+		valor := valor + CInt(AP_GetStat(who, STRENGTH)/10); // STRENGTH % do VALOR_REFERENCIA
 
+		// Aplica os modificadores temporários para a resistência
 		valor := valor + CInt(GetObjProperty(who, "#FortitudeMod"));
+
 	elseif (resist == REFLEXOS)
+
+		// Aplica os bonus base do Caminho para a resistência
 		if (classe == "Ladino")
-			valor := 30;
+			valor := 30; // +300% do VALOR_REFERENCIA
 		else
-			valor := 15;
+			valor := 15; // +150% do VALOR_REFERENCIA
 		endif
 
-		valor := valor + CInt(AP_GetTrueStat(who, DEXTERITY)/10);
+		// Aplica bonus de Atributo atual para a resistência
+		valor := valor + CInt(AP_GetStat(who, DEXTERITY)/10); // DEXTERITY % do VALOR_REFERENCIA
 
+
+		// Aplica os modificadores temporários para a resistência
 		valor := valor + CInt(GetObjProperty(who, "#ReflexosMod"));
-	else // Vontade
-		if (resist == "Sabio")
-			valor := 30;
+
+	else // (resist == VONTADE)
+
+		// Aplica os bonus base do Caminho para a resistência
+		if (classe == "Sabio")
+			valor := 30; // +300% do VALOR_REFERENCIA
 		else
-			valor := 15;
+			valor := 15; // +150% do VALOR_REFERENCIA
 		endif
 
-		if (vantagem == "Vontade de Ferro")
-			valor := valor + 20;
-		endif
-		
-		if (temHabilidade(who, "Treinamento Vigilante"))
-			valor := valor + 100;
-		endif
+		// Aplica bonus de Atributo atual para a resistência
+		valor := valor + CInt(AP_GetStat(who, INTELLIGENCE)/10); // INTELLIGENCE % do VALOR_REFERENCIA
 
-		if ( GetCooldown(who, "VontadeIndomavel"))
-			valor := valor + 100;
-		endif
-
-		valor := valor + CInt(AP_GetTrueStat(who, INTELLIGENCE)/10);
-
+		// Aplica os modificadores temporários para a resistência
 		valor := valor + CInt(GetObjProperty(who, "#VontadeMod"));
-	endif
 
-	if (kit == "Fortitude do Urso")
-		if (resist == FORTITUDE)
-			valor := valor + 15;
-		else
-			valor := valor - 7;
+		// Aplica modificadores de vantagens raciais
+		if (vantagem == "Resistentes")
+			valor := valor + 10; // +100% do VALOR_REFERENCIA
+		elseif (vantagem == "Vontade de Ferro")
+			valor := valor + 20; // +200% do VALOR_REFERENCIA
 		endif
-	elseif (kit == "Reflexos de Pantera")
-		if (resist == REFLEXOS)
-			valor := valor + 15;
-		else
-			valor := valor - 7;
-		endif
-	elseif (kit == "Vontade da Aguia")
-		if (resist == VONTADE)
-			valor := valor + 15;
-		else
-			valor := valor - 7;
+
+		// Aplica modificadores decorrentes de habilidades
+		if ( GetCooldown(who, "VontadeIndomavel")) // Habilidade ativa
+			valor := valor + 40; // +400% do VALOR_REFERENCIA
+		elseif (temHabilidade(who, "Treinamento Vigilante")) // Habilidade passiva
+			valor := valor + 40; // +400% do VALOR_REFERENCIA
 		endif
 	endif
-
-	if (vantagem == "Resistentes")
-		valor := valor + 10;
-	endif
-
 	return valor;
 endfunction
 
 function CheckResist(who, resist, dif, mod := 0)
-	var dado := RandomInt(100) + 1;
+
+	// Rola o dado da aleatoriedade permitindo superar testes de até +200% do VALOR_REFERENCIA além da resistência base do personagem
+	var dado := RandomInt(20) + 1;
 	var valor := GetResist(who, resist);
 
-	//printtextabove(who, "dado " + dado + " valor " + valor + " diff " + dif); 
+	//printtextabove(who, "dado " + dado + " valor " + valor + " diff " + dif);
 
 	if (dado + valor + mod >= dif)
 		return 1;
-	else
-		if ((GetObjProperty(who, "chardata")).povo == "Zharkiano" && IsBloodied(who))
-			// Se for Zharkiano e tiver Bloodied ganha segunda chance
-			dado := RandomInt(100) + 1;
-			if (dado + valor + mod >= dif)
-				SendSysMessageEx(who, "Zharkia esta do seu lado!", SSM_INFO);
-				return 1;
-			endif
+
+	//Quando é Zharkiano e estiver Bloodied ativa a habilidade racial "Segunda chance"
+	elseif ((GetObjProperty(who, "chardata")).povo == "Zharkiano" && IsBloodied(who))
+		dado := RandomInt(20) + 1;
+		if (dado + valor + mod >= dif)
+			SendSysMessageEx(who, "Zharkia esta do seu lado!", SSM_INFO);
+			return 1;
 		endif
+
+	//Não passando no teste de resistência, informa ao pobre infeliz.
+	else
+		SendSysMessageEx(who, "Falhou no teste de resistencia", SSM_INFO);
 		return 0;
 	endif
 endfunction

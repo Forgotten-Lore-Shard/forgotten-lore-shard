@@ -25,42 +25,22 @@ program SpellScript(params)
 		SendSysMessageEx(who, "Isto nao pode ser alvejado por essa magia.", SSM_FAIL);
 		return;
 	endif
-
+
 	PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
 
-	
 	foreach mobile in (ListMobilesNearLocation( targ.x ,targ.y, targ.z, 6))
-
-		
 		if (mobile.npctemplate)
-			
 			var elem := NPC_GetNPCConfig(mobile.npctemplate);
 			var category := lower(GetConfigString(elem, "Category"));
-		
-			
 			if (category == "undead" )
-
-				
-				if (!CheckResist(mobile, VONTADE, cint(AP_GetSkill(who, MAGICLORE))))
-					
+				if (CheckResist(mobile, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 					var ev :=  struct;
-					
 					ev.+source := who;
-					
 					ev.+type := EVID_FLEE;
-					
 					sendEvent(mobile, ev);
-				
 				endif
-
-			
 			endif
-		
-		
 		endif
-
-	
 	endforeach
-
 	return 1;
-endprogram 
+endprogram

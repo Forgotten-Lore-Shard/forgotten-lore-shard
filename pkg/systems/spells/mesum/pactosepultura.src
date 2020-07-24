@@ -29,16 +29,15 @@ program SpellScript(params)
 
 
 	PlaySoundEffect( who, 384 );
-	
-	if(TemHabilidade(who, "Vontade Esmagadora"))
 
-		if (CheckResist(targ, VONTADE, 65+cint(AP_GetSkill(who, MAGICLORE))))
+	if(TemHabilidade(who, "Vontade Esmagadora"))
+		if (CheckResist(targ, VONTADE, 70, -CInt(AP_GetSkill(who, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 		return;
 		endif
 	else
-		if (CheckResist(targ, VONTADE, 40+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 			SendSysMessageEx(who, "Voce nota que o alvo nao foi afetado.", SSM_FAIL);
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 		return;
@@ -53,6 +52,6 @@ program SpellScript(params)
 	SendSysMessageEx(who, "Voce e " + targ.name + " estao em um pacto de sepultura", SSM_INFO);
 	SendSysMessageEx(targ, "Voce e " + who.name + " estao em um pacto de sepultura", SSM_INFO);
 	Corromper(who, 15, targ);
-	
+
 	return 1;
-endprogram 
+endprogram

@@ -32,54 +32,54 @@ program calor(params)
                 return;
             endif
 
-            var dif := 140; //dif base
+            var dif := 105; //Quase Impossível
 
             if (GetGlobalProperty("dia") == "dia")
-                dif := dif + 20;
+                 dif := dif + 15;
             endif
 
             if ( cint( GetGlobalProperty("season")) == 1) // if verão
-                dif := dif + 20;
+                dif := dif + 15;
             endif
 
             if ( cint( GetGlobalProperty("season")) == 3) // if inverno
-                dif := dif - 20;
+                dif := dif -15;
             endif
 
             if ( GetGlobalProperty("weather") != error) //ta chovendo ou nevando
-                dif := dif - 40;
+                dif := dif - 15;
             endif
 
             if ( GetObjProperty(who, "chardata").povo == "Thuriao")
-                dif := dif + 40;
+                dif := dif + 30; // Dois níveis mais difícil
             endif
 
             if ( GetObjProperty(who, "chardata").povo == "Aquilrano")
-                dif := dif - 90;
+                dif := dif - 60; // Quatro níveis mais fácil
             endif
 
-            var survivalBonus := cint(AP_GetSkill(who, SURVIVAL)/3);
+            var survivalBonus := cint(AP_GetSkill(who, SURVIVAL)/2.5);
             dif := dif - survivalBonus;
 
             foreach item in (ListEquippedITems(who))
-                if (item in ironArmors)
-                    dif := dif + 2;
-                endif
-
-                if ( (GetObjProperty(item, "material") == 0xed29)  )
-                    dif := dif - 8;
-                endif
-
+                // Manto de Aquil facilita a resistência contra calor
                 if (item.objtype == 0xA35e)
-                dif := dif - 30;
+                    dif := dif - 15;
+                endif
+                // Itens de couro draconiano facilitam a resistência contra calor
+                if ( (GetObjProperty(item, "material") == 0xed29) )
+                    dif := dif - 8;
+                elseif (item in ironArmors)
+                    dif := dif + 2;
                 endif
             endforeach
 
             foreach item in ( ListItemsNearLocation( who.x, who.y, who.z, 8, who.realm ) )
+                 //Oasis facilita a resistência ao calor em três níveis de dificuldade
                  if ((item.objtype == 0xa5a))
-                    dif := dif - 50;
+                    dif := dif - 45;
                     break;
-                    endif
+                endif
                 sleepms(20);
             endforeach
 
@@ -90,7 +90,7 @@ program calor(params)
                     SendSysMessageEX(who, "O Protetor de Gelo lhe protege do calor.", SSM_INFO);
                     dif := dif - 90;
                 endif
-                if ((TemHabilidade(mobile, "Sobrevivencia do Grupo")) && (who.party.leader == mobile.party.leader))
+                if ((TemHabilidade(mobile, "Sobrevivencia do Grupo")) && who.party && (who.party.leader == mobile.party.leader))
                     resistchecked := mobile;
                 endif
                 sleepms(20);
@@ -136,8 +136,8 @@ Set_Critical(1);
 		var penalidade2 := GetObjProperty(who, "penalidadedeserto2");
 		SetObjProperty(who, "stammod",  stammod +  (0-penalidade) );
 		SetObjProperty(who, "manamod",  manamod +  (0-penalidade2) );
-            EraseObjProperty(who, "penalidadedeserto");
-			EraseObjProperty(who, "penalidadedeserto2");
+        EraseObjProperty(who, "penalidadedeserto");
+		EraseObjProperty(who, "penalidadedeserto2");
 		RecalcVitals(who);
 	endif
 Set_Critical(0);

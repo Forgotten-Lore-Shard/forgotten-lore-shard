@@ -37,7 +37,7 @@ program SpellScript(params)
 
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
-		if (!CheckResist(targ, VONTADE, 65+cint(AP_GetSkill(who, MAGICLORE))))
+		if (!CheckResist(targ, VONTADE, 70, -CInt(AP_GetSkill(who, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			TS_StartTimer(targ, "defaultPoison", 120, lvl, who);
 			Corromper(who, 22, targ);
 		else
@@ -45,7 +45,7 @@ program SpellScript(params)
 			SendSysMessageEx(targ, "Voce resistiu a magia.", SSM_INFO);
 		endif
 	else
-		if (!CheckResist(targ, VONTADE, 40+cint(AP_GetSkill(who, MAGICLORE))))
+		if (!CheckResist(targ, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 			TS_StartTimer(targ, "defaultPoison", 120, lvl, who);
 			Corromper(who, 22, targ);
 		else
@@ -54,7 +54,6 @@ program SpellScript(params)
 		endif
 	endif
 	Set_Critical( 0 );
-
-	
+	PrintTextAbovePrivate(targ, "Veneno level "+lvl + ".", who, 3, 38); // vermelho
 	return 1;
-endprogram 
+endprogram

@@ -31,7 +31,7 @@ program TrapWalkOn(mobile, trap)
 	elseif ( mobile.npctemplate )
 		return 0;
 	endif
-	
+
 	var cfg := ReadConfigFile(":*:itemdesc");
 	var atrai := {};
 	cfg := cfg[trap.objtype];
@@ -57,7 +57,7 @@ program TrapWalkOn(mobile, trap)
 		sleep(10);
 		return 1;
 	endif
-	
+
 	if (cint(trap.objtype) == 0xff9A)//beartrap
 		do
 			if (!GetObjProperty(trap, "trap_ativada"))
@@ -65,7 +65,7 @@ program TrapWalkOn(mobile, trap)
 				var tempo := 15;
 				var dmg := CInt(RandomDiceRoll("1d10"))+20;
 				SendSysMessageEx(mobile, "Voce ativou uma armadilha!", SSM_FAIL);
-				if (CheckResist(mobile, REFLEXOS, 100))
+				if (CheckResist(mobile, REFLEXOS, 60)) // Difícil
 					if (temHabilidade(mobile, "Evasao"))
 						SendSysMessageEx(mobile, "Voce escapou completamente da armadilha.", SSM_INFO);
 						sleep(10);
@@ -101,14 +101,14 @@ program TrapWalkOn(mobile, trap)
 		dowhile (mobile.x == trap.x && mobile.y == trap.y && mobile.z == trap.z && !GetObjProperty(trap, "trap_inativa"));
 		return 1;
 	endif
-	
-	do	
+
+	do
 		trap.invisible := 0;
 		SendSysMessageEx(mobile, "Voce ativou uma armadilha!", SSM_FAIL);
 		PlayStationaryEffect(trap.x, trap.y, trap.z, CInt(cfg.Animation), 100, 11, 0, trap.realm);
 		//TODO colocar level nas traps
 		var dmg := CInt(RandomDiceRoll("1d10"))+20;
-		if (CheckResist(mobile, REFLEXOS, 100))
+		if (CheckResist(mobile, REFLEXOS, 60)) //Difícil
 			if (temHabilidade(mobile, "Evasao"))
 				SendSysMessageEx(mobile, "Voce escapou completamente da armadilha.", SSM_INFO);
 				sleep(10);
@@ -132,6 +132,6 @@ program TrapWalkOn(mobile, trap)
 		endif
 		sleep(10);
 	dowhile (mobile.x == trap.x && mobile.y == trap.y && mobile.z == trap.z && !GetObjProperty(trap, "trap_inativa"));
-	
+
 	return 1;
 endprogram

@@ -1459,7 +1459,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo Normal
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who)) //Afeta alvos logados ou NPCs. Não afeta o próprio bardo
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1471,7 +1471,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Hidden
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who)) //Afeta alvos logados ou NPCs. Não afeta o próprio bardo
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1485,7 +1485,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo Player Normal
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who) && (mobile.acctname))
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1497,7 +1497,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Player Escondido
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who) && (mobile.acctname))
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1511,7 +1511,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo Nao Player Normal
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who) && (!mobile.acctname))
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1523,7 +1523,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Nao Player Escondido
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who) && (!mobile.acctname))
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1538,7 +1538,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo Normal
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1550,7 +1550,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Hidden
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1563,7 +1563,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo da Party Normal
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who) && (mobile.acctname) && (who.Party == mobile.Party))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1575,7 +1575,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo da Party Escondido
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who) && (mobile.acctname) && (who.Party == mobile.Party))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1592,7 +1592,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo Normal
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1604,7 +1604,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Hidden
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1617,7 +1617,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x01, who.realm); //Alvo Nao Party Normal
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who) && (who.Party != mobile.Party))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1629,7 +1629,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 				mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Nao Party Escondido
 				foreach mobile in mobiles
 					if ((mobile.connected) && (mobile != who) && (who.Party != mobile.Party))
-						resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+						resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 						if(!resistiu)
 							TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 							PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1646,7 +1646,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			foreach mobile in mobiles
 				print (mobile.name + ":" +mobile.alignment);
 				if ((mobile.connected) && (mobile != who) && (mobile.alignment == 1)) //Alvo Evil
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1658,7 +1658,7 @@ function AplicaEfeito(byref who,nomedoefeito,byref duration,byref modifier,byref
 			mobiles := ListMobilesNearLocationEx(who.x, who.y, who.z, range, 0x02, who.realm); //Alvo Hidden
 			foreach mobile in mobiles
 				if ((mobile.connected) && (mobile != who) && (mobile.alignment == 1)) //Alvo Evil
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod); //Alvo passou no teste de resistencia
+					resistiu := CheckResist(mobile, VONTADE, 30, resistencia_mod); //Alvo passou no teste de resistencia
 					if(!resistiu)
 						TS_StartTimer(mobile, nomedoefeito, duration, modifier, who, 0);
 						PrintTextAbovePrivate(mobile, mensagemSucesso, mobile, BARD_FONT, BARD_FONT_COLOR_BAD);
@@ -1694,7 +1694,7 @@ function musicaEfeitos(byref who, byref magica, byref tempo) //DOING
 	var range := 0;
 	var duration := tempo;
 	var sound_duration := tempo/1000;
-	var resistencia_mod := -40;  //Redutor base no teste de resistencia
+	var resistencia_mod := - CInt(MagicLore/2.5);  //Redutor nos testes de resistência inimigos
 	var HarmoniaPerfeita, Vituperio;
 
 	//Calcula o modificador base da intensidade dos efeitos
@@ -2017,7 +2017,7 @@ function musicaEfeitos(byref who, byref magica, byref tempo) //DOING
 			TS_StartTimer(who, "bard_segurando_instrumento", sound_duration, 1, who, 0);
 			foreach mobile in mobiles
 				if ((mobile.graphic == 52) || (mobile.graphic == 21)) //Graficos de cobras
-					resistiu := CheckResist(mobile, VONTADE, AP_GetSkill(who, MAGICLORE), resistencia_mod-30);
+					resistiu := CheckResist(mobile, VONTADE, 60, resistencia_mod); //Mais difícil de resistir pela especificidade do alvo
 					if(!resistiu)
 						if ((mobile.connected) && (mobile != who)) //Verificar se esta funcionando nos MOB
 							TS_StartTimer(mobile, "bard_fascinar", duration, modifier, who, 0);

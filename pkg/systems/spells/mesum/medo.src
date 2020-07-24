@@ -26,7 +26,7 @@ program SpellScript(params)
 	endif
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
-		if (!CheckResist(targ, VONTADE, 85+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 70, -CInt(AP_GetSkill(who, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			TS_StartTimer(targ, "dmgreduction", Cint(AP_GetSkill(who, MAGICLORE)), lvl, who, 1);
 			PlaySoundEffect(targ, SFX_SPELL_PROTECTION);
 			printText(targ, "*apavorado*");
@@ -38,7 +38,7 @@ program SpellScript(params)
 			return 1;
 		endif
 	else
-		if (!CheckResist(targ, VONTADE, 60+cint(AP_GetSkill(who, MAGICLORE))))
+		if (!CheckResist(targ, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 			TS_StartTimer(targ, "dmgreduction", Cint(AP_GetSkill(who, MAGICLORE)), lvl, who, 1);
 			PlaySoundEffect(targ, SFX_SPELL_PROTECTION);
 			printText(targ, "*apavorado*");
@@ -51,4 +51,4 @@ program SpellScript(params)
 		endif
 	endif
 
-endprogram     
+endprogram

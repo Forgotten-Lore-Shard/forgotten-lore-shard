@@ -23,7 +23,7 @@ program SpellScript(params)
 	PlaySoundEffect(targ, SFX_SPELL_STRENGTH);
 
 	PrintText(targ, "*transformando-se*");
-	
+
 	targ.graphic := 81;
 	sleepms(400);
 	targ.graphic := graphic;
@@ -58,11 +58,11 @@ program SpellScript(params)
 
 	if(TemHabilidade(who, "Vontade Esmagadora"))
 
-		if (CheckResist(targ, VONTADE, 105+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 70, -CInt(AP_GetSkill(who, MAGICLORE)/2.5))) // Muito mais Difícil de resistir
 			time := time/2;
 		endif
 	else
-		if (CheckResist(targ, VONTADE, 80+cint(AP_GetSkill(who, MAGICLORE))))
+		if (CheckResist(targ, VONTADE, 30, -CInt(AP_GetSkill(who, MAGICLORE)/2.5)))
 			time := time/2;
 		endif
 	endif
@@ -71,7 +71,7 @@ program SpellScript(params)
 	TS_StartTimer(targ, "desarmar", time, 0, who);
 	TS_StartTimer(targ, "dmgreduction", time, 4, who);
 	TS_StartTimer(Targ, "desmontar", time, 0, who);
-	TS_StartTimer(targ, "polymorph", time, 81, who);	
+	TS_StartTimer(targ, "polymorph", time, 81, who);
 
 	foreach equip in ListEquippedItems( targ )
 		if ( (equip.layer != LAYER_HAIR) && (equip.layer != LAYER_BEARD) && (equip.layer != LAYER_PACK) && (equip.layer != LAYER_MOUNT) )
@@ -83,4 +83,4 @@ program SpellScript(params)
 	SendSysMessageEx(targ, "Voce esta com a maldicao do sapo!", SSM_FAIL);
 	Corromper(who, 4, targ);
 	return 1;
-endprogram   
+endprogram

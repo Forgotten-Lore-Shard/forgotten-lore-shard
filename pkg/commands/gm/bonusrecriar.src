@@ -14,38 +14,17 @@ program bonusrecriar(who)
 		elseif(alvo.acctname)
 			var mortelog := FindAccount(alvo.acctname).getprop("mortelog");
 			if (mortelog > 3888000)
-				SendSysMessage(who, "O alvo ja tem +20 pra recriar.", SSM_INFO);
+				SendSysMessageEx(who, "O alvo ja tem +20 pra recriar.", SSM_INFO);
 			else
 				FindAccount(alvo.acctname).setprop("mortelog",3888001);
-				SendSysMessage(who, "O alvo tera +20 de bonus ao recrair.", SSM_INFO);
+				SendSysMessageEx(who, "O alvo tera +20 de bonus ao recriar.", SSM_INFO);
 			endif
 			return 1;
 		else
-			SendSysMessage(who, "O alvo precisa ser um personagem jogador.", SSM_FAIL);
+			SendSysMessageEx(who, "O alvo precisa ser um personagem jogador.", SSM_FAIL);
 			return 0;
 		endif
 	else
 		return 0;
 	endif
 endprogram
-
-function GetDeed(who, deed)
-	if (!GetObjProperty(deed, "FromDeed"))
-		return 1;
-	endif
-
-	Var NewDeed := CreateItemInBackpack(who, GetObjProperty(deed, "FromDeed"), 1);
-	NewDeed.color := deed.color;
-	NewDeed.movable := 1;
-	SetObjProperty(NewDeed, "crafterserial", GetObjProperty(deed, "crafterserial"));
-	SetObjProperty(NewDeed, "fixer", GetObjProperty(deed, "fixer"));
-
-	foreach part in GetObjProperty(deed, "ItemsCreatedSerials")
-		DestroyItem( SystemFindObjectBySerial( part ) );
-	endforeach
-
-	if (deed)
-		destroyitem( deed );
-	endif
-
-endfunction
