@@ -102,9 +102,7 @@ function GetResist(who, resist)
 		valor := valor + CInt(GetObjProperty(who, "#VontadeMod"));
 
 		// Aplica modificadores de vantagens raciais
-		if (vantagem == "Resistentes")
-			valor := valor + 10; // +100% do VALOR_REFERENCIA
-		elseif (vantagem == "Vontade de Ferro")
+		if (vantagem == "Vontade de Ferro")
 			valor := valor + 20; // +200% do VALOR_REFERENCIA
 		endif
 
@@ -115,6 +113,12 @@ function GetResist(who, resist)
 			valor := valor + 40; // +400% do VALOR_REFERENCIA
 		endif
 	endif
+    
+    //vantagem dos zharkianos q da +10 nos 3 resists
+    if (vantagem == "Resistentes")
+		valor := valor + 10; // +100% do VALOR_REFERENCIA
+    endif
+    
 	return valor;
 endfunction
 
