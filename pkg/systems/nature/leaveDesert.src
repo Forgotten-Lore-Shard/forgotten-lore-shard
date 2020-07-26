@@ -1,4 +1,6 @@
 use uo;
+use os;
+use vitals;
 
 program removecalor(who, textarea)
     EraseObjProperty(who, "calor");
