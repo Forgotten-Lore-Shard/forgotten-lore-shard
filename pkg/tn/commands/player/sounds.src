@@ -10,7 +10,7 @@ program sound(who, text)
   var resultado := GetSound(who, text);
 
   PlaySoundEffect( who, resultado[1] );
-  if (resultado[1])
+  if (resultado[2])
     PrintTextAbove(who, resultado[2] );
   endif
 endprogram
