@@ -210,7 +210,7 @@ function RessPlayer(who, corpse)
 	foreach thing in EnumerateItemsInContainer(who.backpack)
 			EquipItem(who, thing);
 	endforeach
-	
+
 	var regen := CInt(DP_GetVitalsRegen());
 	if (!regen)
 		regen := 0.25;
@@ -230,6 +230,21 @@ function KataWakeUp(ghost, corpse)
 	setcooldown(ghost, "deathtime", 15);
 	if ( !MoveObjectToLocation(ghost, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION) )
 		SendSysMessage(ghost, "Ocorreu algum problema ao retornar seu personagem para o corpo. Solicite ajude da Staff");
+
+		if (!GetObjProperty(corpse, "morto"))
+			//Seta a prop para caso dê algum erro para o player acordar
+			SetObjProperty(corpse, "erro_retornar_corpo", 1);
+			//Seta o decay para nunca = 0
+			corpse.decayat := 0;
+
+			foreach item in EnumerateItemsInContainer(corpse)
+				if (item.container == corpse)
+					item.decayat := 0;
+				endif
+			endforeach
+
+			return;
+		endif
 	endif
 
 	Resurrect(ghost);
@@ -258,6 +273,7 @@ function KataWakeUp(ghost, corpse)
 	SetVital(ghost, "mana", CInt(GetVitalMaximumValue(ghost, "mana")*0.5));
 	RecalcVitals(ghost);
 
+
 	DestroyItem(corpse);
 
 	if (GetObjProperty(ghost, "corda"))
@@ -284,9 +300,8 @@ function KataWakeUp(ghost, corpse)
 		AP_SetVital(ghost, HITS, cint(save.hits));
 		eraseobjproperty(ghost, "savegame");
 	endif
-	
 	TS_LowerDuration(ghost, "metamorfosedruida", 10000, 1);
-	
+
 endfunction
 
 function PactoSepulturaCheck(ghost, corpse)
