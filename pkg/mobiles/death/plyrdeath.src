@@ -23,7 +23,7 @@ include ":death:resurrection";
 program core_chrDeath(params)
 	var corpse := params[1];
 	var ghost := params[2];
-	
+
 	if (GetObjProperty(ghost, "lastpossessedserial") && GetObjProperty(ghost, "npchero")==error)
 		var oldnpc := SystemFindObjectBySerial(GetObjProperty(ghost, "lastpossessedserial"));
 		if (oldnpc)
@@ -34,15 +34,15 @@ program core_chrDeath(params)
 			return 1;
 		endif
 	endif
-	
-	var lastHit := GetObjProperty(corpse, "lastHit"); 
+
+	var lastHit := GetObjProperty(corpse, "lastHit");
 	if (":combat:weaponHitScripts/generic" in lastHit.hitscript)
 		var attacker := SystemFindObjectBySerial(lastHit.attacker);
 		if (attacker != error)
 			execonkill(attacker, corpse);
 		endif
 	endif
-	
+
 
 	var corpse_name := corpse.desc;
 	corpse_name["A corpse of"] := "corpo de";
@@ -54,18 +54,18 @@ program core_chrDeath(params)
 	SetName(corpse, corpse_name);
 
 	TS_Death(ghost);
-	
+
 	EraseObjProperty(ghost, "#IsMeditating");
-	
+
 	DP_PlayDeathSound(ghost);
 	MP_DeathUnmount(corpse);
-	
+
 	CheckForAutoRes(ghost, corpse);
 
 	MoveObjectToLocation( ghost, 4216, 1849, 1);
 	Start_Script("deathscripts/players", params);
 
-	
+
 	return 1;
 endprogram
 
@@ -73,12 +73,12 @@ function CheckForAutoRes(who, corpse)
 	var auto_res := CInt(GetObjProperty(who, "AutoRes"));
 	if ( auto_res )
 		Resurrect(who);
-		AP_RefreshVitals(who);	
-		
+		AP_RefreshVitals(who);
+
 		if ( !who.backpack )
 			return 1;
 		endif
-		
+
 		foreach item in (EnumerateItemsInContainer(corpse))
 			if ( item.container == corpse )
 				if ( !EquipItem(who, item) )
@@ -86,7 +86,7 @@ function CheckForAutoRes(who, corpse)
 				endif
 			endif
 		endforeach
-		
+
 		if ( auto_res != -1 ) // -1 means infinite uses
 			auto_res := auto_res-1;
 			SetObjProperty(who, "AutoRes", auto_res);
@@ -100,6 +100,21 @@ function WakeUp(ghost, corpse)
 	var serialC := ghost.serial;
 	if ( !MoveObjectToLocation(ghost, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION) )
 		SendSysMessage(ghost, "Ocorreu algum problema ao retornar seu personagem para o corpo. Solicite ajude da Staff");
+
+		if (!GetObjProperty(corpse, "morto"))
+			//Seta a prop para caso dê algum erro para o player acordar
+			SetObjProperty(corpse, "erro_retornar_corpo", 1);
+			//Seta o decay para nunca = 0
+			corpse.decayat := 0;
+
+			foreach item in EnumerateItemsInContainer(corpse)
+				if (item.container == corpse)
+					item.decayat := 0;
+				endif
+			endforeach
+
+			return;
+		endif
 	endif
 
 	Resurrect(ghost);
@@ -133,4 +148,5 @@ function WakeUp(ghost, corpse)
 		AP_SetVital(ghost, HITS, cint(save.hits));
 		eraseobjproperty(ghost, "savegame");
 	endif
+
 endfunction
