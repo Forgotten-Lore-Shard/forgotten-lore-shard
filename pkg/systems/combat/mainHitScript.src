@@ -741,8 +741,8 @@ function PoisonChecks(attacker, defender, weapon, armor, basedamage, rawdamage)
 		return 0;
 	endif
 	if (GetObjProperty(weapon, "ammo"))
-	var aljavas := array{0x791c, 0x2fb7};
-	var aljava := GetEquipmentByLayer(attacker, LAYER_CAPE);
+        var aljavas := array{0x791c, 0x2fb7};
+        var aljava := GetEquipmentByLayer(attacker, LAYER_CAPE);
 
 		if (aljava.objtype in aljavas)
 			var aljava := GetEquipmentByLayer(attacker, LAYER_CAPE);
@@ -751,7 +751,7 @@ function PoisonChecks(attacker, defender, weapon, armor, basedamage, rawdamage)
 		endif
 		var ammo := GetObjProperty(weapon, "ammo");
 		foreach arrow in (EnumerateItemsInContainer(aljava))
-			if (arrow.objtype == ammo)
+			if (arrow.serial == ammo)
 				weapon := arrow;
 			endif
 		endforeach

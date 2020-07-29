@@ -194,7 +194,7 @@ var anim := wpn_a_elem.Anim;
 	    //testa possiveis esquivas
 	    if (getObjProperty(defender, "#desviarprojetil"))
      		 if ( (item_cfg[attacker.weapon.objtype]).Projectile )
-       			 PrintText(defender, "*esquiva-se*");
+       			PrintText(defender, "*esquiva-se*");
         		SendSysMessageEx(defender, "O projetil foi desviado para longe de voce.", SSM_INFO);
         		SendSysMessageEx(attacker, "Seu projetil foi desviado do alvo.", SSM_FAIL);
         		EraseObjProperty(defender, "#desviarprojetil");
@@ -590,9 +590,21 @@ function AmmoCheck(attacker, defender)
 		SendSysMessage(attacker, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 0;
 	endif
-	if ( ConsumeSubstance( aljava, ammo, 1 ) )
+    
+   
+    var in_aljava := 0;
+    foreach arrow in (EnumerateItemsInContainer(aljava))
+		if (arrow.serial == ammo)
+			in_aljava := 1;
+        endif
+    endforeach
+    if (in_aljava == 0) 
+        return 0;
+    endif
+    
+	if ( SubtractAmount( ammo, 1 ) )
 		var cfg:=ReadConfigFile(":woodworking:itemdesc");
-		var elem := FindConfigElem(cfg, ammo);
+		var elem := FindConfigElem(cfg, GetObjType( ammo ));
 		var ammo_color := elem.color;
 		PlayMovingEffectXYZHued(attacker, defender, wpn_a_elem.ProjectileAnim, 10, 10, 0, ammo_color);
 		return 1;
@@ -664,7 +676,7 @@ function ArrowRecovery(attacker, defender, weapon)
 			3: y := RandomInt(3) * -1; x := RandomInt(3) * -1;
 			4: y := RandomInt(3); x := RandomInt(3);
 		endcase
-		CreateItemAtLocation(defender.x + x, defender.y + y, defender.z, ammo, 1, defender.realm);
+		CreateItemAtLocation(defender.x + x, defender.y + y, defender.z, GetObjType(ammo), 1, defender.realm);
 	endif
 endfunction
 

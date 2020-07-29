@@ -14,7 +14,7 @@ program select( who, item)
 	
 	if ( (item.objtype == 0x13B2) || (item.objtype == 0xe137) || ( item.objtype == 0x26CC) || (item.objtype == 0xe139) || (item.objtype == 0x2D2A) || (item.objtype == 0x2D2B) || (item.objtype == 0x27A5) ) //bows
 		if ( (alvo.graphic == 11058) || (alvo.graphic == 3903) )
-			SetObjProperty(item, "ammo", alvo.objtype);
+			SetObjProperty(item, "ammo", alvo.serial);
 			var DmgMods := GetObjProperty(alvo, "dmgmods");
 			if (DmgMods)
 				item.damage_physical_mod := Cint(DmgMods[1]);
@@ -34,7 +34,7 @@ program select( who, item)
 			SendSysMessage(who, "Isto nao parece um virote.");
 			return 1;
 		else
-			SetObjProperty(item, "ammo", alvo.objtype);
+			SetObjProperty(item, "ammo", alvo.serial);
 			var DmgMods := GetObjProperty(alvo, "dmgmods");
 			if (DmgMods)
 				item.damage_physical_mod := Cint(DmgMods[1]);
