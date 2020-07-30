@@ -14,9 +14,9 @@ program setsound( who, text )
 
 	var resultado := GetSound(npc, text);
 
-	PlaySoundEffect( npc, resultado[0] );
-	if (resultado[1])
-		PrintTextAbove(npc, resultado[1] );
+	PlaySoundEffect( npc, resultado[1] );
+	if (resultado[2])
+		PrintTextAbove(npc, resultado[2] );
 	endif
 
 

@@ -6,6 +6,28 @@ use cfgfile;
 
 function GetSoundDataArray(who)
 	case(who.graphic)
+				//pantera
+				214:
+				  return array(
+
+						"escolha sua açao para a forma de pantera:",
+						"1 - rosnar",
+						"2 - rugir",
+						"3 - rosnar2",
+						"4 - morder",
+						"5 - chorar"
+					);
+				//serpente gigante
+				21:
+				  return array(
+
+						"escolha sua açao para a forma de serpente:",
+						"1 - sibilar",
+						"2 - sibilar2",
+						"3 - sibilar3",
+						"4 - morder",
+						"5 - chorar"
+					);
 				//urso negro
 				211:
 				  return array(
@@ -88,6 +110,12 @@ function GetSoundEffect(who, input)
 
 	211:
 	  resultado[1] := 0x060;
+
+	21:
+	  resultado[1] := 0x0DC;
+
+	214:
+	  resultado[1] := 0x463;
 	  endcase
 	endif
 	if ( (input[2]==1) )
@@ -98,13 +126,19 @@ function GetSoundEffect(who, input)
 
 	400:
 	  resultado[1] := 0x41B ;
-	  resultado[1] := "*Ahha*";
+	  resultado[2] := "*Ahha*";
 
 	225:
 	  resultado[1] := 0x0E7 ;
 
 	211:
 	  resultado[1] := 0x061 ;
+
+	21:
+	  resultado[1] := 0x0DD;
+
+	214:
+	  resultado[1] := 0x464;
 	  endcase
 	endif
 	if ( (input[3]==1) )
@@ -122,6 +156,12 @@ function GetSoundEffect(who, input)
 
 	211:
 	  resultado[1] := 0x062 ;
+
+	21:
+	  resultado[1] := 0x0DE;
+
+	214:
+	  resultado[1] := 0x465;
 	endcase
 	endif
 	if ( (input[4]==1) )
@@ -139,6 +179,12 @@ function GetSoundEffect(who, input)
 
 	211:
 	  resultado[1] := 0x063 ;
+
+	21:
+	  resultado[1] := 0x0DF;
+
+	214:
+	  resultado[1] := 0x466;
 	  endcase
 	endif
 	if ( (input[5]==1) )
@@ -156,6 +202,12 @@ function GetSoundEffect(who, input)
 
 	211:
 	  resultado[1] := 0x064 ;
+
+	21:
+	  resultado[1] := 0x0E0;
+
+	214:
+	  resultado[1] := 0x467;
 	  endcase
 	endif
 	if ( (input[6]==1) )
@@ -420,6 +472,46 @@ endfunction
 
 function GetSoundLayout(who)
 	case(who.graphic)
+				//pantera
+				214:
+				  return array(
+				 		"page 0",
+						"resizepic 50 50 3600 430 430",
+			            "checkertrans 50 50 430 430",
+						"text 160 65 500 0",
+						"gumppic 70 85 96",
+						"button 70 100 2103 2104 1 0 1",
+						"text 90 95 500 1",
+						"button 70 120 2103 2104 1 0 2",
+						"text 90 115 500 2",
+						"button 70 140 2103 2104 1 0 3",
+						"text 90 135 500 3",
+						"button 70 160 2103 2104 1 0 4",
+						"text 90 155 500 4",
+						"button 70 180 2103 2104 1 0 5",
+						"text 90 175 500 5",
+						"button 235 440 2121 2120 1 0 0"
+					);
+				//serpente gigante
+				21:
+				  return array(
+				 		"page 0",
+						"resizepic 50 50 3600 430 430",
+			            "checkertrans 50 50 430 430",
+						"text 160 65 500 0",
+						"gumppic 70 85 96",
+						"button 70 100 2103 2104 1 0 1",
+						"text 90 95 500 1",
+						"button 70 120 2103 2104 1 0 2",
+						"text 90 115 500 2",
+						"button 70 140 2103 2104 1 0 3",
+						"text 90 135 500 3",
+						"button 70 160 2103 2104 1 0 4",
+						"text 90 155 500 4",
+						"button 70 180 2103 2104 1 0 5",
+						"text 90 175 500 5",
+						"button 235 440 2121 2120 1 0 0"
+					);
 				//urso negro
 				211:
 				  return array(
@@ -603,6 +695,42 @@ endfunction
 
 function GetSoundNumber(sound, who)
 	case(who.graphic)
+				//pantera
+				214:
+					case(Lower(sound))
+						"rosnar":
+						  return 1;
+
+						"rugir":
+						  return 2;
+
+						"rosnar2":
+						  return 3;
+
+						 "morder":
+						  return 4;
+
+						"chorar":
+						  return 5;
+					endcase
+				//serpente gigante
+				21:
+					case(Lower(sound))
+						"sibilar":
+						  return 1;
+
+						"sibilar2":
+						  return 2;
+
+						"sibilar3":
+						  return 3;
+
+						 "morder":
+						  return 4;
+
+						"chorar":
+						  return 5;
+					endcase
 				//urso negro
 				211:
 					case(Lower(sound))

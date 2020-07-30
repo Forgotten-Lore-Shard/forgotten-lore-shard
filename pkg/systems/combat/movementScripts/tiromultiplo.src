@@ -24,7 +24,7 @@ program doubleattack(params)
 
 	var ammo := GetObjProperty(attacker.weapon, "ammo");
 
-	if (ConsumeSubstance(attacker.backpack, ammo, 3) )
+	if (SubtractAmount(ammo, 3) )
 		var elem := GetWpnCfgInfo(attacker, attacker.weapon);
 		PlayMovingEffectXYZHued(attacker, defender, elem.ProjectileAnim, 10, 10, 0);
 		sleepms(500);

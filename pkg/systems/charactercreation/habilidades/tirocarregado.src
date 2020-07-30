@@ -49,7 +49,19 @@ program tirocarregado(who)
 	if (!ammo)
 		SendSysMessage(who, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 1;
-	elseif ( ConsumeSubstance( aljava, ammo, 1 ) == error)
+    endif
+    
+    var in_aljava := 0;
+    foreach arrow in (EnumerateItemsInContainer(aljava))
+		if (arrow.serial == ammo)
+			in_aljava := 1;
+        endif
+    endforeach
+    if (in_aljava == 0) 
+        return 1;
+    endif
+    
+	if ( SubtractAmount( ammo, 1 ) == error)
 		SendSysMessage(who, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 1;
 	endif
@@ -62,7 +74,7 @@ program tirocarregado(who)
 	PlaySoundEffect(who, 0x235);
 	Performaction(who, elem.Anim);
 	var ammocfg:=ReadConfigFile(":woodworking:itemdesc");
-	var ammoelem := FindConfigElem(ammocfg, ammo);
+	var ammoelem := FindConfigElem(ammocfg, GetObjType( ammo ));
 	var ammo_color := ammoelem.color;
 	PlayMovingEffectXYZEx( who.x, who.y, who.z+1, targ.x, targ.y, targ.z, who.realm, elem.ProjectileAnim, 10, 10, 0, ammo_color);
 	

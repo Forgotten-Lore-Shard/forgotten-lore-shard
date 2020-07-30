@@ -46,7 +46,19 @@ program tirodesfocado(who)
 	if (!ammo)
 		SendSysMessage(who, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 1;
-	elseif ( ConsumeSubstance( aljava, ammo, 1 ) == error)
+    endif
+    
+    var in_aljava := 0;
+    foreach arrow in (EnumerateItemsInContainer(aljava))
+		if (arrow.serial == ammo)
+			in_aljava := 1;
+        endif
+    endforeach
+    if (in_aljava == 0) 
+        return 1;
+    endif
+    
+    if ( SubtractAmount( ammo, 1 ) == error)
 		SendSysMessage(who, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 1;
 	endif
@@ -81,5 +93,5 @@ program tirodesfocado(who)
 	endforeach
 
 	who.warmode := 1;
-	CreateItemAtLocation( targ.x, targ.y, targ.z, ammo, 1, who.realm);
+	CreateItemAtLocation( targ.x, targ.y, targ.z, GetObjType( ammo ), 1, who.realm);
 endprogram 

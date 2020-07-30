@@ -75,37 +75,42 @@ exported function MakeRemains(corpse)
 		return error{"errortext":="Object is not a corpse."};
 	endif
 
-	var remains := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, "CorpseRemains", 1, corpse.realm);
-	if ( remains.errortext )
-		return remains;
-	endif
-
-	foreach item in ( EnumerateItemsInContainer(corpse) )
-		if ( item.container != corpse )
-			continue;
+	//Caso não tenha erro para retornar o corpo, ele vai criar a remains
+	if (!GetObjProperty(corpse, "erro_retornar_corpo"))
+		var remains := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, "CorpseRemains", 1, corpse.realm);
+		if ( remains.errortext )
+			return remains;
 		endif
 
-		MoveItemToContainer(item, remains, item.x, item.y);
-	endforeach
+		foreach item in ( EnumerateItemsInContainer(corpse) )
+			if ( item.container != corpse )
+				continue;
+			endif
 
-	var realowner := IsPlayerCorpse(corpse);
-	if (realowner)
-		remains.SetOwner(realowner);
+			MoveItemToContainer(item, remains, item.x, item.y);
+		endforeach
+
+		var realowner := IsPlayerCorpse(corpse);
+		if (realowner)
+			remains.SetOwner(realowner);
+		endif
+
+		//A prop de realname não existe mais nesse ponto, tem que pegar
+		//o name do atributo name do corpse
+		var charname := StrReplace(corpse.name, "corpo de ", "");
+		SetObjProperty(remains, "charname", charname);
+		SetName(remains, "Restos de "+ charname);
+		if (GetObjProperty(corpse, "deathdetails"))
+			SetObjProperty(remains, "deathdetails", GetObjProperty(corpse, "deathdetails"));
+			SetName(remains, "Restos de Corpo");
+		endif
+
+
+
+		DestroyItem(corpse);
+
+		return remains;
 	endif
-
-	var charname := GetObjProperty(corpse, "charname");
-	SetObjProperty(remains, "charname", charname);
-	SetName(remains, "Restos de "+ charname);
-	if (GetObjProperty(corpse, "deathdetails"))
-		SetObjProperty(remains, "deathdetails", GetObjProperty(corpse, "deathdetails"));
-		SetName(remains, "Restos de Corpo");
-	endif
-
-
-
-	DestroyItem(corpse);
-
-	return remains;
 endfunction
 
 exported function Gibbify(corpse, range)
