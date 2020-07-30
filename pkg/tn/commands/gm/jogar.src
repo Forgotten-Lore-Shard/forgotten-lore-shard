@@ -34,12 +34,10 @@ program jogar( who, dano )
 
     ApplyDamageEX(alvo, CInt(dano), DMG_PHYSICAL);
 
-    var item_jogado := CreateItemAtLocation(alvo.x, alvo.y, alvo.z, item.graphic, 1);
-	item_jogado.movable := 1;
+    MoveObjectToLocation(item, alvo.x, alvo.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
+	item.movable := 1;
 
 	PlaySoundEffect(who, 0x5D3);
-
-	DestroyItem(item);
 
     sleep(2);
     alvo.frozen := 0;
