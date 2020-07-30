@@ -113,19 +113,19 @@ function GetResist(who, resist)
 			valor := valor + 40; // +400% do VALOR_REFERENCIA
 		endif
 	endif
-    
+
     //vantagem dos zharkianos q da +10 nos 3 resists
     if (vantagem == "Resistentes")
 		valor := valor + 10; // +100% do VALOR_REFERENCIA
     endif
-    
+
 	return valor;
 endfunction
 
 function CheckResist(who, resist, dif, mod := 0)
 
-	// Rola o dado da aleatoriedade permitindo superar testes de até +200% do VALOR_REFERENCIA além da resistência base do personagem
-	var dado := RandomInt(20) + 1;
+	// Rola o dado da aleatoriedade permitindo superar testes de até +400% do VALOR_REFERENCIA além da resistência base do personagem
+	var dado := RandomInt(40) + 1;
 	var valor := GetResist(who, resist);
 
 	//printtextabove(who, "dado " + dado + " valor " + valor + " diff " + dif);
@@ -135,7 +135,7 @@ function CheckResist(who, resist, dif, mod := 0)
 
 	//Quando é Zharkiano e estiver Bloodied ativa a habilidade racial "Segunda chance"
 	elseif ((GetObjProperty(who, "chardata")).povo == "Zharkiano" && IsBloodied(who))
-		dado := RandomInt(20) + 1;
+		dado := RandomInt(40) + 1;
 		if (dado + valor + mod >= dif)
 			SendSysMessageEx(who, "Zharkia esta do seu lado!", SSM_INFO);
 			return 1;
