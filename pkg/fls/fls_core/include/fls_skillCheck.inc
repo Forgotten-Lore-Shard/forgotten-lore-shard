@@ -19,13 +19,13 @@ function SkillCheckMod(mobile, attrib_name, difficulty, checkmod:=0, award_diff:
 		SendSysMessage(mobile, "Voce nao pode usar skills nesse estado.");
 		return -100;
 	elseif ( GetObjProperty(mobile, "DisableSkills") )
-		SendSysMessage(mobile, "Suas skills estao desabilitadas.");
 		return -100;
 	elseif ( GetObjProperty(mobile, "NoGains") )
 		advance_flags := ADV_DISABLE;
 	endif
-	
-	var effective_skill := AP_GetTrueSkill(mobile, attrib_name) + checkmod; 
+
+	var effective_skill := AP_GetTrueSkill(mobile, attrib_name) + checkmod;
+
 	if ( difficulty != -1 )
 		difficulty := CDbl(difficulty);
 	endif
@@ -33,6 +33,7 @@ function SkillCheckMod(mobile, attrib_name, difficulty, checkmod:=0, award_diff:
 	var roll := RandomInt(100)+1;
 	var pass_success;
 	var chance;
+	
 	if (difficulty == -1 )
 		pass_success := (effective_skill - roll ) + 7;
 	else
@@ -54,10 +55,10 @@ function SkillCheckMod(mobile, attrib_name, difficulty, checkmod:=0, award_diff:
 	if ( !award_diff )
 		award_diff := difficulty;
 	endif
-	
+
 	if ( (advance_flags & ADV_SKILL) )
 		CheckSkillAdvance(mobile, attrib_name, award_diff, difficulty);
 	endif
-	
+
 	return pass_success;
 endfunction

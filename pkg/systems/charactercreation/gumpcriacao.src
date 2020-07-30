@@ -21,10 +21,10 @@ function RaceGump(who, byref  chardata)
 
 
 var gflayout := array{
-		"noclose",   
-		"nodispose", 
-		"nomove",    
-		"page 0",    
+		"noclose",
+		"nodispose",
+		"nomove",
+		"page 0",
     		"resizepic 84 90 9260 460 535",
 		"gumppictiled 100 100 30 510 10460", //primeira borda lateral esquerda
 		"gumppictiled 500 100 30 510 10460", //segunda borda lateral direita
@@ -1192,6 +1192,9 @@ program createchar(who)
 		privalue := 60.0;
 		secvalue := 40.0;
 		tercvalue := 20.0;
+
+		//Seta o prop de bonus, para ser usado no check de habs
+		SetObjProperty(who, "bonus_tempo", 1);
 	endif
 		foreach primaria in primarias
 		AP_setTrueSkill(who, primaria, privalue);

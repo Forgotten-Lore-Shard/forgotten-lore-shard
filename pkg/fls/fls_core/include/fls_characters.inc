@@ -70,7 +70,7 @@ function EquipRaceSkin(who)
 			paperdoll.newbie := 1;
 			paperdoll.color := who.color;
 			EquipItem(who, paperdoll);
-		endif		
+		endif
 	endif
 endfunction
 
@@ -119,7 +119,7 @@ function ReverseLight(player)
 	var config := readconfigfile(":nature:config/daynight");
 	config := config["settings"];
 	var darkness := cint(config.darkness);
-	
+
 	var light := cint(getglobalproperty("lightlevel"));
 
 	if (player.x >= 3749 && player.y >= 0 && player.x <= 6141 && player.y <= 4000)
@@ -130,7 +130,7 @@ function ReverseLight(player)
 		var newlight := abs(darkness - light);
 		player.setlightlevel(newlight, 9000);
 	endif
-	
+
 endfunction
 
 function GetClass(who)
@@ -290,7 +290,7 @@ function GetSkillTitle(who, skillname)
 	endif
 
 	var value := AP_GetSkill(who, skillname);
-	
+
 	if (value >= 100 )
 		return "Grao Mestre";
 	elseif (value >= 80)
@@ -317,7 +317,7 @@ function GetSkillNameByID(input)
 		var elem := FindConfigElem(cfg, entry);
 		if (elem.SkillId == input)
 			return entry;
-		endif	
+		endif
 	endforeach
 
 	return "";
