@@ -15,7 +15,7 @@ use os;
 use cfgfile;
 
 /* AP_GetVitalsCfgFile()
- * 
+ *
  * Purpose
  * Loads vitals.cfg
  *
@@ -52,12 +52,12 @@ function AP_GetVitalCfgElem(vital_name, byref cfg_file:=0)
 	if ( !cfg_file )
 		cfg_file := AP_GetVitalsCfgFile();
 	endif
-	
+
 	var cfg_elem := cfg_file[vital_name];
 	if ( cfg_elem.errortext )
 		SysLog("Error::AP_GetVitalsCfgElem() - unable to find cfg elem ["+vital_name+"] ->"+cfg_elem.errortext);
 	endif
-	
+
 	return cfg_elem;
 endfunction
 
@@ -182,7 +182,7 @@ endfunction
 function AP_ConsumeVital(mobile, vital_name, points)
 	points := CDbl(points);
 	var cur_amount := AP_GetVital(mobile, vital_name);
-	
+
 	if ( points > cur_amount )
 		return error{"errortext":="Insufficient points - unable to consume."};
 	else
@@ -196,7 +196,7 @@ function DamageMANA(mobile, points)
 
 	points := CDbl(points);
 	var cur_amount := AP_GetVital(mobile, MANA);
-	
+
 	if ( points > cur_amount )
 		cur_amount := 0;
 	else
@@ -214,7 +214,7 @@ function DamageStamina(mobile, points)
 
 	points := CDbl(points);
 	var cur_amount := AP_GetVital(mobile, STAMINA);
-	
+
 	if ( points > cur_amount )
 		cur_amount := 0;
 	else

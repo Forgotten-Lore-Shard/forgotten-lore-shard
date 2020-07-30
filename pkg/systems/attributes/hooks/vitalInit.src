@@ -183,7 +183,7 @@ exported function GetSkillCapRegenRate(mobile)
     var foodbonus := 0;
     var bonusRP := 0;
     var nota := 0;
-    
+
     if (!GetObjProperty(mobile, "fichaRP"))
 		return 0;
     else
@@ -192,31 +192,31 @@ exported function GetSkillCapRegenRate(mobile)
         else
             foodbonus := CInt(GetObjProperty(mobile, "capmod"));
         endif
-        
+
         if ((GetGlobalProperty("BonusRP") == error) || (GetGlobalProperty("BonusRP") == 0))
             bonusRP := 0;
         else
             bonusRP := CInt(GetGlobalProperty("BonusRP"));
         endif
-        
+
         if (FindAccount(mobile.acctname).getprop("nota") == error)
             nota := 0;
         else
             nota := CInt(FindAccount(mobile.acctname).getprop("nota"));
         endif
-        
+
         return CInt(50 + bonusRP*25 + nota*25 + foodbonus*15);
 	endif
 endfunction
 
 exported function GetSkillCapMaximumValue(mobile)
-var chardata := GetObjProperty(mobile, "chardata");
-var vantagem := chardata.vantagemracial;
+	var chardata := GetObjProperty(mobile, "chardata");
+	var vantagem := chardata.vantagemracial;
 
-if (vantagem == "Aprendiz Rapido")
-	return 24*100;
+	if (vantagem == "Aprendiz Rapido")
+		return 24*100;
 	else
-	return 20*100;
+		return 20*100;
 	endif
 endfunction
 

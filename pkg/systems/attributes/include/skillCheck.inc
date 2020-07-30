@@ -54,7 +54,7 @@ function SkillCheck(mobile, attrib_name, difficulty, award_diff:=0, advance_flag
 	if (!g_skill_debug)
 		g_skill_debug := (GetObjProperty(mobile, "SkillDebug") != error);
 	endif
-	
+
 	var effective_skill := AP_GetTrueSkill(mobile, attrib_name);
 	SkillDbgMsg(mobile, attrib_name+": "+effective_skill+"% (+"+AP_GetSkillMod(mobile, attrib_name)+")");
 
@@ -110,7 +110,7 @@ function CalcSuccessPercent(mobile, attrib_name, difficulty, effective_skill)
 	var settings := AP_GetSettingsCfgElem("Skills");
 	effective_skill += AP_GetSkillMod(mobile, attrib_name);
 	SkillDbgMsg(mobile, "Final Skill: "+effective_skill+"%");
-	
+
 	var percent := 0;
 	if ( difficulty == -1 )
 		var max_skill := AP_GetSkillCap(mobile, attrib_name);
@@ -123,13 +123,13 @@ function CalcSuccessPercent(mobile, attrib_name, difficulty, effective_skill)
 	else
 		percent := CInt(50.0 + ((effective_skill - difficulty) * 2.5));
 	endif
-	
+
 	if ( percent < settings.MinChance )
 		percent := CInt(settings.MinChance);
 	elseif ( percent > settings.MaxChance )
 		percent := CInt(settings.MaxChance);
 	endif
-	
+
 	return percent;
 
 endfunction
@@ -162,6 +162,6 @@ function SkillDbgMsg(mobile, message)
 	if ( g_skill_debug )
 		SendSysMessage(mobile, "Debug: "+message);
 	endif
-	
+
 	return 1;
 endfunction
