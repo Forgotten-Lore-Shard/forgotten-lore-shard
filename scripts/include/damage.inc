@@ -261,14 +261,18 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	var skillCriticalBonus;
 	var categoriaDefender := GetObjProperty(defender, "Category");
 
-	if (GetObjProperty(who, "kit") == "Mago de Combate")
-		tatics := CDbl(AP_GetSkill(who, MAGICLORE))/300; //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
+
+	if (who.npctemplate) //Se for NPC utiliza tactics
+		tatics := CDbl(AP_GetSkill(who, TACTICS))/400.0; //Armazena o valor da skill que afeta dano
+		SkillCheck(who, TACTICS, -1);
+	elseif (GetObjProperty(who, "kit") == "Mago de Combate")
+		tatics := CDbl(AP_GetSkill(who, MAGICLORE))/400.0; //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
 		SkillCheck(who, MAGICLORE, -1);
 	elseif(categoriaDefender == "GiantAnimal" || categoriaDefender == "Animal" || categoriaDefender == "EvilAnimal" || categoriaDefender == "Snow" || categoriaDefender == "Mount" || categoriaDefender == "Plantas" || categoriaDefender == "Terathan" || categoriaDefender == "Dragon")
-		tatics := CDbl(AP_GetSkill(who, SURVIVAL))/300; //Aplica bonus de Survival se forem criaturas selvagens ou dragões
+		tatics := CDbl(AP_GetSkill(who, SURVIVAL))/400.0; //Aplica bonus de Survival se forem criaturas selvagens ou dragões
 		SkillCheck(who, SURVIVAL, -1);
 	else
-		tatics := CDbl(AP_GetSkill(who, TACTICS))/300; //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
+		tatics := CDbl(AP_GetSkill(who, TACTICS))/400.0; //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
 		SkillCheck(who, TACTICS, -1);
 	endif
 
@@ -280,13 +284,13 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	if (temHabilidade(who, "Taticas Arcanas"))
 		stat := INTELLIGENCE;
 	endif
-	var strBonus := 0;
+	var strBonus := 0.0;
 	if (AP_GetStat(who, stat) >= 100 ) //Calcula um bonus se tiver mais de 100 do atributo que afeta o dano
-		strBonus := 0.1;
+		strBonus := 10.0;
 	endif
 
 	//Calcula modificador total do atributo
-	var str := CDbl(AP_GetStat(who, stat))/300.0*(1+strBonus);
+	var str := CDbl(AP_GetStat(who, stat)+strBonus)/300.0;
 
 	//Quando equipado arco curto, longo, besta, besta pesada e besta de repeticao a força não implica em modificador de dano
 	if ( (who.weapon.objtype == 0x13B2) || (who.weapon.objtype == 0x26CC) || (who.weapon.objtype == 0x0f4f) || (who.weapon.objtype == 0x13fd) || (who.weapon.objtype == 0x26CD) )
@@ -420,8 +424,8 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	//Multiplicador de tactics X multiplicador de força X multiplicadores de habilidades e itens X Multiplicador de buff X multiplicador de Debuff
-    
-	dmg := CInt(dmg*(1+tatics)*(1+str)*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
+
+	dmg := CInt(dmg*Pow(1+tatics,2)*(1+str)*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
 	if (dmg < 1)
 		dmg := 1;
 	endif
