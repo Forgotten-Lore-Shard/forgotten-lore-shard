@@ -64,6 +64,8 @@ program backstab(who)
 
 
 			SetObjProperty(who, "backstab", 1);
+			SetObjProperty(who, "#nextcritical",1);
+			/*
 			var rawdamage := CInt(CalculateRawDamage(who, weapon)*(AP_GetSkill(who, TACTICS)/20));
 			if (rawdamage < 1)
 				rawdamage := 1;
@@ -89,6 +91,7 @@ program backstab(who)
 			else
 				who.hidden := 0;
 			endif
+			*/
 		endif
 	else
 		SendSysMessage(who, "Voce deve ficar atras de " + targ.name);
@@ -140,18 +143,18 @@ function AmmoCheck(attacker, defender)
 		SendSysMessage(attacker, "Voce nao definiu o tipo de flecha que vai usar. [clique 2x no arco e na flecha]");
 		return 0;
 	endif
-    
+
     var in_aljava := 0;
     foreach arrow in (EnumerateItemsInContainer(aljava))
 		if (arrow.serial == ammo)
 			in_aljava := 1;
         endif
     endforeach
-    if (in_aljava == 0) 
+    if (in_aljava == 0)
         return 0;
     endif
-    
-    
+
+
 	if ( SubtractAmount( ammo, 1 ) )
 		var cfg:=ReadConfigFile(":woodworking:itemdesc");
 		var elem := FindConfigElem(cfg, GetObjType( ammo ));

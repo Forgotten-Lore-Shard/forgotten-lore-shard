@@ -257,30 +257,18 @@ endfunction
 
 function CalculateTotalDamageBonus(dmg, who, defender)
 
-	//Bonus Tacitcs
-	var tatics := cdbl(AP_GetSkill(who, TACTICS));
-	var taticsBonus := 0;
-	//if (tatics >= 100)
-	//	taticsBonus := 0.06;
-	//endif
-	tatics := cdbl(tatics*1.25);
-	tatics := tatics/100.0 + taticsBonus;
+	//Bonus de dano por skill
+	var tatics;
+	var skillCriticalBonus;
+	var categoriaDefender := GetObjProperty(defender, "Category");
 
 	if (GetObjProperty(who, "kit") == "Mago de Combate")
-
-			tatics := (cdbl(AP_GetSkill(who, MAGICLORE))*1.25)/100.0;
-
+		tatics := CDbl(AP_GetSkill(who, MAGICLORE))/100*1.25; //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
+	elseif(categoriaDefender == "GiantAnimal" || categoriaDefender == "Animal" || categoriaDefender == "EvilAnimal" || categoriaDefender == "Snow" || categoriaDefender == "Mount" || categoriaDefender == "Plantas" || categoriaDefender == "Terathan" || categoriaDefender == "Dragon")
+		tatics := CDbl(AP_GetSkill(who, SURVIVAL))/100*1.25; //Aplica bonus de Survival se forem criaturas selvagens ou dragões
+	else
+		tatics := CDbl(AP_GetSkill(who, TACTICS))/100*1.25; //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
 	endif
-
-
-	if (GetObjProperty(who, "metamorfose") != error)
-			tatics := (cdbl(AP_GetSkill(who, MAGICLORE))*1.25)/100.0;
-
-	endif
-
-	//Bonus Anatomy
-	//var anatomy := cdbl(AP_GetSkill(who, ANATOMY)/2.0) + 5.0;
-	//anatomy := anatomy/100.0;
 
 	//Bonus STR
 	var stat := STRENGTH;
@@ -290,43 +278,43 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	if (temHabilidade(who, "Taticas Arcanas"))
 		stat := INTELLIGENCE;
 	endif
-	var str := cdbl( AP_GetStat(who, stat)*0.3 );
 	var strBonus := 0;
-	if (AP_GetStat(who, stat) >= 100 ) //se tiver mais de 100 de str
+	if (AP_GetStat(who, stat) >= 100 ) //Calcula um bonus se tiver mais de 100 do atributo que afeta o dano
 		strBonus := 0.1;
 	endif
 
-//	printtextabove(who, " str dmg " + str/100 + " bonus str " + strBonus);
-	str := str/100.0 + strBonus;
+	//Calcula modificador total do atributo
+	var str := CDbl(AP_GetStat(who, stat))/100.0*(1.3+strBonus);
 
-	//arco curto, longo, besta, besta pesada e besta de repeticao
+	//Quando equipado arco curto, longo, besta, besta pesada e besta de repeticao a força não implica em modificador de dano
 	if ( (who.weapon.objtype == 0x13B2) || (who.weapon.objtype == 0x26CC) || (who.weapon.objtype == 0x0f4f) || (who.weapon.objtype == 0x13fd) || (who.weapon.objtype == 0x26CD) )
-		str := 0;
+		str := 1.0;
 	endif
 
 
 	//Bonus de prop da arma
-	var weapon := Cdbl(GetObjProperty(who.weapon, "dmgbonus")) + cdbl(GetObjProperty(who.weapon, "#dmgbonus"));
+	var weapon := CDbl(GetObjProperty(who.weapon, "dmgbonus")) + CDbl(GetObjProperty(who.weapon, "#dmgbonus"));
 
 	//Bonus de prop do mobile
-	var other :=Cdbl(GetObjProperty(who, "dmgbonus")) + cdbl(GetObjProperty(who, "#dmgbonus")) ;
+	var other := CDbl(GetObjProperty(who, "dmgbonus")) + CDbl(GetObjProperty(who, "#dmgbonus"));
 
 	//Bonus de Spells
-	other := other - cdbl(GetObjProperty(who, "dmgreduction"));
+	var reducao_dano := CDbl(GetObjProperty(who, "dmgreduction"));
 
-  if (GetCooldown(who.weapon, "blessweapon"))
-    if (defender.npctemplate)
-      var elem := NPC_GetNPCConfig(defender.npctemplate);
-      var category := lower(GetConfigString(elem, "Category"));
-      if (category == "undead" )
-		var blessbonus := cdbl(GetObjProperty(who.weapon, "blessedbonus"));
-		if (!blessbonus)
-			blessbonus := 0.4;
+	var blessbonus := 0;
+	if (GetCooldown(who.weapon, "blessweapon"))
+		if (defender.npctemplate)
+			var elem := NPC_GetNPCConfig(defender.npctemplate);
+			var category := lower(GetConfigString(elem, "Category"));
+			if (category == "undead" )
+				var blessbonus := CDbl(GetObjProperty(who.weapon, "blessedbonus"));
+			if (!blessbonus)
+				blessbonus := 0.4;
+			endif
+				blessbonus;
+			endif
 		endif
-        other := other + blessbonus;
-      endif
-    endif
-  endif
+	endif
 
 	if (getCooldown(who, "faroporsangue"))
 		var bonus := AP_GetVital(defender, HITS) / AP_GetVitalMaximumValue(defender, HITS);
@@ -357,23 +345,22 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + 1.5;
 	endif
 
-	if (TemHabilidade(who, "Inimigo Predileto"))
-		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
-		var cfg := ReadConfigFile(":brainai:npcdesc");
-		var inimigo := GetObjProperty(who, "InimigoPredileto");
-		if (cfg[npctemplate.template].Category == inimigo)
-			other := other + 1.0;
-		endif
-	endif
+	var inimigo_predileto := 1.0;
 	if (TemHabilidade(who, "Inimigo Predileto II"))
 		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
 		var cfg := ReadConfigFile(":brainai:npcdesc");
 		var inimigo := GetObjProperty(who, "InimigoPrediletoII");
 		if (cfg[npctemplate.template].Category == inimigo)
-			other := other + 2.0;
+			inimigo_predileto := inimigo_predileto + 2.0;
+		endif
+	elseif (TemHabilidade(who, "Inimigo Predileto"))
+		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
+		var cfg := ReadConfigFile(":brainai:npcdesc");
+		var inimigo := GetObjProperty(who, "InimigoPredileto");
+		if (cfg[npctemplate.template].Category == inimigo)
+			inimigo_predileto := inimigo_predileto + 1.0;
 		endif
 	endif
-
 
 	if (TemHabilidade(who, "Estilo Mao Livre"))
 		if (who.weapon.attribute == "MeeleCombat1H" && !who.shield)
@@ -408,10 +395,10 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + bonus;
 		endif
 	endif
-
-	if (GetObjProperty(who, "#backstab") == 2)
+	var backStab := CInt(GetObjProperty(who, "#backstab"));
+	if (backStab)
+		other := other + (0.1*backStab);
 		EraseObjProperty(who, "#backstab");
-		other := other + 0.2;
 	endif
 
 	if (GetObjProperty(who, "twohanded") == 1)
@@ -430,11 +417,8 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.4;
 	endif
 
-	var mod := dmg * (tatics + str + weapon + other);
-
-	//printtextabove(who,  " d " + dmg + " t " + tatics + " s " + str + " w " + weapon + " o " + other + " dt " + mod );
-
-	dmg := dmg + mod;
+	//Multiplicador de tactics X multiplicador de força X multiplicadores de habilidades e itens X Multiplicador de buff X multiplicador de Debuff
+	dmg := CInt(tatics*str*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
 	if (dmg < 1)
 		dmg := 1;
 	endif

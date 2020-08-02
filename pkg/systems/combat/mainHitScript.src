@@ -4,6 +4,7 @@
  */
 use uo;
 use os;
+use basic;
 use cfgfile;
 
 include ":attributes:attributes";
@@ -34,55 +35,72 @@ program MainHitScript( params )
 	var basedamage := params[5];
 	var rawdamage := params[6];
 
+	//Garante dano mínimo de 1
+	if (rawdamage < 1)
+		rawdamage := 1;
+	endif
+
 	if (GetObjProperty(defender, "#PrisaoGelida") == 1)
 		SendSysMessageEx(attacker, "Voce nao pode atacar o alvo.", SSM_FAIL);
 		return 0;
 	endif
 
+	//Define attacker como o originador do ataque
 	SetScriptController(attacker);
-	//rawdamage := CalculateRawDamage(attacker, weapon); //calcula o raw (so arma) aqui o base la no fim
+
+	//Aplica percentual de penalidade por dex e modificador da Hab Fintar
 	rawdamage := DmgPenaltyByArmor(rawdamage, attacker, weapon, defender); //penalidade da dex
 
-        //rawdamage := rawdamage - 5;
-	//rawdamage := rawdamage*0.75;
-	if (rawdamage < 1)
-		rawdamage := 1;
+	//Impede de atacar-se
+	if (attacker == defender)
+		SendSysMessage(attacker, "attacker é igual ao defender");
+		return 0;
 	endif
 
-	if ( attacker == defender )
-		sendsysmessage(attacker, "attacker é igual o defender");
+	//Impede de atacar gente escondida
+	if (defender.hidden)
 		return 0;
-		//ApplyRawDamage(attacker, 1000);
-	elseif ( attacker.hidden )
-		attacker.hidden := 0;
-	elseif ( defender.hidden )
-		return 0;
-	elseif ( !attacker.npctemplate )
-		if ( !attacker.warmode )
-			basedamage := CInt(basedamage);
-			rawdamage := CInt(rawdamage);
+
+	//Calcula se o atacante escondido revela ou não
+	elseif (attacker.hidden)
+		//Gasta a carga de Ataque Furtivo Aprimorado e não se revela
+		if (GetObjProperty(attacker, "ataquefurtivoaprimorado") == 1)
+			EraseObjProperty(attacker, "ataquefurtivoaprimorado");
+		//Revela o atacante
+		else
+			attacker.hidden := 0;
 		endif
-		if (defender.npctemplate && defender.master)
-			LogToFile(":fls_core:pets.log", attacker.acctname+" atacou "+defender.name+" ("+defender.npctemplate+")", LOG_DATETIME);
-		endif
+
+	//Cria log de quem ataca Pet (É Personagem Jogador, está em warmode, atacou NPC e o NPC é domado)
+	elseif (!attacker.npctemplate && attacker.warmode && defender.npctemplate && defender.master)
+		LogToFile(":fls_core:pets.log", attacker.acctname+" atacou "+defender.name+" ("+defender.npctemplate+")", LOG_DATETIME);
 	endif
 
+	//Controla de o atacante está olhando pro alvo e se está por trás dele
 	FacingChecks(attacker, defender);
 
+	//Toca do som do alvo sofrendo ataque
 	PlayHitSounds(defender);
 
+	//Processa o aumento ou não de skill de combate
 	SkillChecks(attacker, defender, weapon, rawdamage);
 
+	//Calcula a chance do projétil não quebrar
 	ArrowRecovery(attacker, defender, weapon);
 
-	if ( Cint(GetObjProperty(attacker, "backstab")) != 2 && !IsBehind(defender, attacker.x, attacker.y))
-		ParryCheck(attacker, defender, rawdamage);
+	//Verifica se o ataque foi realizado de uma posição onde bloquear é possível e, sendo, processa o teste de bloaqueio
+	if ( (!Cint(GetObjProperty(attacker, "backstab"))) && !IsBehind(defender, attacker.x, attacker.y))
+		//Calcula o bloqueio e os danos no escudo do defensor
+		ParryCheck(attacker, defender, rawdamage, weapon);
 	endif
 
+	//Calcula os danos na arma do atacante
 	WearDownWeapon(attacker, weapon);
+
+	//Calcula os danos na armadura do defensor
 	WearDownArmor(defender, armor, rawdamage, weapon);
 
-	//calcula os danos
+	//Calcula os danos
 	basedamage := CalculateTotalDamageBonus(rawdamage, attacker, defender);
 	if (cint(GetObjProperty(attacker, "#mataroumorrer")) > 0 )
 		basedamage := basedamage*3;
@@ -97,7 +115,7 @@ program MainHitScript( params )
 
 	PoisonChecks(attacker, defender, weapon, armor, basedamage, rawdamage);
 
-	//se tiver feito um movimento, executa ele e retorna ( nao causa o dano normal)
+	//se tiver feito um movimento, executa ele e retorna (nao causa o dano normal)
 	var move := GetObjProperty(attacker, "movement");
 	var movtime := cint(GetObjProperty(attacker, "#movtime"));
 	if (move != error)
@@ -137,7 +155,7 @@ program MainHitScript( params )
 		endif
 
 		if(getobjproperty(defender, "apodrecer"))
-			basedamage := Cint(basedamage * 1.2);
+			basedamage := CInt(basedamage * 1.2);
 		endif
 
 		if (getObjProperty(defender, "#alvomovel") == 1)
@@ -166,25 +184,25 @@ program MainHitScript( params )
 		if( getobjproperty(defender, "#chainofpain") != error )
 			//printtextabove(attacker, "tem chain");
 			if ( cint(getobjproperty(defender, "#chainofpain")) > readgameclock())
-			//printtextabove(attacker, "ta no delay");
-			//var copnumber := Cint(getobjproperty(defender, "copnumber"));
-			var copmobs := getobjproperty(defender, "#chainserials");
-			var mage := SystemFindObjectBySerial( GetObjProperty(defender, "#mageserial"));
-			var copdefenders := array;
-			foreach serial in copmobs
-				copdefenders.append(SystemFindObjectBySerial(serial));
-			endforeach
-			//basedamage := Cint(basedamage / copnumber);
-			foreach targ in copdefenders
-				defender := targ;
-				total := CalculateTotalDamage(defender, basedamage/5, attacker, dmgList);
-				//total := ApplyDamageWra(defender, basedamage, dmgList, attacker);
-				if (total < 1)
-					total := 1;
-				endif
-				DamageFLS(defender, total, DMG_FORCED, mage);
-			endforeach
-			return 1;
+				//printtextabove(attacker, "ta no delay");
+				//var copnumber := Cint(getobjproperty(defender, "copnumber"));
+				var copmobs := getobjproperty(defender, "#chainserials");
+				var mage := SystemFindObjectBySerial( GetObjProperty(defender, "#mageserial"));
+				var copdefenders := array;
+				foreach serial in copmobs
+					copdefenders.append(SystemFindObjectBySerial(serial));
+				endforeach
+				//basedamage := Cint(basedamage / copnumber);
+				foreach targ in copdefenders
+					defender := targ;
+					total := CalculateTotalDamage(defender, basedamage/5, attacker, dmgList);
+					//total := ApplyDamageWra(defender, basedamage, dmgList, attacker);
+					if (total < 1)
+						total := 1;
+					endif
+					DamageFLS(defender, total, DMG_FORCED, mage);
+				endforeach
+				return 1;
 			endif
 		endif
 
@@ -206,29 +224,29 @@ program MainHitScript( params )
 		//printtextabove(attacker, " "+ total + " base " + basedamage + " raw " + rawdamage);
 
 		CriticalHitScripts(attacker, defender, weapon, armor, basedamage, total);
-				if ( GetCooldown(attacker, "golpesamplos") )
-					var pt := attacker.party.members;
-					if (!pt)
-						var inimigos := ListHostiles(attacker, 1, LH_FLAG_LOS);
-						foreach inimigo in inimigos
-							DamageFLS(inimigo, cint(total/3), DMG_PHYSICAL, attacker);
-						endforeach
-					else
-						var pets := ListPetsNear(attacker, 2);
-						var petspt := array;
-						foreach member in pt
-							petspt.append(ListPetsNear(member, 3));
-						endforeach
-						var inimigos2 := ListMobilesNearLocation(attacker.x, attacker.y, attacker.z, 1, attacker.realm);
-						foreach inimigo in inimigos2
-							if( !(inimigo in petspt) && !(inimigo in pets) && !(inimigo in attacker.party.members))
-								DamageFLS(inimigo, cint(total/3), DMG_PHYSICAL, attacker);
-							endif
-						endforeach
-					endif
-				endif
 
-				
+		if ( GetCooldown(attacker, "golpesamplos") )
+			var pt := attacker.party.members;
+			if (!pt)
+				var inimigos := ListHostiles(attacker, 1, LH_FLAG_LOS);
+				foreach inimigo in inimigos
+					DamageFLS(inimigo, cint(total/3), DMG_PHYSICAL, attacker);
+				endforeach
+			else
+				var pets := ListPetsNear(attacker, 2);
+				var petspt := array;
+				foreach member in pt
+					petspt.append(ListPetsNear(member, 3));
+				endforeach
+				var inimigos2 := ListMobilesNearLocation(attacker.x, attacker.y, attacker.z, 1, attacker.realm);
+				foreach inimigo in inimigos2
+					if( !(inimigo in petspt) && !(inimigo in pets) && !(inimigo in attacker.party.members))
+						DamageFLS(inimigo, cint(total/3), DMG_PHYSICAL, attacker);
+					endif
+				endforeach
+			endif
+		endif
+
 
 		if ( AP_GetVital(defender, HITS) < total )
 			if ( temhabilidade(attacker, "Trespassar") )
@@ -240,7 +258,7 @@ program MainHitScript( params )
 				PrintText(defender, "*Furia da Derrota*");
 				if (GetObjProperty(defender, "critdelay") > 0)
 					EraseObjProperty(defender, "critdelay");
-				endif	
+				endif
 				SetObjProperty(defender, "#attackbonus", 100);
 				SetObjProperty(defender, "#CriticalChance", 100);
 				defender.attack_once(attacker);
@@ -267,41 +285,44 @@ program MainHitScript( params )
 					endforeach
 				endif
 			endif
-		endif	
+		endif
 
 		//	if ( temHabilidade(attacker, "Assassinato Horrorizante") )
 		//		SetCooldown(attacker, "evasion_chance", 20);
 		//	endif
-		endif
+	endif
 
-		if ( GetCooldown(attacker, "aleijar") > 0)
-			AP_ConsumeVital(defender, STAMINA, total);
-		endif
+	if ( GetCooldown(attacker, "aleijar") > 0)
+		AP_ConsumeVital(defender, STAMINA, total);
+	endif
 
-		if (TemHabilidade(defender, "Trapacear a Morte") && (AP_GetVital(defender, HITS) < total))
-			start_script(":charactercreation:habilidades/trapacearmorte", array{defender, total});
-		else
-			//printtextabove(attacker, "causa dano");
-			var finalizar := 0;
-			if ( cint(GetObjProperty(attacker, "#finalizar")) == 1)
-				if ( !isBloodied(defender) )
-					finalizar := 1;
-				endif
+	if (TemHabilidade(defender, "Trapacear a Morte") && (AP_GetVital(defender, HITS) < total))
+		start_script(":charactercreation:habilidades/trapacearmorte", array{defender, total});
+	else
+		//printtextabove(attacker, "causa dano");
+		var finalizar := 0;
+		if ( cint(GetObjProperty(attacker, "#finalizar")) == 1)
+			if ( !isBloodied(defender) )
+				finalizar := 1;
 			endif
-			if (GetCooldown(defender, "vigordabatalha"))
-				DisplayDamage(defender, total, attacker);
-				SetCooldown(defender, "vigordabatalha", 0);
-				DamageStamina(defender, total);
+		endif
+		if (GetCooldown(defender, "vigordabatalha"))
+			DisplayDamage(defender, total, attacker);
+			SetCooldown(defender, "vigordabatalha", 0);
+			DamageStamina(defender, total);
+		else
+			if (GetObjProperty(attacker,  "backstab"))
+				total := total*2;
+				EraseObjProperty(attacker, "backstab");
+				EraseObjProperty(attacker, "#nextcritical");
 			else
 				DamageFLS(defender, total, DMG_FORCED, attacker);
 			endif
-			if ( isBloodied(defender) && finalizar)
-				SetObjPRoperty(attacker, "#finalizar", 2);
-			endif
 		endif
-		EraseObjProperty(attacker, "backstab");
-
-
+		if ( isBloodied(defender) && finalizar)
+			SetObjPRoperty(attacker, "#finalizar", 2);
+		endif
+	endif
 	EraseObjProperty(attacker, "backstab");
 	return 1;
 endprogram
@@ -327,26 +348,33 @@ function FacingChecks(attacker, defender)
 		return 0;
 	endif
 
-	//var facing := GetFacing(attacker.x, attacker.y, defender.x, defender.y);
 	if ( IsBehind(defender, attacker.x, attacker.y)  )
-		SetObjProperty(attacker, "#backstab", 2);
-		//attacker.facing := facing;
+		SetObjProperty(attacker, "#backstab", 2); //Cada 1 na propriedade adiciona 10% de dano
 	endif
-
 	return 1;
 endfunction
 
 function PlayHitSounds(defender)
 	if ( defender.IsA(POLCLASS_NPC) )
 		var damaged_sound := NPC_GetNPCConfig(defender).DamagedSound;
-		if ( damaged_sound )
+		if (damaged_sound)
 			PlaySoundEffect(defender, damaged_sound);
 		endif
 	endif
 endfunction
 
+function PlayWeaponSounds(attacker)
+	//Toca o som da arma do atacante
+	var hitsound := GetObjProperty(attacker.weapon, "HitSound");
+	if (hitsound)
+		PlaySoundEffect(defender, hitsound);
+	endif
+endfunction
+
+
 function SkillChecks(attacker, defender, weapon, rawdamage)
 
+	//Testa se é possivel ganhar skill com o NPC alvo
 	if (defender.npctemplate && attacker.connected)
 		//se a skill do atacante for maior que a do defender +10, nao sobe
 		var skillDefender := cint(AP_GetSkill(defender,defender.weapon.attribute)) + 10;
@@ -362,12 +390,13 @@ function SkillChecks(attacker, defender, weapon, rawdamage)
 			endif
 		endif
 
-		if ( skillDefender < skillAttacker )
+		if ( skillDefender - 10 < skillAttacker )
 			//printtextabove(attacker, "return " + skillDefender);
 			return 0;
 		endif
 	endif
 
+	//Sendo o alvo um personagem jogador ou NPC com combate melhor que o atacante, permite o up de skill de combate
 	var can_gain := 0;
 	var next_gain := CInt(GetObjProperty(attacker, "#CS_GainTime"));
 	if ( ReadGameClock() >= next_gain )
@@ -383,7 +412,7 @@ function SkillChecks(attacker, defender, weapon, rawdamage)
 		SetObjProperty(attacker, "#CS_GainTime", ReadGameClock()+gain_wait);
 		if ( rawdamage > 0 )
 			SkillCheck(attacker, weapon.attribute, -1);
-			SkillCheck(attacker, TACTICS, -1);
+			//SkillCheck(attacker, TACTICS, -1); //Sobe tactics TODO: Calcular isso no damage.inc
 		endif
 	endif
 endfunction
@@ -406,16 +435,18 @@ endfunction
 function WearDownArmor(defender, armor, rawdamage, weapon)
 
 	var bonus;
-	if (Cint(GetObjProperty(weapon, "ArmorDmg") == 1))
+	//Amplia o dano na armadura se a arma tiver a propriedade
+	if (CInt(GetObjProperty(weapon, "ArmorDmg") == 1))
 		bonus := RandomInt(3)+1;
 	endif
 
-	if ( armor )
+	if (armor)
 		var armr_elem := CS_GetSettingsCfgElem("Armor");
 
-		// Turn into a percentage.
-		var dmg_to_wear := CDbl(CDbl(armr_elem.DmgToWear) * CDbl(armor.hp)) / 100.0;
+		// Verifica a poncentagem de manter equipado o item
+		var dmg_to_wear := CInt(CInt(armr_elem.DmgToWear) * CInt(armor.hp) / 100);
 
+		//Diminui pela metade a chance de um equipamento quebrar com a habilidde Conservar Equipamento
 		var wearchance := armr_elem.WearChance;
 		if ( TemHabilidade(defender, "Conservar Equipamento"))
 			wearchance := wearchance/2;
@@ -424,8 +455,8 @@ function WearDownArmor(defender, armor, rawdamage, weapon)
 			endif
 		endif
 
-		if ( CDbl(rawdamage) > dmg_to_wear )
-			if ( RandomDiceRoll("1d100") <= wearchance )
+		if (CInt(rawdamage) > dmg_to_wear)
+			if (RandomDiceRoll("1d100") <= wearchance)
 				SendSysMessage(defender, armor.desc+" foi danificada.");
 				var armorhp := armor.hp;
 				armorhp := armorhp - Cint(armr_elem.WearRate + bonus);
@@ -448,13 +479,64 @@ function WearDownArmor(defender, armor, rawdamage, weapon)
 	return 1;
 endfunction
 
+function WearDownShield(defender, shield, rawdamage, weapon)
+
+	var bonus;
+	//Amplia o dano no escudo se a arma tiver a propriedade
+	if (CInt(GetObjProperty(weapon, "ArmorDmg") == 1))
+		bonus := RandomInt(3)+1;
+	endif
+
+	if (shield)
+		var armr_elem := CS_GetSettingsCfgElem("Parry");
+
+		// Verifica a poncentagem de manter equipado o item
+		var dmg_to_wear := CInt(CInt(armr_elem.DmgToWear) * CInt(shield.hp) / 100);
+
+		//Diminui pela metade a chance de um equipamento quebrar com a habilidde Conservar Equipamento
+		var wearchance := armr_elem.WearChance;
+		if ( TemHabilidade(defender, "Conservar Equipamento"))
+			wearchance := wearchance/2;
+			if (wearchance < 1)
+				wearchance := 1;
+			endif
+		endif
+
+		if (CInt(rawdamage) > dmg_to_wear)
+			if (RandomDiceRoll("1d100") <= wearchance)
+				SendSysMessage(defender, shield.desc+" foi danificado.");
+				var shieldhp := shield.hp;
+				shieldhp := shieldhp - Cint(armr_elem.WearRate + bonus);
+				if ( shieldhp <= 0 )
+					SendSysMessage(defender, shield.desc+" foi destruido.");
+					SetObjProperty(shield, "broken", 1);
+					SetObjProperty(shield, "realdesc", shield.desc);
+					SetName(shield, shield.desc+" [danificado]");
+					MoveItemToContainer(shield, defender.backpack);
+					//DestroyItem(shield);
+				elseif (shield.hp > shield.maxhp)
+					shield.hp := shield.maxhp;
+				else
+					shield.hp := shieldhp;
+				endif
+			endif
+		endif
+	endif
+
+	return 1;
+endfunction
+
 function WearDownWeapon(attacker, weapon)
-	if ( weapon.IsA(POLCLASS_WEAPON) )
-		if ( weapon.objtype == 61472 )
+	if (weapon.IsA(POLCLASS_WEAPON))
+		//Se está desarmado não danifique a arma natural
+		if (weapon.objtype == 0xF020)
 			return 1;
+		//Calcula danos nas armas normais
 		else
 			var wpn_elem := CS_GetSettingsCfgElem("Weapons");
 			var wearchance := CInt(wpn_elem.WearChance);
+
+			//Diminui pela metade a chance de um equipamento quebrar com a habilidde Conservar Equipamento
 			if (TemHabilidade(attacker, "Conservar Equipamento"))
 				wearchance := wearchance/2;
 				if (wearchance < 1)
@@ -543,7 +625,7 @@ function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdama
 	if (GetCooldown(weapon, "ataqueelemental") )
 		EraseObjProperty(weapon, "#ataqueelemental");
 		var elemental := GetObjProperty(weapon, "#elementalweapon");
-		var dmg := rawdamage + cint(rawdamage*(AP_GetSkill(attacker, MAGICLORE)/100));
+		var dmg := basedamage + CInt(rawdamage*(AP_GetSkill(attacker, MAGICLORE)/100));
 		if (elemental != error)
 			if (elemental.type == DMG_FIRE)
 				start_script(":combat:weaponHitScripts/FireHit", array{attacker, defender, weapon, armor, basedamage, dmg*2});
@@ -577,8 +659,7 @@ function WeaponHitScripts(attacker, defender, weapon, armor, basedamage, rawdama
 	return 1;
 endfunction
 
-function CriticalHitScripts(attacker, defender, weapon, armor, basedamage, byref rawdamage)
-
+function CriticalHitScripts(attacker, defender, weapon, armor, byref basedamage, byref rawdamage)
 	var autoCritical := 0;
 	if (GetObjProperty(attacker, "#nextcritical"))
 		EraseObjProperty(attacker, "#nextcritical");
@@ -592,8 +673,23 @@ function CriticalHitScripts(attacker, defender, weapon, armor, basedamage, byref
 	endif
 
 	//chance total = prop da arma  (pra bonus magicos) + prop do mob (pra npcs ou magias) + valor no itemdesc
-	var chance := Cint( Cint(GetObjProperty(weapon, "CriticalChance")) + Cint(GetObjProperty(attacker, "CriticalChance")) + Cint((item_cfg[weapon.objtype]).CriticalChance )) + CInt(AP_GetSkill(attacker, TACTICS)/20) + Cint(GetObjProperty(attacker, "#CriticalChance"));
+
+	var skillCriticalBonus;
+	var categoriaDefender := GetObjProperty(defender, "Category");
+
+	if (GetObjProperty(attacker, "kit") == "Mago de Combate")
+		skillCriticalBonus := CInt(AP_GetSkill(attacker, MAGICLORE)/20); //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
+	elseif(categoriaDefender == "GiantAnimal" || categoriaDefender == "Animal" || categoriaDefender == "EvilAnimal" || categoriaDefender == "Snow" || categoriaDefender == "Mount" || categoriaDefender == "Plantas" || categoriaDefender == "Terathan" || categoriaDefender == "Dragon")
+		skillCriticalBonus := CInt(AP_GetSkill(attacker, SURVIVAL)/20); //Aplica bonus de Survival se forem criaturas selvagens ou dragões
+	else
+		skillCriticalBonus := CInt(AP_GetSkill(attacker, TACTICS)/20); //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
+	endif
+
+	//critico base da arma, critico extra da CProp da da arma, critico extra do CProp do personagem, critico extra da skill do personagem, critico extra de Habilidade especial do personagem
+	var chance := CInt((item_cfg[weapon.objtype]).CriticalChance) + Cint(GetObjProperty(weapon, "CriticalChance")) + Cint(GetObjProperty(attacker, "CriticalChance")) + skillCriticalBonus + Cint(GetObjProperty(attacker, "#CriticalChance"));
+	//Limpa a CProp de bonus critico para o próximo ataque
 	EraseObjProperty(attacker, "#CriticalChance");
+
 	if (!chance)
 		return 1;
 	endif
@@ -823,8 +919,8 @@ endfunction
 //
 // Returns 1 on successful parry.
 //
-function ParryCheck(attacker, defender, byref rawdamage)
-
+function ParryCheck(attacker, defender, byref rawdamage, weapon)
+	//Verifica se o atacante já pode ser bloqueado novamente.
 	if ( GetCooldown(attacker, "parrydelay") > 0 )
 		return 0;
 	endif
@@ -834,14 +930,14 @@ function ParryCheck(attacker, defender, byref rawdamage)
 	var shield := defender.shield;
 
 	var blocker;
-	//verifica se tem a hab esudo do martir
+	//Verifica se o defensor está sob efeito da a hab esudo do martir
 	var wall := defender.party.getProp("BarreiraDeEscudos");
 	var wallChance := 0;
 	if ( wall )
 		blocker := SystemFindObjectBySerial(wall.blocker);
 		if (GetCooldown( blocker, "BarreiraDeEscudos") > 0)
 			if (Distance(defender, blocker) < 2)
-				wallChance := cint(wall.chance);
+				wallChance := CInt(wall.chance);
 			endif
 		else
 			defender.party.eraseProp("BarreiraDeEscudos");
@@ -849,65 +945,84 @@ function ParryCheck(attacker, defender, byref rawdamage)
 		endif
 	endif
 
-	//checa de eh arma, se for diminui a chance
-	if ( !shield.IsA(POLCLASS_ARMOR) )
+	//Verifica se vai tentar bloquear usando uma armda
+	if (!(shield.IsA(POLCLASS_ARMOR)))
 		usingweapon := 1;
 		shield := defender.weapon;
+		//Não bloqueia se estivem sem arma equipada ou utilizando arma de RangedCombat (Arcos e bestas)
 		if (shield.objtype == 0xF020 || shield.Attribute == RANGEDCOMBAT)
 			return 0;
 		endif
 	endif
 
-	//pega todos os bonus possiveis total = prop no mob + prop no item + itemdesc
-	parryBonus := Cint(GetObjProperty(defender, "parrybonus")) + Cint(GetObjProperty(shield, "parrybonus")) + Cint((item_cfg[shield.objtype]).parrybonus);
-	var tempParryBonus := cint(getObjProperty(defender, "#tempparrybonus"));
+	//Calcula o Bonus basico de parry do escudo, Bonus de parry específico da CProp do escudo, Bonus de parry especifico da CProp do personagem
+	parryBonus := CInt((item_cfg[shield.objtype]).parrybonus) + CInt(GetObjProperty(shield, "parrybonus")) + CInt(GetObjProperty(defender, "parrybonus"));
+
+	//Calcula o Bonus temporário de parry, se houver
+	var tempParryBonus := CInt(getObjProperty(defender, "#tempparrybonus"));
 	if (tempParryBonus);
-		EraseObjPRoperty(defender, "#tempparrybonus");
 		parryBonus := parryBonus + tempParryBonus;
+		EraseObjPRoperty(defender, "#tempparrybonus");
 	endif
 
-	//pega a skill e calcula a chance final e delay
-	var skill := CDbl(AP_GetSkill(defender, PARRY));
-	var parryDelay := 8 - cint(( AP_GetSkill(defender, PARRY)/20 )) +  Cint((item_cfg[shield.objtype]).parrydelay);
+	var skill := CInt(AP_GetSkill(defender, PARRY));
 
+	//Aplica delay básico do escudo, reduz delay com base na skill e soma fator de balanceamento
+	var parryDelay := CInt((item_cfg[shield.objtype]).parrydelay) - CInt(skill/20) + 8;
+
+	//Faz com que os bloqueios garantidos por cauda de habilidade resetem o delay de bloqueio
 	if (tempParryBonus == 100)
 		parryDelay := 0;
 	endif
 
+	//Aumenta a frequência em que é possível bloquear o mesmo atacante quando o defensor está sob efeito de habilidade Inspirar Defesas
 	if ( TemHabilidade(defender.party.leader, "Inspirar Defesas"))
 		parryDelay := parryDelay - 1;
 	endif
-	var parry_chance := skill / 3;
+
+	//Calcula o bonus de bloqueio com base no parry usando escudo
+	var parry_chance := CInt(skill/3);
+
+	//Aplica penalidade de chance de bloqueio se estiver usando apenas arma
 	if (usingweapon)
-		parry_chance := parry_chance /2;
+		parry_chance := CInt(parry_chance * 0.7);
 	endif
+
+	//Calcula a chance TOTAL de bloqueio
 	parry_chance := parry_chance + parryBonus;
+
+	//A habilidade do companheiro de party do defensor tentar bloquear em seu lugar só ativa se a chance de bloqueio dele for melhor que do defensor
 	if (wallChance > parry_chance)
 		parry_chance := wallChance;
 	endif
+
+	//Diminui a chance de bloqueio se estiver usando foices
 	if ((attacker.weapon.graphic == 0x26C4) || (attacker.weapon.graphic == 0x26C5)) // foice grande e foice pequena
-		parry_chance := parry_chance - parry_chance*0.3; //diminui 30% da chance
+		parry_chance := parry_chance * 0.7; //diminui 30% da chance
 	endif
 
+	//Aplica o efeito da habilidade que deixa o defensor bloquear sempre
 	if (GetCooldown(defender, "barreiraindestrutivel"))
 		parry_chance := 100;
 		parryDelay := 2;
 	endif
 
-	//testa se defendeu ou nao
+	//Calcula se defendeu ou não
 	var defendeu := 0;
-	if ( RandomInt(100) > parry_chance ) // Failed
-		return 0;
+	if ( RandomInt(100) >= parry_chance )
+		return 0; //Não bloqueou
+
+	//Defendeu
 	else
-		//defendeu, verifica as habilidades especiais
+		//Verifica habilidade Defesas Gloriosas e, se cabível, aplica seu efeito
 		defendeu := 1;
 		if (GetCooldown(defender, "defesasgloriosas"))
 			TS_StartTimer(attacker, "paralysis", 5);
 			SetCooldown(defender, "defesasgloriosas", 0);
 		endif
 
-		//pike
-		if ( (attacker.weapon.graphic == 0x26C8) && ( usingWeapon ))
+		//Pike desarma defensor que bloquear sem escudo
+		if ((attacker.weapon.graphic == 0x26C8) && ( usingWeapon ))
 			var defweapon := defender.weapon;
 			if (defweapon.objtype != 0xF020)
 				var x := defender.x + RandomInt(2)+1;
@@ -916,32 +1031,24 @@ function ParryCheck(attacker, defender, byref rawdamage)
 			endif
 		endif
 
-		if (GetCooldown(defender, "defesarevigorante"))
-			healdamage(defender, rawdamage);
-		endif
-		 
+		//if (GetCooldown(defender, "defesarevigorante"))
+			//healdamage(defender, rawdamage);
+		//endif
+
 	endif
 
-	//sobe a skill
+	//Sobe a skill PARRY do defensor se a skill de ataque do oponente estiver num nível que implica em dificuldade
 	if (attacker.npctemplate && defender.connected)
-		skill := cint(skill) + 15;
+		skill := CInt(skill) - 10;
 		var skillAttacker := cint(AP_GetSkill(attacker, attacker.weapon.attribute));
 		if ( skill < skillAttacker )
-			//printtextabove(attacker, "return " + skillDefender);
-		else
-			if (defendeu)
-				SkillCheck(defender, PARRY, -1);
-			else
-				if ( RandomInt(5) == 1 )
-					SkillCheck(defender, PARRY, -1);
-				endif
-			endif
+			SkillCheck(defender, PARRY, -1);
 		endif
 	endif
 
+	//Exibe o efeito visual do bloqueio
+	PerformAction(defender, 13);
 
-	
-	//PerformAction(defender, ANIM_TWIST_DODGE);
 	if (blocker)
 		printtext(blocker, "*defende o golpe pelo aliado*");
 		SetCooldown(attacker, "parrydelay", parryDelay*2);
@@ -951,29 +1058,16 @@ function ParryCheck(attacker, defender, byref rawdamage)
 	endif
 
 	rawdamage := 0;
-		
-	//causa dano no shield
-	SendSysMessage(defender, shield.desc+" levou algum dano.");
-	var shieldhp := shield.hp - 1;
-	if ( shieldhp <= 0 )
-		SendSysMessage(defender, shield.desc+" foi destruido.");
-		MoveObjectToLocation(shield, 1, 1, 1, defender.realm, MOVEOBJECT_FORCELOCATION);
-		SetObjProperty(shield, "broken", 1);
-		SetObjProperty(shield, "realdesc", shield.desc);
-		SetName(shield, shield.desc+" [danificado]");		
-		MoveItemToContainer(shield, defender.backpack);
-		//DestroyItem(shield);
-	elseif ( shield.hp > shield.maxhp )
-		shield.hp := shield.maxhp;
-	else
-		shield.hp := shieldhp;
-	endif
+
+	//Aplica dano no shield
+
+	WearDownShield(defender, shield, rawdamage, weapon);
 
 	return 1;
 endfunction
 
-//aplica dano da manobra fintar
 //reduz dano por armadura pra archery e fencing
+//Calcula redução de dano com base nos redutores de Dextreza. Adiciona dano caso esteja usando a manobre Fintar
 function DmgPenaltyByArmor(rawdamage, attacker, weapon, defender);
 
 	var weapon_scripts := array;
