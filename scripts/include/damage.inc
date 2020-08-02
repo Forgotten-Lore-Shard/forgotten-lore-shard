@@ -262,13 +262,13 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	var categoriaDefender := GetObjProperty(defender, "Category");
 
 	if (GetObjProperty(who, "kit") == "Mago de Combate")
-		tatics := CDbl(AP_GetSkill(who, MAGICLORE))/100*1.25; //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
+		tatics := CDbl(AP_GetSkill(who, MAGICLORE))/300; //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
 		SkillCheck(who, MAGICLORE, -1);
 	elseif(categoriaDefender == "GiantAnimal" || categoriaDefender == "Animal" || categoriaDefender == "EvilAnimal" || categoriaDefender == "Snow" || categoriaDefender == "Mount" || categoriaDefender == "Plantas" || categoriaDefender == "Terathan" || categoriaDefender == "Dragon")
-		tatics := CDbl(AP_GetSkill(who, SURVIVAL))/100*1.25; //Aplica bonus de Survival se forem criaturas selvagens ou dragões
+		tatics := CDbl(AP_GetSkill(who, SURVIVAL))/300; //Aplica bonus de Survival se forem criaturas selvagens ou dragões
 		SkillCheck(who, SURVIVAL, -1);
 	else
-		tatics := CDbl(AP_GetSkill(who, TACTICS))/100*1.25; //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
+		tatics := CDbl(AP_GetSkill(who, TACTICS))/300; //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
 		SkillCheck(who, TACTICS, -1);
 	endif
 
@@ -286,11 +286,11 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	//Calcula modificador total do atributo
-	var str := CDbl(AP_GetStat(who, stat))/100.0*(1.3+strBonus);
+	var str := CDbl(AP_GetStat(who, stat))/300.0*(1+strBonus);
 
 	//Quando equipado arco curto, longo, besta, besta pesada e besta de repeticao a força não implica em modificador de dano
 	if ( (who.weapon.objtype == 0x13B2) || (who.weapon.objtype == 0x26CC) || (who.weapon.objtype == 0x0f4f) || (who.weapon.objtype == 0x13fd) || (who.weapon.objtype == 0x26CD) )
-		str := 1.0;
+		str := 0;
 	endif
 
 
@@ -311,7 +311,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			if (category == "undead" )
 				var blessbonus := CDbl(GetObjProperty(who.weapon, "blessedbonus"));
 			if (!blessbonus)
-				blessbonus := 0.4;
+				blessbonus := 0.2; //20% - balanceamento depois da mudanca de calculo do dano
 			endif
 				blessbonus;
 			endif
@@ -320,11 +320,11 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 
 	if (getCooldown(who, "faroporsangue"))
 		var bonus := AP_GetVital(defender, HITS) / AP_GetVitalMaximumValue(defender, HITS);
-		if (bonus > 0.5)
-			bonus := 0.5;
-		endif
 		if (bonus < 0.2)
-			bonus := 0.2;
+			bonus := 0.5; //50% de bonus se o oponente estiver com menos q 20% de life
+		endif
+        if (bonus < 0.5)
+			bonus := 0.2; //20% de bonus se o oponente estiver com menos q 50% de life
 		endif
 		other := other + bonus;
 	endif
@@ -339,12 +339,12 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	if (GetCooldown(who, "lobosolitario"))
 		var inimigos := ListHostiles(who, 3, LH_FLAG_LOS);
 		if (inimigos > 2)
-			other := other + 1.0;
+			other := other + 0.5; //50% - balanceamento depois da mudanca de calculo do dano
 		endif
 	endif
 
 	if (GetCooldown(who, "marcadacaca"))
-			other := other + 1.5;
+			other := other + 0.75; //75% - balanceamento depois da mudanca de calculo do dano
 	endif
 
 	var inimigo_predileto := 1.0;
@@ -353,44 +353,44 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		var cfg := ReadConfigFile(":brainai:npcdesc");
 		var inimigo := GetObjProperty(who, "InimigoPrediletoII");
 		if (cfg[npctemplate.template].Category == inimigo)
-			inimigo_predileto := inimigo_predileto + 3.0;
+			inimigo_predileto := inimigo_predileto + 2.0; //triplica o dano se for inimigo predileto 2
 		endif
 	elseif (TemHabilidade(who, "Inimigo Predileto"))
 		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
 		var cfg := ReadConfigFile(":brainai:npcdesc");
 		var inimigo := GetObjProperty(who, "InimigoPredileto");
 		if (cfg[npctemplate.template].Category == inimigo)
-			inimigo_predileto := inimigo_predileto + 2.0;
+			inimigo_predileto := inimigo_predileto + 1.0; //dobra o dano se for inimigo predileto
 		endif
 	endif
 
 	if (TemHabilidade(who, "Estilo Mao Livre"))
 		if (who.weapon.attribute == "MeeleCombat1H" && !who.shield)
-			other := other + 0.2;
+			other := other + 0.1; //10% - balanceamento depois da mudanca de calculo do dano
 		endif
 	endif
 
 	if (isBloodied(defender))
 		if (temHabilidade(who, "Golpe de Misericordia"))
-			other:= other + 1.5;
+			other:= other + 0.75; //75% - balanceamento depois da mudanca de calculo do dano
 		endif
 	endif
 
 	if ( IsRaging(who))
 		if (temHabilidade(who, "Furia") || GetObjProperty(who, "NpcFuria"))
-			other:= other + 1.0;
+			other:= other + 0.5; //50% de bonus - balanceamento depois da mudanca de calculo do dano
 			PrintText(who, "*enfurecido*");
 		endif
 		if (temHabilidade(who, "Furia Primitiva"))
 			if (GetObjProperty(who, "metamorfose") != error)
-				other:= other + 1.0;
+				other:= other + 0.5; //50% de bonus - balanceamento depois da mudanca de calculo do dano
 				PrintText(who, "*enfurecido*");
 			endif
 		endif
 		if (GetCooldown(who, "FuriaPrimordial"))
 			var inimigos := ListHostiles(who, 3, LH_FLAG_LOS);
 			inimigos := inimigos.size();
-			other := other + 0.3*inimigos;
+			other := other + 0.15*inimigos; //15% de bonus - balanceamento depois da mudanca de calculo do dano
 		endif
 		if (GetCooldown(who, "furiamortal"))
 			var bonus := AP_GetVitalMaximumValue(who, HITS) / AP_GetVital(who, HITS)*1.5;
@@ -404,15 +404,15 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	if (GetObjProperty(who, "twohanded") == 1)
-		other := other + 0.2;
+		other := other + 0.1; //10% de bonus - balanceamento depois da mudanca de calculo do dano
 	endif
 
 	if (GetObjProperty(who, "fococomarma") == who.weapon.objtype)
-		other := other + 0.2;
+		other := other + 0.1; //10% de bonus - balanceamento depois da mudanca de calculo do dano
 	endif
 
 	if ( GetObjProperty(who, "armapredileta") == who.weapon.objtype )
-		other := other + 0.5;
+		other := other + 0.25; //25% de bonus - balanceamento depois da mudanca de calculo do dano
 	endif
 
 	if (GetObjProperty(who, "#SequenciaDevastadoraAcumulada"))
