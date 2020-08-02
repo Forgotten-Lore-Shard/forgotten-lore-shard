@@ -264,10 +264,13 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 
 	if (GetObjProperty(who, "kit") == "Mago de Combate")
 		tatics := CDbl(AP_GetSkill(who, MAGICLORE))/100*1.25; //Aplica bonus de magiclore na chance de critico quando é Mago de Combate
+		SkillCheck(who, MAGICLORE, -1);
 	elseif(categoriaDefender == "GiantAnimal" || categoriaDefender == "Animal" || categoriaDefender == "EvilAnimal" || categoriaDefender == "Snow" || categoriaDefender == "Mount" || categoriaDefender == "Plantas" || categoriaDefender == "Terathan" || categoriaDefender == "Dragon")
 		tatics := CDbl(AP_GetSkill(who, SURVIVAL))/100*1.25; //Aplica bonus de Survival se forem criaturas selvagens ou dragões
+		SkillCheck(who, SURVIVAL, -1);
 	else
 		tatics := CDbl(AP_GetSkill(who, TACTICS))/100*1.25; //Aplica bonus de tactics na chance de critico quando não é nenhum caso específico
+		SkillCheck(who, TACTICS, -1);
 	endif
 
 	//Bonus STR
