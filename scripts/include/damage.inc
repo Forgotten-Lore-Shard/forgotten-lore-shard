@@ -256,7 +256,6 @@ endfunction
 
 
 function CalculateTotalDamageBonus(dmg, who, defender)
-
 	//Bonus de dano por skill
 	var tatics;
 	var skillCriticalBonus;
@@ -421,7 +420,8 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	//Multiplicador de tactics X multiplicador de força X multiplicadores de habilidades e itens X Multiplicador de buff X multiplicador de Debuff
-	dmg := CInt(dmg*tatics*str*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
+    
+	dmg := CInt(dmg*(1+tatics)*(1+str)*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
 	if (dmg < 1)
 		dmg := 1;
 	endif
