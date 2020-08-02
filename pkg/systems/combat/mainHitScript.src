@@ -1136,8 +1136,6 @@ function SacarRapido(who, shield := 0)
 				endif
 			endif
 		endforeach
-
-
 	endif
 
 endfunction

@@ -259,7 +259,8 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	//Bonus de dano por skill
 	var tatics;
 	var skillCriticalBonus;
-	var categoriaDefender := GetObjProperty(defender, "Category");
+	var categoriaDefender := NPC_GetNPCConfig(defender.npctemplate).Category;
+	//print("Categoria: "+categoriaDefender);
 
 
 	if (who.npctemplate) //Se for NPC utiliza tactics
