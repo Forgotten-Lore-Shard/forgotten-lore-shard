@@ -354,14 +354,14 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 		var cfg := ReadConfigFile(":brainai:npcdesc");
 		var inimigo := GetObjProperty(who, "InimigoPrediletoII");
 		if (cfg[npctemplate.template].Category == inimigo)
-			inimigo_predileto := inimigo_predileto + 2.0;
+			inimigo_predileto := inimigo_predileto + 3.0;
 		endif
 	elseif (TemHabilidade(who, "Inimigo Predileto"))
 		var npctemplate := NPC_ParseTemplateName(defender.npctemplate);
 		var cfg := ReadConfigFile(":brainai:npcdesc");
 		var inimigo := GetObjProperty(who, "InimigoPredileto");
 		if (cfg[npctemplate.template].Category == inimigo)
-			inimigo_predileto := inimigo_predileto + 1.0;
+			inimigo_predileto := inimigo_predileto + 2.0;
 		endif
 	endif
 
@@ -398,7 +398,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 			other := other + bonus;
 		endif
 	endif
-	var backStab := CInt(GetObjProperty(who, "#backstab"));
+	var backStab := CDbl(GetObjProperty(who, "#backstab"));
 	if (backStab)
 		other := other + (0.1*backStab);
 		EraseObjProperty(who, "#backstab");
@@ -417,11 +417,11 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	if (GetObjProperty(who, "#SequenciaDevastadoraAcumulada"))
-		other := cint(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.4;
+		other := CDbl(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.4;
 	endif
 
 	//Multiplicador de tactics X multiplicador de força X multiplicadores de habilidades e itens X Multiplicador de buff X multiplicador de Debuff
-	dmg := CInt(tatics*str*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
+	dmg := CInt(dmg*tatics*str*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
 	if (dmg < 1)
 		dmg := 1;
 	endif

@@ -76,12 +76,19 @@ function IsBehind(tgt_mob, locx, locy)
 	endif
 	//(Valor do Facing atual de tgt_mob) - (Valor do facing necessário para tgt_mob ver a localização[locx, locy])
 	var frot := Abs(((tgt_mob.facing+4)%8)-GetFacing(tgt_mob.x,tgt_mob.y,locx,locy));
+	if (frot > 4)
+		frot := 8-frot;
+	endif
+	return (frot < 2);
+
+	/*
 	//O valor de frot precisa ser 3, 4, ou 5
 	if (frot == 3 || frot == 4 || frot == 5)
 		return 1;
 	else
 		return 0;
 	endif
+	*/
 endfunction
 
 /*
