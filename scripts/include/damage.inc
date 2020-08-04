@@ -421,7 +421,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	endif
 
 	if (GetObjProperty(who, "#SequenciaDevastadoraAcumulada"))
-		other := CDbl(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.4;
+		other := CDbl(GetObjProperty(who, "#SequenciaDevastadoraAcumulada")) * 0.2; //20% de bonus - balanceamento depois da mudanca de calculo do dano
 	endif
 
 	//Multiplicador de tactics X multiplicador de força X multiplicadores de habilidades e itens X Multiplicador de buff X multiplicador de Debuff
