@@ -58,12 +58,12 @@ function makeBowcraftItems(who, what, amt, tool)
 		return 0;
 	endif
 	var item := CreateItemAtLocation(who.x, who.y, who.z, cint(what));
-	if (item.graphic == 0x0F3F || item.graphic == 0x1BFB)
+	if (item.graphic == 0x0F3F || item.graphic == 0x1BFB) //arrow or bolt
 		var result := 1;
 		DestroyItem(item);
-		if (valorInicial(who, WOODWORKING) == 20);
+		if (valorInicial(who, WOODWORKING) == 20)
 			result := cint(RadioGump(who, 200, 150, "Deseja fazer quantas flechas?", {"1", "2"}));
-		elseif(valorInicial(who, WOODWORKING) == 40);
+		elseif(valorInicial(who, WOODWORKING) == 40)
 			result := cint(RadioGump(who, 220, 190, "Deseja fazer quantas flechas?", {"1", "2", "3"}));
 		endif
 		result := result -1;

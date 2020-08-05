@@ -195,7 +195,7 @@ function CraftItem(who, craft_skill, tool, objtype, amt, canFix, anvil, more := 
 						endif
 					endif
 				endforeach
-				if ( targMaterials[thing] < (materials[thing] + more))
+				if ( targMaterials[thing] < ( ( materials[thing] * ( 1 + more ) ) ) )
 					//SendSysMessageEx(who, "DEBUG: " + cstr(targMaterials[thing]) + " < " + cstr((materials[thing] + more)) + " - GAMA", SSM_FAIL);	//quando a quantidade de um material for insuficiente, exibe mensagem de erro.
 					SendSysMessageEx(who, "Voce nao possui os materiais necessarios." , SSM_FAIL);
 					return OUT_OF_MATERIALS;
@@ -281,20 +281,20 @@ endfunction
 function CreateItem(who, objtype, more:=0)
 	var theitem;
 	var extra := more;
-	if (objtype == 0x1BD4 || objtype == 0xf3f || objtype == 0x1bfb)
+	if (objtype == 0x1BD4)
 		extra := extra + 4;
 	endif
 	var item;
 	var empilhou:=0;
 	foreach item in (EnumerateItemsInContainer(who.backpack))
 		if(item.objtype == objtype)
-			empilhou := AddAmount(item,extra);
+			empilhou := AddAmount(item, 1+extra);
 			if(empilhou)
 				return empilhou;
 			endif
 		endif
 	endforeach
-	return CreateItemInBackpack(who, objtype, 1);
+	return CreateItemInBackpack(who, objtype, 1+extra);
 endfunction
 
 
