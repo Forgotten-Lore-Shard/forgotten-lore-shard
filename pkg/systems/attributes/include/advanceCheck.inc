@@ -188,7 +188,11 @@ function CheckSkillAdvance(mobile, skill_name, award_diff, pass_chance)
 		return 0;
 	endif
 
-  if ( (limiteportempo(mobile) + valorinicial(mobile, skill_name))  <= true_skill )
+	var bonus_tempo := 0;
+	if(GetObjProperty(mobile, "bonus_tempo"))
+		bonus_tempo := bonus_tempo + 20;
+	endif
+  if ( (limiteportempo(mobile) + valorinicial(mobile, skill_name) + bonus_tempo)  <= true_skill )
   		SkillDbgMsg(mobile, "Chegou no maximo do limite por tempo: " + limiteportempo(mobile) + " idade do char  " +
   			idadeChar( mobile) + " valor inicial "  + valorinicial(mobile, skill_name) + " da skill " + skill_name);
 
@@ -278,10 +282,6 @@ function valorInicial(mobile, skill_name)
 	endif
 
 	var myskills := chardata.Skills;
-
-	if(GetObjProperty(mobile, "bonus_tempo"))
-		skill_inicial := skill_inicial + 20;
-	endif
 
 	if ( myskills[skill_name] == error)
 		return 0.0;
@@ -437,7 +437,7 @@ function CalculateDaysInReal(days)// para 10000 deu 292 segundos 300
     return dias;
 endfunction
 
-function limiteportempo (who)
+function limiteportempo(who)
 
   if (who.npctemplate)
     return 100;
@@ -446,6 +446,7 @@ function limiteportempo (who)
    var dias := CInt(idadeChar(who)); // Colocar aqui a prop pra pegar os dias do char
 
    var lim := 6; // Valor inicial
+
    if (dias >= 5)
       if (dias > 75)
          if (dias > 125)
@@ -458,12 +459,13 @@ function limiteportempo (who)
       endif
    endif
 
-   lim := lim + (CInt(GetObjproperty(who, "nota"))*5); // Influencia de -10 -5 0 +5 +10 dependendo da nota RP
+   lim := lim + CInt(FindAccount(who.acctname).getprop("nota"))*5; // Influencia de -10 -5 0 +5 +10 dependendo da nota RP
 
+/*
    if (lim < 2.5)
       lim := 2.5; // Valor minimo de 2.5
    endif
-
+*/
    return lim;
 
 endfunction
