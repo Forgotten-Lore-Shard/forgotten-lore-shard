@@ -66,7 +66,6 @@ program SpellStarter(params)
 			EraseObjProperty(mobile, "#Casting");
 			return 0;
 		else
-			SetObjProperty(mobile, "#Casting", 1);
 			if(!TemHabilidade(mobile, "Meditacao em Combate"))
 			mobile.frozen := 1;
 			endif
@@ -159,6 +158,7 @@ program SpellStarter(params)
 			endif
 		endif
 
+		SetObjProperty(mobile, "#Casting", 1); //Inserido aqui para tentar resolver o bug do "#Casting" que não sai
 		var orig_hp := AP_GetVital(mobile, "Hits");
 		var delay := spellinfo.delay + Cint(GetObjProperty(mobile, "#delayspell"));
 		var moveCheck_script;
