@@ -1188,7 +1188,7 @@ program createchar(who)
 	var secvalue := 20.0;
 	var tercvalue := 0.0;
 	FindAccount(who.acctname).setprop("nota", 0);
-	if ( (FindAccount(who.acctname).getprop("nota") == 2) || (FindAccount(who.acctname).getprop("mortelog") > 3888000))
+	if ( (CInt(FindAccount(who.acctname).getprop("nota")) == 4) || (FindAccount(who.acctname).getprop("mortelog") > 3888000))
 		privalue := 60.0;
 		secvalue := 40.0;
 		tercvalue := 20.0;

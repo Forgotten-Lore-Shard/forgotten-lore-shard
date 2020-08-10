@@ -16,7 +16,7 @@ program CheckRPPoints(who, params)
 	params := splitwords(params);
 	var command := params[1];
 	var conta := params[2];
-	
+
 	if (!command)
 		SendCheckRp(who, who.acctname);
 	else
@@ -51,7 +51,7 @@ function SendCheckRP(who, conta)
 	GFTextLine(gump, 20, 90, 1153, "Recorde de Pontos RP:");
 	GFTextLine(gump, 165, 90, SSM_INFO, "" + getMaxGrade(conta));
 
-	if (findAccount(conta).GetProp("nota") == 2)
+	if (CInt(findAccount(conta).GetProp("nota")) == 4)
 		GFTextLine(gump, 75, 125, 66, "+20 SKILLS!!!");
 	endif
 

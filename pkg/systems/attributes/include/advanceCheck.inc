@@ -459,7 +459,7 @@ function limiteportempo(who)
       endif
    endif
 
-   lim := lim + CInt(FindAccount(who.acctname).getprop("nota"))*5; // Influencia de -10 -5 0 +5 +10 dependendo da nota RP
+   lim := lim + CDbl(FindAccount(who.acctname).getprop("nota"))*2.5; // Influencia de -10 -5 0 +5 +10 dependendo da nota RP
 
 /*
    if (lim < 2.5)
