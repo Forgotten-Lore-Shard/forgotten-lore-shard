@@ -35,6 +35,8 @@ program Logon(who)
 	//checa se vai subir skill passiva
 	if (CInt(FindAccount(who.acctname).getprop("nota")) == 4)
 
+		var intervalo := 3600*5; // 0.1 a cada 5 horas
+
 		var lastPrize := CInt(getobjproperty(who, "lastprize"));
 		if (lastPrize == error)
 			lastPrize := polcore().systime;
@@ -42,18 +44,19 @@ program Logon(who)
 		endif
 
 		var deltaTime := polcore().systime - lastPrize;
-		var ticks := cint( (deltaTime/3600)/5 ); // 0.1 a cada 5 horas
+		var ticks := cint(deltaTime/intervalo);
 
 		print(who.acctname + " ticks " + ticks);
 		SendSysMessage(who, "NotaRP 4: Calculando UP passivo...");
 		if ( ticks >= 1 ) //da +0.1 a cada 5h
-			var time := ticks * 3600 * 5; // soma apenas o tempo que foi usado pra subir a skill
+			var time := ticks * intervalo; // soma apenas o tempo que foi usado pra subir a skill
 
 			var i := 0;
 
 			var possiveis;
 			var skills := GetObjProperty(who, "chardata").Skills;
-
+			var temp;
+			var chosen;
 			for ( i := 0; i < ticks; i := i + 1)
 
 				possiveis := array;
@@ -70,13 +73,15 @@ program Logon(who)
 					break;
 				endif
 
-				var chosen := possiveis[ RandomInt(possiveis.size())+1 ];
+				chosen := possiveis[ RandomInt(possiveis.size())+1 ];
 				LogToFile(":tn:passiva.log", who.name + " " + who.acctname + " ganhou 0.1 em " + chosen);
 				SendSysMessage(who, who.name + " (" + who.acctname + ") ganhou 0.1 em " + chosen +" passivamente.");
 				SetObjProperty(who, "skillpassiva", cint(GetObjProperty(who, "skillpassiva"))+1); //conta quantos ups teve
 				//AP_SetTrueSkill(who, chosen,   (AP_GetTrueSkill(who, chosen)+0.1));
 
-				var temp := (AP_GetTrueSkill(who, chosen)+0.1);
+				print("Chosen: "+AP_GetTrueSkill(who, chosen));
+				temp := (AP_GetTrueSkill(who, chosen)+0.1);
+				print("Chosen+0.1: "+temp);
 
 				///while ( CInt(temp*10.0) == CInt(GetAttributeBaseValue(who, chosen)) )
 				//	temp := temp+0.1;
