@@ -89,7 +89,7 @@ program Logon(who)
 				//endwhile
 
 				AP_SetTrueSkill(who, chosen, temp);
-
+				sleep(2);
 			endfor
 
 			SetObjProperty(who, "lastprize", lastPrize + time);
