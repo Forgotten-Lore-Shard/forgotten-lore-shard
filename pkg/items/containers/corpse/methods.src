@@ -76,7 +76,7 @@ exported function MakeRemains(corpse)
 	endif
 
 	//Caso não tenha erro para retornar o corpo, ele vai criar a remains
-	if (!GetObjProperty(corpse, "erro_retornar_corpo"))
+	if (!CInt(GetObjProperty(corpse, "erro_retornar_corpo")))
 		var remains := CreateItemAtLocation(corpse.x, corpse.y, corpse.z, "CorpseRemains", 1, corpse.realm);
 		if ( remains.errortext )
 			return remains;
