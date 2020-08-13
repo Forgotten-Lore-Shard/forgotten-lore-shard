@@ -34,7 +34,7 @@ program jogar( who, dano )
 
     ApplyDamageEX(alvo, CInt(dano), DMG_PHYSICAL);
 
-    MoveObjectToLocation(item, alvo.x, alvo.y, item.z, item.realm, MOVEOBJECT_FORCELOCATION);
+    CreateItemCopyAtLocation(alvo.x, alvo.y, item.z, item, item.realm);
 	item.movable := 1;
 
 	PlaySoundEffect(who, 0x5D3);
