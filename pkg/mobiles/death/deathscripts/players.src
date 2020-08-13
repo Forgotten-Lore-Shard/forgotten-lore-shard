@@ -231,7 +231,7 @@ function KataWakeUp(ghost, corpse)
 	if ( !MoveObjectToLocation(ghost, corpse.x, corpse.y, corpse.z, corpse.realm, MOVEOBJECT_FORCELOCATION) )
 		SendSysMessage(ghost, "Ocorreu algum problema ao retornar seu personagem para o corpo. Solicite ajude da Staff");
 
-		if (!GetObjProperty(corpse, "morto"))
+		if (!CInt(GetObjProperty(corpse, "morto")) && !CInt(GetObjProperty(ghost, "morto")))
 			//Seta a prop para caso dê algum erro para o player acordar
 			SetObjProperty(corpse, "erro_retornar_corpo", 1);
 			//Seta o decay para nunca = 0
