@@ -91,7 +91,7 @@ function SendCheckRP(who, conta)
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 4);
 
 		x := x +20;
-		GFTextLine(gump, 35, x, 1153, "[200] Adicionar Nome e Descricao a um Objeto.");
+		GFTextLine(gump, 35, x, 1153, "[20] Adicionar Nome e Descricao a um Objeto.");
 		GFAddButton(gump, 20, x+4, 2103, 2104, GF_CLOSE_BTN, 5);
 
 		x := x +20;
@@ -226,7 +226,7 @@ function SendCheckRP(who, conta)
 			SendSysMessageEx(who, "Voce trocou sua barba e cabelo.",SSM_INFO);
 		endif
 	elseif (input[0] == 5)
-		if (CheckPoints(200, conta, who))
+		if (CheckPoints(20, conta, who))
 			var item;
 			while (1)
 				if (!item || !item.isA(POLCLASS_ITEM))
@@ -238,11 +238,11 @@ function SendCheckRP(who, conta)
 			endwhile
 
 			var name := RequestGump(who, "Escreva o novo nome do item:");
-			SetName(item, name);
 			AddItemDescription(who, item);
-			UpdateItem(item);
-			decGrade(who, 200);
-			MakeLog(conta, 200, "Adicionar Nome/Descricao", "Nome "+name);
+			SetName(item, item.desc);
+
+			decGrade(who, 20);
+			MakeLog(conta, 20, "Adicionar Nome/Descricao", "Nome "+name);
 			SendSysMessageEx(who, "Voce trocou nome e descricao do objeto.",SSM_INFO);
 		endif
 	elseif (input[0] == 6)
@@ -279,7 +279,6 @@ function SendCheckRP(who, conta)
 		endif
 	elseif (input[0] == 9)
 		if (CheckPoints(200, conta, who))
-			/*
 			if (findAccount(conta).GetProp("nota") == 2)
 				SendSysMessageEx(who, "Voce ja tem bonus no proximo personagem", SSM_FAIL);
 			else
@@ -288,7 +287,6 @@ function SendCheckRP(who, conta)
 				decGrade(who, 200);
 				MakeLog(conta, 200, "Personagem Com Bonus nas Skills", "Data "+StrFormatTime("%d - %m - %Y", POLCore().systime));
 			endif
-			*/
 		endif
 	endif
 
