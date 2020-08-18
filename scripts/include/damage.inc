@@ -308,16 +308,17 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 	//Bonus de Spells
 	var reducao_dano := CDbl(GetObjProperty(who, "dmgreduction"));
 
-	var blessbonus := 0.0;
+	var blessbonus := 0;
 	if (GetCooldown(who.weapon, "blessweapon"))
 		if (defender.npctemplate)
-			//var elem := NPC_GetNPCConfig(defender.npctemplate);
-			//var category := lower(categoriaDefender);
-			if (lower(categoriaDefender) == "undead" )
-				blessbonus := CDbl(GetObjProperty(who.weapon, "blessedbonus"));
-				if (!blessbonus)
-					blessbonus := 0.2; //20% - balanceamento depois da mudanca de calculo do dano
-				endif
+			var elem := NPC_GetNPCConfig(defender.npctemplate);
+			var category := lower(GetConfigString(elem, "Category"));
+			if (category == "undead" )
+				var blessbonus := CDbl(GetObjProperty(who.weapon, "blessedbonus"));
+			if (!blessbonus)
+				blessbonus := 0.2; //20% - balanceamento depois da mudanca de calculo do dano
+			endif
+				blessbonus;
 			endif
 		endif
 	endif
@@ -425,7 +426,7 @@ function CalculateTotalDamageBonus(dmg, who, defender)
 
 	//Multiplicador de tactics X multiplicador de força X multiplicadores de habilidades e itens X Multiplicador de buff X multiplicador de Debuff
 
-	dmg := CInt(dmg*Pow(1.0+tatics,2.0)*(1.0+str)*(1.0+(weapon+other))*(inimigo_predileto)*(1.0+blessbonus)*(1.0-reducao_dano));
+	dmg := CInt(dmg*Pow(1+tatics,2)*(1+str)*(1+(weapon+other))*(inimigo_predileto)*(1+blessbonus)*(1-reducao_dano));
 	if (dmg < 1)
 		dmg := 1;
 	endif
