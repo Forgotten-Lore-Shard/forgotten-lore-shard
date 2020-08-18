@@ -21,9 +21,6 @@ program TimedScript_bard_alucinacao(params)
 endprogram
 
 function Hallucinate(who)
-	if(who.npctemplate)
-		return 0;
-	endif
 	var graphicarray;
 	var chardata := GetObjProperty(who, "chardata");
 	var povo := chardata.povo;
