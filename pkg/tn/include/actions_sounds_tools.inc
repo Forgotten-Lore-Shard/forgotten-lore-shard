@@ -427,7 +427,7 @@ function GetSoundEffect(who, input)
 	  resultado[2] := "*Cuspindo*";
 	else
 	  resultado[1] := 0x447 ;
-	  resultado[2] := "*Cuspindo*";
+	  resultado[1] := "*Cuspindo*";
 	endif
 	endif
 	if ( (input[30]==1) )
