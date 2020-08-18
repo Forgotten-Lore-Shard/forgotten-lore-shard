@@ -6,16 +6,24 @@ include ":tn:boss";
 include ":combat:hitscripts";
 
 program spawnpointcontrol(spawnpoint)
-
+  var countNone := 0;
 	var npctemplate := GetObjProperty(spawnpoint, "Spawn");
 	var amount := GetObjProperty(spawnpoint, "Amount");
 	var i, x;
 	var spawnqueue := array{};
 	var childrenSerial := array{};
 	npctemplate := GetObjProperty(spawnpoint, "Spawn");
+  if(amount >= 100)
+    SysLog("amount: " + amount + " reduzido para 10.");
+    amount := 10;
+  endif
 	while(npctemplate == "NONE")
 		sleep(10);
 		npctemplate := GetObjProperty(spawnpoint, "Spawn");
+    if (countNone == 10)
+      break;
+    endif
+    countNone := countNone + 1;
 	endwhile
 	//KillChildren(spawnpoint);
 	ResetSpawnQueue(spawnpoint);
@@ -42,7 +50,7 @@ program spawnpointcontrol(spawnpoint)
 		childrenSerial := GetObjProperty(spawnpoint, "Children");
 		spawnqueue := GetObjProperty(spawnpoint, "SpawnQueue");
 		for( i := 1; i <= amount; i := i + 1 );
-			if( /*(children[i] != error) &&*/ (childrenSerial[i] != "Empty") ) 
+			if( /*(children[i] != error) &&*/ (childrenSerial[i] != "Empty") )
 				x := SystemFindObjectBySerial(childrenSerial[i]);
 				if((!x) || (x.dead == 1) || (x.master))
 					spawnqueue[i] := "Empty";
@@ -86,6 +94,7 @@ program spawnpointcontrol(spawnpoint)
 		SetObjProperty(spawnpoint, "Children", childrenSerial);
 		sleep(60);
 	endwhile
+  SysLog("Terminou o programa spawnpointcontrol");
 endprogram
 
 function HasPlayerNear(x, y, realm)
